@@ -1,55 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    android:padding="20dip" >
 
-    <RelativeLayout
-        android:layout_width="250dp"
-        android:layout_height="360dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp" >
+    <EditText
+        android:id="@+id/club_name"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:hint="Choose a name for your club"
+        android:inputType="text" />
 
-        <EditText
-            android:id="@+id/club_name"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:hint="Choose a name for your club"
-            android:inputType="text" />
+    <TextView
+        android:id="@+id/adding_club_location_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textColor="#311B92" />
 
+    <Spinner
+        android:id="@+id/homepage_adding_club_location_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </Spinner>
 
-        <TextView
-            android:id="@+id/adding_club_location_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/homepage_adding_club_categories_spinner"
-            android:text="Location"
-            android:textColor="#311B92" />
-
-        <Spinner
-            android:id="@+id/homepage_adding_club_location_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/adding_club_location_text" />
-
-        <EditText
-            android:id="@+id/club_description"
-            android:layout_width="400dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/homepage_adding_club_location_spinner"
-            android:ems="10"
-            android:hint="Insert club description"
-            android:inputType="textMultiLine" >
-
-            <requestFocus />
-        </EditText>
-    </RelativeLayout>
+    <EditText
+        android:id="@+id/club_description"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Insert club description"
+        android:inputType="textMultiLine" >
+    </EditText>
 
     <Button
         android:id="@+id/addClub"

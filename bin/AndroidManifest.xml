@@ -27,7 +27,8 @@
         </activity>
         <activity
             android:name=".HomePage_AddNewClub"
-            android:label="New Club" />
+            android:label="New Club"
+            android:parentActivityName="technion.bookclub.MainActivity" />
         <activity
             android:name=".HomePage_AddNewBook"
             android:label="New Book"
