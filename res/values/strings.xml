@@ -1,0 +1,104 @@
+<resources>
+
+    <string name="app_name">Jalees</string>
+
+    <string-array name="drawer_options">
+        <item>My home page</item>
+        <item>Find a club</item>
+        <item>Borrow a book</item>
+        <item>Log out</item>
+    </string-array>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="book_search_hint">search book title</string>
+    <string name="location_search_hint">from where?</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="language_array">
+        <item> Arabic</item>
+        <item> Hebrew</item>
+        <item> English</item>
+    </string-array>
+
+    <!-- cities in Israel -->
+    <string-array name="location_array">
+        <item> Afula</item>
+        <item>Arad</item>
+        <item>Ariel</item>
+        <item>Ashdod</item>
+        <item>Ashkelon</item>
+        <item>Baqa al-Gharbiyye</item>
+        <item>Bat Yam</item>
+        <item>Beersheba</item>
+        <item>Beit She\'an</item>
+        <item>Beit Shemesh</item>
+        <item>Beitar Illit</item>
+        <item>Bnei Brak</item>
+        <item>Dimona</item>
+        <item>Eilat</item>
+        <item>El\'ad</item>
+        <item>Giv\'atayim</item>
+        <item>Giv\'at Shmuel</item>
+        <item>Hadera</item>
+        <item>Haifa</item>
+        <item>Herzliya</item>
+        <item>Hod HaSharon</item>
+        <item>Holon</item>
+        <item>Jerusalem</item>
+        <item>Kafr Qasim</item>
+        <item>Karmiel</item>
+        <item>Kfar Saba</item>
+        <item>Kiryat Ata</item>
+        <item>Kiryat Bialik</item>
+        <item>Kiryat Gat</item>
+        <item>Kiryat Malakhi</item>
+        <item>Kiryat Motzkin</item>
+        <item>Kiryat Ono</item>
+        <item>Kiryat Shmona</item>
+        <item>Kiryat Yam</item>
+        <item>Lod</item>
+        <item>Ma\'ale Adumim</item>
+        <item>Ma\'alot-Tarshiha</item>
+        <item>Migdal HaEmek</item>
+        <item>Modi\'in Illit</item>
+        <item>Modi\'in-Maccabim-Re\'ut</item>
+        <item>Nahariya</item>
+        <item>Nazareth</item>
+        <item>Nazareth Illit</item>
+        <item>Nesher</item>
+        <item>Ness Ziona</item>
+        <item>Netanya</item>
+        <item>Netivot</item>
+        <item>Ofakim</item>
+        <item>Or Akiva</item>
+        <item>Or Yehuda</item>
+        <item>Petah Tikva</item>
+        <item>Qalansawe</item>
+        <item>Ra\'anana</item>
+        <item>Rahat</item>
+        <item>Ramat Gan</item>
+        <item>Ramat HaSharon</item>
+        <item>Ramla</item>
+        <item>Rehovot</item>
+        <item>Rishon LeZion</item>
+        <item>Rosh HaAyin</item>
+        <item>Safed</item>
+        <item>Sakhnin</item>
+        <item>Sderot</item>
+        <item>Shefa-\'Amr</item>
+        <item>Tamra </item>
+        <item>Tayibe</item>
+        <item>Tel Aviv</item>
+        <item>Tiberias</item>
+        <item>Tira</item>
+        <item>Tirat Carmel</item>
+        <item>Umm al-Fahm</item>
+        <item>Yavne</item>
+        <item>Yehud-Monosson</item>
+        <item>Yokneam</item>
+    </string-array>
+
+</resources>

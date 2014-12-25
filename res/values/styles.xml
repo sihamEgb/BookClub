@@ -1,0 +1,14 @@
+ <!-- res/values/styles.xml -->
+<resources>
+
+    <!-- your theme inherits from the material theme -->
+    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/cyan</item>
+        <item name="android:colorPrimaryDark">@color/cyan_80</item>
+        <item name="android:colorAccent">@color/orange_300</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+
+        <!-- theme customizations -->
+    </style>
+
+</resources>
