@@ -1,27 +1,33 @@
 package technion.bookclub;
 
+import org.json.JSONObject;
+
+import com.loopj.android.http.*;
+import org.apache.http.Header;
+
+//import com.loopj.android.http.AsyncHttpClient;
+//import com.loopj.android.http.AsyncHttpResponseHandler;
+//import com.loopj.android.http.JsonHttpResponseHandler;
+//import com.loopj.android.http.RequestParams;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.Toast;
 
 public class ClubSearchFragment extends Fragment {
 
-	//public static final String ARG_PLANET_NUMBER = "planet_number";
-	
-	private AutoCompleteTextView autoComplete;
+	private AutoCompleteTextView autoCompleteLocation;
 	private ArrayAdapter<String> adapter;
-	
 
 	public ClubSearchFragment() {
-		// Empty constructor required for fragment subclasses
 	}
 
 	@Override
@@ -29,56 +35,82 @@ public class ClubSearchFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.clubs_search, container,
 				false);
-		//int i = getArguments().getInt(ARG_PLANET_NUMBER);
-		//TODO - 1 from where??
+
 		String index = getResources().getStringArray(R.array.drawer_options)[1];
 
-		// get the defined string-array
+		// location auto complete
 		String[] location = getResources().getStringArray(
 				R.array.location_array);
-
 		adapter = new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_1, location);
-
-		autoComplete = (AutoCompleteTextView) rootView
+		autoCompleteLocation = (AutoCompleteTextView) rootView
 				.findViewById(R.id.location_spinner);
+		autoCompleteLocation.setAdapter(adapter);
+		autoCompleteLocation.setThreshold(1);
 
-		// set adapter for the auto complete fields
-		autoComplete.setAdapter(adapter);
-
-		// specify the minimum type of characters before drop-down list is shown
-		autoComplete.setThreshold(1);
-
-		// comma to separate the different colors
-		// when the user clicks an item of the drop-down list
-
-		;
-		
-		Button button = (Button) rootView.findViewById(R.id.searchClub);
+		// button
+		final Button button = (Button) rootView.findViewById(R.id.searchClub);
 		button.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
-				Fragment fragment = new ClubsResultsFragment();
-				Bundle args = new Bundle();
-				// args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-				fragment.setArguments(args);
 
-				FragmentManager fragmentManager = getFragmentManager();
-				fragmentManager.beginTransaction()
-						.replace(R.id.content_frame, fragment).commit();
-				// DoIt(v);
+				Context context = getActivity();
+				int duration = Toast.LENGTH_SHORT;
+
+				String clubLocation = autoCompleteLocation.getText().toString();
+
+				if (clubLocation.equals("")) {
+					Toast toast = Toast.makeText(context,
+							"Please choose a location from the list", duration);
+					toast.show();
+
+				} else {
+
+					AsyncHttpClient client = new AsyncHttpClient();
+					RequestParams params = new RequestParams();
+					params.put("location", clubLocation);
+
+					client.get("http://jalees-bookclub.appspot.com/searchclub",
+							params, new AsyncHttpResponseHandler() {
+
+								@Override
+								public void onSuccess(int statusCode,
+										Header[] headers, byte[] response) {
+									String s = new String(response);
+									System.out.println("sucees" + s);
+									
+									Fragment fragment = new ClubsResultsFragment(s);
+									Bundle args = new Bundle();
+									fragment.setArguments(args);
+									FragmentManager fragmentManager = getFragmentManager();
+									fragmentManager.beginTransaction()
+											.replace(R.id.content_frame, fragment).commit();
+
+								}
+
+								@Override
+								public void onFailure(int arg0, Header[] arg1,
+										byte[] arg2, Throwable arg3) {
+									System.out.println("failed");
+									// TODO Auto-generated method stub
+
+								}
+
+								/*
+								 * @Override public void onFailure(int
+								 * statusCode, Header[] headers, byte[]
+								 * errorResponse, Throwable e) {
+								 * System.out.println("failure"+errorResponse);
+								 * 
+								 * }
+								 */
+							});
+
+				
+
+				}
 			}
 		});
 
-		// TextView tv = (TextView) findViewById(R.id.rate);
-		// textViewToChange.setText(
-		// "The new text that I'd like to display now that the user has pushed a button.");
-
-		// int imageId = getResources().getIdentifier(
-		// index.toLowerCase(Locale.getDefault()), "drawable",
-		// getActivity().getPackageName());
-		// ((ImageView) rootView.findViewById(R.id.image))
-		// .setImageResource(imageId);
 		getActivity().setTitle(index);
 		return rootView;
 	}

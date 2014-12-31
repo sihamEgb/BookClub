@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import technion.bookclub.entities.Book;
 import technion.bookclub.entities.Club;
 
 import android.content.Context;
@@ -12,32 +13,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-//import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ClubListAdapter extends BaseAdapter {
+public class BookListAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater = null;
-	private ArrayList<Club> clubs = new ArrayList<Club>();
+	private ArrayList<Book> books = new ArrayList<Book>();
 	Context context;
 
-	public ClubListAdapter(Context context, String data) {
+	public BookListAdapter(Context context, String data) {
 		// super(context, R.layout.customlistviewitem, values);
 		super();
 		this.context = context;
 		inflater = LayoutInflater.from(context);
 		getDataFromJson(data);
-		// initData(data);
 	}
 
 	@Override
 	public int getCount() {
-		return clubs.size();
+		return books.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return clubs.get(position);
+		return books.get(position);
 	}
 
 	@Override
@@ -51,13 +50,12 @@ public class ClubListAdapter extends BaseAdapter {
 		View view = null;
 		ViewHolder holder = null;
 		if (null == convertView) {
-			view = inflater.inflate(R.layout.club_list_item, parent, false);
+			view = inflater.inflate(R.layout.book_list_item, parent, false);
 
 			holder = new ViewHolder();
-			holder.name = (TextView) view.findViewById(R.id.name);
+			holder.title = (TextView) view.findViewById(R.id.title);
 			// holder.location = (TextView) view.findViewById(R.id.location);
-			// holder.number = (TextView) view.findViewById(R.id.number);
-			// holder.img = (ImageView) view.findViewById(R.id.img);
+			// holder.language = (TextView) view.findViewById(R.id.language);
 
 			view.setTag(holder);
 
@@ -66,20 +64,17 @@ public class ClubListAdapter extends BaseAdapter {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		holder.name.setText(clubs.get(position).getName());
-		// holder.location.setText(clubs.get(position).getLocation());
-		// holder.number.setText(clubs.get(position).getNumber());
-
-		// holder.img.setText(clubs.get(position).getName());
+		holder.title.setText(books.get(position).getTitle());
+		// holder.location.setText(books.get(position).getLocation());
+		// holder.language.setText(books.get(position).getLanguage());
 
 		return view;
 	}
 
 	private class ViewHolder {
-		public TextView name;
+		public TextView title;
 		// public TextView location;
-		// public TextView number;
-		// public ImageView img;
+		// public TextView language;
 
 	}
 
@@ -93,10 +88,10 @@ public class ClubListAdapter extends BaseAdapter {
 			int numOfItems = jsonArr.length();
 			JSONObject json;
 			for (int i = 0; i < numOfItems; i++) {
-				Club newClub = new Club();
+				Book newBook = new Book();
 				json = jsonArr.getJSONObject(i);
-				newClub.setName(json.getString("name"));
-				clubs.add(newClub);
+				newBook.setTitle(json.getString("title"));
+				books.add(newBook);
 			}
 			// return results;
 		} catch (Exception e) {

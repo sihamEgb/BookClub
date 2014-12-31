@@ -1,7 +1,6 @@
 package technion.bookclub;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,11 @@ import android.widget.ListView;
 public class ClubsResultsFragment extends ListFragment {
 	ListView myListView;
 	ClubListAdapter adapter;
+	private static String data;
+
+	public ClubsResultsFragment(String searchResult) {
+		data = searchResult;
+	}
 
 	public ClubListAdapter getAdapter() {
 		return adapter;
@@ -28,19 +32,10 @@ public class ClubsResultsFragment extends ListFragment {
 
 		View v = inflater.inflate(R.layout.clubs_results, container, false);
 
-		adapter = new ClubListAdapter(getActivity());
+		adapter = new ClubListAdapter(getActivity(), data);
 
 		setListAdapter(adapter);
 		return v;
-	}
-
-	public static Fragment newInstance(int newColor) {
-		ClubsResultsFragment fragment = new ClubsResultsFragment();
-		Bundle args = new Bundle();
-		// args.putInt("someInt", i);
-		// args.putString("someTitle", string);
-		fragment.setArguments(args);
-		return fragment;
 	}
 
 }

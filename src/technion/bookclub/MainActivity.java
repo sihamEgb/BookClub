@@ -38,9 +38,9 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();
-		
-		//getActionBar().setLogo(R.drawable.bookshelf_icon);
-		
+
+		// getActionBar().setLogo(R.drawable.bookshelf_icon);
+
 		mDrawerOptionsTitles = getResources().getStringArray(
 				R.array.drawer_options);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -151,16 +151,19 @@ public class MainActivity extends FragmentActivity {
 			System.out.println(position);
 			System.out.println(currFragment);
 			break;
+		case 2:
+			currFragment = BookSearchFragment.newInstance(0);
+			// fragment = new ClubSearchFragment();
+			System.out.println(position);
+			System.out.println(currFragment);
+			break;
 		// case 2:
 		// fragment = new HomePage_ClubCreationFragment();
 		// System.out.println(position);
 		// System.out.println(currFragment);
 		// break;
 		default:
-
 			currFragment = PlanetFragment.newInstance(0);
-			System.out.println(position);
-			System.out.println(currFragment);
 		}
 		Bundle args = new Bundle();
 		args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
