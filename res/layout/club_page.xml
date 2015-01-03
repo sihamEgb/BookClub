@@ -3,7 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
     
-    <ImageView 
-        android:id="@+id/club_Image"/>"
+    <ImageView
+        android:id="@+id/club_Image"
+       	android:layout_width="fill_parent"
+    	android:layout_height="150dp"
+   	 	android:scaleType="fitXY"
+   	 	android:src="@drawable/club1"/>
+    
+        <TextView 
+        android:id="@+id/club_Name"
+       	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_alignBottom="@id/club_Image"
+    	android:text="@string/app_name"
+    	android:textSize="30sp"
+    	android:textStyle="bold"/>
 
 </RelativeLayout>
