@@ -8,8 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
 
 public class ClubPageFragment extends Fragment {
+	//ExpandableListView listView;
 
 	public ClubPageFragment() {
 	}
@@ -17,7 +20,7 @@ public class ClubPageFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+		//listView=(ExpandableListView) findViewById(R.id.club_info_list);
 		View rootView = inflater.inflate(R.layout.club_page, container,
 				false);
 
