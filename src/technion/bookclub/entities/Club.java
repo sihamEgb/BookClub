@@ -14,7 +14,13 @@ public class Club {
 	private String description;
 	private Set<String> members;
 	private String imageUrl;
+	private Meeting nextMeeting;
 
+	public Meeting getNextMeeting() {
+		return nextMeeting;
+	}
+
+	
 	public String getClubId() {
 		return clubId;
 	}
@@ -71,6 +77,8 @@ public class Club {
 		this.members.add(newMemeber);
 	}
 
+
+	
 	/*
 	 * returns number of members in this club
 	 */
