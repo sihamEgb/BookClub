@@ -4,19 +4,90 @@
     android:layout_height="match_parent" >
     
     <ImageView
-        android:id="@+id/club_Image"
+        android:id="@+id/Club_Image"
        	android:layout_width="fill_parent"
     	android:layout_height="150dp"
    	 	android:scaleType="fitXY"
    	 	android:src="@drawable/club1"/>
-    
-        <TextView 
-        android:id="@+id/club_Name"
-       	android:layout_width="wrap_content"
-    	android:layout_height="wrap_content"
-    	android:layout_alignBottom="@id/club_Image"
-    	android:text="@string/app_name"
-    	android:textSize="30sp"
-    	android:textStyle="bold"/>
 
+       		  <TextView
+       		      android:id="@+id/Club_Name"
+       		      android:layout_width="wrap_content"
+       		      android:layout_height="wrap_content"
+       		      android:layout_alignBottom="@+id/Club_Image"
+       		      android:layout_alignParentLeft="true"
+       		      android:layout_marginBottom="16dp"
+       		      android:layout_marginLeft="22dp"
+       		      android:text="@string/app_name"
+       		      android:textSize="20sp"
+       		      android:textStyle="bold" />
+
+       		  <TextView
+       		      android:id="@+id/Club_Info_Title"
+       		      android:layout_width="fill_parent"
+       		      android:layout_height="wrap_content"
+       		      android:layout_alignLeft="@+id/Club_Name"
+       		      android:layout_below="@+id/Club_Image"
+       		      android:layout_marginTop="17dp"
+       		      android:text="@string/Club_Info_Title"
+       		      android:textSize="20sp"
+       		      android:textStyle="bold" />
+
+       		  <TextView
+       		      android:id="@+id/Club_Info"
+       		      android:layout_width="fill_parent"
+       		      android:layout_height="wrap_content"
+       		      android:layout_alignLeft="@+id/Club_Info_Title"
+       		      android:layout_below="@+id/Club_Info_Title"
+       		      android:text="@string/Club_Info_Title"
+       		      android:textSize="12sp" />
+       		  
+       		  <TextView
+       		      android:id="@+id/Club_Members"
+       		      android:layout_width="fill_parent"
+       		      android:layout_height="wrap_content"
+       		      android:layout_alignLeft="@+id/Club_Name"
+       		      android:layout_below="@+id/Club_Info"
+       		      android:layout_marginTop="17dp"
+       		      android:text="@string/Club_Members"
+       		      android:textSize="20sp"
+       		      android:textStyle="bold" />
+       		  <TextView
+       		      android:id="@+id/Club_NextMeeting_Title"
+       		      android:layout_width="fill_parent"
+       		      android:layout_height="wrap_content"
+       		      android:layout_alignLeft="@+id/Club_Name"
+       		      android:layout_below="@+id/Club_Members"
+       		      android:layout_marginTop="17dp"
+       		      android:text="@string/Club_NextMeeting_Title"
+       		      android:textSize="20sp"
+       		      android:textStyle="bold" />
+ 
+       		  <TextView
+       		      android:id="@+id/Club_NextMeeting_Date"
+       		      android:layout_width="fill_parent"
+       		      android:layout_height="wrap_content"
+       		      android:layout_alignLeft="@+id/Club_NextMeeting_Title"
+       		      android:layout_below="@+id/Club_NextMeeting_Title"
+       		      android:text="@string/Club_NextMeeting_Date"
+       		      android:textSize="12sp" />
+ 
+       		  <TextView
+       		      android:id="@+id/Club_NextMeeting_Book"
+       		      android:layout_width="fill_parent"
+       		      android:layout_height="wrap_content"
+       		      android:layout_alignLeft="@+id/Club_NextMeeting_Title"
+       		      android:layout_below="@+id/Club_NextMeeting_Date"
+       		      android:text="@string/Club_NextMeeting_Book"
+       		      android:textSize="12sp" />      		  
+       		  
+       		  <TextView
+       		      android:id="@+id/Club_NextMeeting_Participants"
+       		      android:layout_width="fill_parent"
+       		      android:layout_height="wrap_content"
+       		      android:layout_alignLeft="@+id/Club_NextMeeting_Title"
+       		      android:layout_below="@+id/Club_NextMeeting_Book"
+       		      android:text="@string/Club_NextMeeting_Participants"
+       		      android:textSize="12sp" />       		  
+       		  		  		  		  
 </RelativeLayout>
