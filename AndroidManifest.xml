@@ -33,6 +33,10 @@
             android:name=".HomePage_AddNewBook"
             android:label="New Book"
             android:parentActivityName="technion.bookclub.MainActivity" />
+         <activity
+            android:name=".TempActivity"
+            android:label="Book Club"
+            android:parentActivityName="technion.bookclub.ClubListAdapter" />
     </application>
 
 </manifest>

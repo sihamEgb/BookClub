@@ -6,14 +6,14 @@ import org.json.JSONObject;
 
 public class Club {
 
-	private String clubId;
-	private String adminId;
+	private String clubId ;
+	private String adminId;// = "admin";
 	private String name;
 	private String location;
 	private String category;
 	private String description;
 	private Set<String> members;
-	private String imageUrl;
+	private String imageUrl = "http://subheksha.tk/wp-content/themes/creativemag/images/default.png";
 	private Meeting nextMeeting;
 
 	public Meeting getNextMeeting() {
@@ -101,7 +101,8 @@ public class Club {
 		// String imageUrl;
 
 		try {
-			this.setClubId(json.getString("clubId"));
+		//	if(json.getString("clubId") != null)
+		//		this.setClubId(json.getString("clubId"));
 			this.setAdminId(json.getString("adminId"));
 			this.setName(json.getString("name"));
 			this.setLocation(json.getString("location"));

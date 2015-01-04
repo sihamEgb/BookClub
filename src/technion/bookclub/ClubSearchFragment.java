@@ -91,6 +91,10 @@ public class ClubSearchFragment extends Fragment {
 								public void onFailure(int arg0, Header[] arg1,
 										byte[] arg2, Throwable arg3) {
 									System.out.println("failed");
+									System.out.println(arg1);
+									System.out.println(arg2);
+									System.out.println(arg3);
+									
 									// TODO Auto-generated method stub
 
 								}

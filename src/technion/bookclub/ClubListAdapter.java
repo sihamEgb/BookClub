@@ -8,10 +8,14 @@ import org.json.JSONObject;
 import technion.bookclub.entities.Club;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 //import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,9 +56,10 @@ public class ClubListAdapter extends BaseAdapter {
 		ViewHolder holder = null;
 		if (null == convertView) {
 			view = inflater.inflate(R.layout.club_list_item, parent, false);
-
+			view.setOnClickListener(new MyListener());
 			holder = new ViewHolder();
 			holder.name = (TextView) view.findViewById(R.id.name);
+
 			// holder.location = (TextView) view.findViewById(R.id.location);
 			// holder.number = (TextView) view.findViewById(R.id.number);
 			// holder.img = (ImageView) view.findViewById(R.id.img);
@@ -69,7 +74,6 @@ public class ClubListAdapter extends BaseAdapter {
 		holder.name.setText(clubs.get(position).getName());
 		// holder.location.setText(clubs.get(position).getLocation());
 		// holder.number.setText(clubs.get(position).getNumber());
-
 		// holder.img.setText(clubs.get(position).getName());
 
 		return view;
@@ -80,6 +84,25 @@ public class ClubListAdapter extends BaseAdapter {
 		// public TextView location;
 		// public TextView number;
 		// public ImageView img;
+
+	}
+
+	private class MyListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+
+			Toast toast = Toast.makeText(context, "Hello toast!",
+					Toast.LENGTH_SHORT);
+			toast.show();
+			
+			 Intent i = new Intent(context,TempActivity.class);                      
+        	context.startActivity(i);
+			// TODO Auto-generated method stub
+			//Intent intent = new Intent(CurrentActivity.this,
+			// TargetActivity.class);
+			// startActivity(intent);
+		}
 
 	}
 
@@ -95,7 +118,8 @@ public class ClubListAdapter extends BaseAdapter {
 			for (int i = 0; i < numOfItems; i++) {
 				Club newClub = new Club();
 				json = jsonArr.getJSONObject(i);
-				newClub.setName(json.getString("name"));
+				newClub.fromJson(json);
+				// newClub.setName(json.getString("name"));
 				clubs.add(newClub);
 			}
 			// return results;
@@ -105,4 +129,5 @@ public class ClubListAdapter extends BaseAdapter {
 
 		}
 	}
+
 }

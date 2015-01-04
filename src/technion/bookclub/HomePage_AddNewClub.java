@@ -123,6 +123,7 @@ public class HomePage_AddNewClub extends Activity {
 		params.put("name", clubName);
 		params.put("location", clubLocation);
 		params.put("description", clubDesc);
+		params.put("adminId", "adminTemp");
 
 		client.get("http://jalees-bookclub.appspot.com/addclub", params,
 				new AsyncHttpResponseHandler() {
