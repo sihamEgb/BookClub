@@ -157,6 +157,12 @@ public class MainActivity extends FragmentActivity {
 			System.out.println(position);
 			System.out.println(currFragment);
 			break;
+		case 3:
+			currFragment = SplashFragment.newInstance();
+			// fragment = new ClubSearchFragment();
+			System.out.println(position);
+			System.out.println(currFragment);
+			break;
 		// case 2:
 		// fragment = new HomePage_ClubCreationFragment();
 		// System.out.println(position);

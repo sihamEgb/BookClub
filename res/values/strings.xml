@@ -9,6 +9,8 @@
 	<string name="Club_NextMeeting_Book">Book</string>
 	<string name="Club_NextMeeting_Participants">Participants</string>
 
+	<string name="facebookApplicationId">335347833328029</string>
+	
     <string-array name="drawer_options">
         <item>My home page</item>
         <item>Find a club</item>
