@@ -88,32 +88,42 @@ public final class R {
         public static final int search_icon=0x7f020014;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a001d;
-        public static final int action_websearch=0x7f0a001c;
-        public static final int addClub=0x7f0a0019;
-        public static final int adding_club_location_text=0x7f0a0016;
+        public static final int Club_Image=0x7f0a000d;
+        public static final int Club_Info=0x7f0a0010;
+        public static final int Club_Info_Title=0x7f0a000f;
+        public static final int Club_Members=0x7f0a0011;
+        public static final int Club_Name=0x7f0a000e;
+        public static final int Club_NextMeeting_Book=0x7f0a0014;
+        public static final int Club_NextMeeting_Date=0x7f0a0013;
+        public static final int Club_NextMeeting_Participants=0x7f0a0015;
+        public static final int Club_NextMeeting_Title=0x7f0a0012;
+        public static final int Join_Club=0x7f0a0016;
+        public static final int action_settings=0x7f0a0027;
+        public static final int action_websearch=0x7f0a0026;
+        public static final int addClub=0x7f0a0021;
+        public static final int adding_club_location_text=0x7f0a001f;
         public static final int bookNameQuery=0x7f0a0005;
-        public static final int button_id=0x7f0a001a;
-        public static final int club_Image=0x7f0a000c;
-        public static final int club_description=0x7f0a0018;
-        public static final int club_name=0x7f0a0015;
+        public static final int button_id=0x7f0a0022;
+        public static final int club_description=0x7f0a0020;
+        public static final int club_name=0x7f0a001e;
         public static final int content_frame=0x7f0a0001;
         public static final int drawer_layout=0x7f0a0000;
-        public static final int homepage_adding_club_location_spinner=0x7f0a0017;
-        public static final int homepage_addingbook_bookauthor=0x7f0a0010;
-        public static final int homepage_addingbook_bookname=0x7f0a000f;
-        public static final int homepage_addingbook_language_spinner=0x7f0a0012;
-        public static final int homepage_addingbook_language_text=0x7f0a0011;
-        public static final int homepage_addingbook_location_spinner=0x7f0a0014;
-        public static final int homepage_addingbook_location_text=0x7f0a0013;
-        public static final int image=0x7f0a000e;
+        public static final int homepage_addingbook_bookauthor=0x7f0a001a;
+        public static final int homepage_addingbook_bookname=0x7f0a0019;
+        public static final int homepage_addingbook_language_spinner=0x7f0a001c;
+        public static final int homepage_addingbook_language_text=0x7f0a001b;
+        public static final int homepage_addingbook_location_text=0x7f0a001d;
+        public static final int image=0x7f0a0018;
         public static final int language_spinner=0x7f0a0007;
         public static final int left_drawer=0x7f0a0002;
         public static final int location_spinner=0x7f0a0009;
-        public static final int name=0x7f0a000b;
-        public static final int newbook=0x7f0a001b;
+        public static final int login_button=0x7f0a0025;
+        public static final int name=0x7f0a000c;
+        public static final int newbook=0x7f0a0023;
+        public static final int progressBar1=0x7f0a000b;
         public static final int searchBook=0x7f0a000a;
-        public static final int searchClub=0x7f0a000d;
+        public static final int searchClub=0x7f0a0017;
+        public static final int splash_icon=0x7f0a0024;
         public static final int text1=0x7f0a0006;
         public static final int text2=0x7f0a0008;
         public static final int text3=0x7f0a0004;
@@ -133,19 +143,28 @@ public final class R {
         public static final int homepage_add_newbook=0x7f03000a;
         public static final int homepage_add_newclub=0x7f03000b;
         public static final int homepage_fragment=0x7f03000c;
+        public static final int splash=0x7f03000d;
     }
     public static final class menu {
         public static final int main=0x7f090000;
     }
     public static final class string {
-        public static final int action_settings=0x7f060007;
-        public static final int action_websearch=0x7f060003;
+        public static final int Club_Info_Title=0x7f060003;
+        public static final int Club_Members=0x7f060002;
+        public static final int Club_NextMeeting_Book=0x7f060005;
+        public static final int Club_NextMeeting_Date=0x7f060004;
+        public static final int Club_NextMeeting_Participants=0x7f060006;
+        public static final int Club_NextMeeting_Title=0x7f060001;
+        public static final int Join_Us=0x7f060007;
+        public static final int action_settings=0x7f06000f;
+        public static final int action_websearch=0x7f06000b;
         public static final int app_name=0x7f060000;
-        public static final int app_not_available=0x7f060004;
-        public static final int book_search_hint=0x7f060005;
-        public static final int drawer_close=0x7f060002;
-        public static final int drawer_open=0x7f060001;
-        public static final int location_search_hint=0x7f060006;
+        public static final int app_not_available=0x7f06000c;
+        public static final int book_search_hint=0x7f06000d;
+        public static final int drawer_close=0x7f06000a;
+        public static final int drawer_open=0x7f060009;
+        public static final int facebookApplicationId=0x7f060008;
+        public static final int location_search_hint=0x7f06000e;
     }
     public static final class style {
         /** 

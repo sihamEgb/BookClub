@@ -112,6 +112,7 @@ public class BookSearchFragment extends Fragment {
 				RequestParams params = new RequestParams();
 				params.put("location", clubLocation);
 				params.put("language", bookLanguage);
+				params.put("title", bookTitle);
 
 				client.get("http://jalees-bookclub.appspot.com/searchbook",
 						params, new AsyncHttpResponseHandler() {
