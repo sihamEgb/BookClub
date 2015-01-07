@@ -89,5 +89,16 @@
        		      android:layout_below="@+id/Club_NextMeeting_Book"
        		      android:text="@string/Club_NextMeeting_Participants"
        		      android:textSize="12sp" />       		  
+       		      
+       		         		  <Button
+       		      android:id="@+id/Join_Club"
+       		      android:layout_width="fill_parent"
+       		      android:layout_height="wrap_content"
+       		      android:layout_alignLeft="@+id/Club_NextMeeting_Title"
+       		      android:layout_below="@+id/Club_NextMeeting_Participants"
+       		      android:text="@string/Join_Us"
+       		      android:textSize="12sp"
+       		      android:onClick="JoinClub" />       		  
+       		  
        		  		  		  		  
 </RelativeLayout>

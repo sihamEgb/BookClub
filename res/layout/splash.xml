@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+     >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,5 +38,8 @@
         android:layout_marginTop="53dp"
         android:gravity="center_vertical"
         android:layout_height="wrap_content"/>
+        
+        
+            
 
 </LinearLayout>

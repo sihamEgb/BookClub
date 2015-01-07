@@ -1,5 +1,6 @@
 package technion.bookclub;
 
+import technion.bookclub.entities.Club;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,6 +38,9 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		
+
 
 		mTitle = mDrawerTitle = getTitle();
 
@@ -157,12 +162,14 @@ public class MainActivity extends FragmentActivity {
 			System.out.println(position);
 			System.out.println(currFragment);
 			break;
+			
 		case 3:
-			currFragment = SplashFragment.newInstance();
-			// fragment = new ClubSearchFragment();
-			System.out.println(position);
-			System.out.println(currFragment);
-			break;
+			Intent myIntent = new Intent(this, ClubPageFragment.class);
+			//myIntent.putExtra("key", value); //Optional parameters
+			startActivityForResult(myIntent,0);
+			return;
+			//break;
+
 		// case 2:
 		// fragment = new HomePage_ClubCreationFragment();
 		// System.out.println(position);

@@ -45,6 +45,24 @@
             android:name=".TempActivity"
             android:label="Book Club"
             android:parentActivityName="technion.bookclub.ClubListAdapter" />
+         <activity 
+             android:label="Club Page" 
+             android:name="ClubPageFragment"
+             android:parentActivityName="technion.bookclub.MainActivity" >
+  
+            </activity>
+            
+           <activity 
+             android:label="login Page" 
+             android:name="SplashFragment"
+             android:parentActivityName="technion.bookclub.ClubPageFragment" >
+  
+            </activity>
+         
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="technion.bookclub.MainActivity" />
+         
     </application>
 
 </manifest>
