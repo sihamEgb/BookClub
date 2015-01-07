@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,8 +23,10 @@ public class HomePage_AddNewBook extends Activity {
 
 	EditText titleEditText;
 	EditText authorEditText;
-	Spinner locationSpinner;
+	// Spinner locationSpinner;
 	Spinner languageSpinner;
+	private AutoCompleteTextView autoCompleteLocation;
+	private ArrayAdapter<String> autoCompleteAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,13 +34,15 @@ public class HomePage_AddNewBook extends Activity {
 
 		setContentView(R.layout.homepage_add_newbook);
 
-		Spinner location_spinner = (Spinner) findViewById(R.id.homepage_addingbook_location_spinner);
-		ArrayAdapter<CharSequence> location_spinner_adapter = ArrayAdapter
-				.createFromResource(this, R.array.location_array,
-						android.R.layout.simple_spinner_dropdown_item);
-		location_spinner.setAdapter(location_spinner_adapter);
-		location_spinner_adapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// location auto complete
+		String[] location = getResources().getStringArray(
+				R.array.location_array);
+
+		autoCompleteAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, location);
+		autoCompleteLocation = (AutoCompleteTextView) findViewById(R.id.location_spinner);
+		autoCompleteLocation.setAdapter(autoCompleteAdapter);
+		autoCompleteLocation.setThreshold(1);
 
 		Spinner language_spinner = (Spinner) findViewById(R.id.homepage_addingbook_language_spinner);
 		ArrayAdapter<CharSequence> language_spinner_adapter = ArrayAdapter
@@ -50,7 +55,6 @@ public class HomePage_AddNewBook extends Activity {
 		titleEditText = (EditText) findViewById(R.id.homepage_addingbook_bookname);
 		authorEditText = (EditText) findViewById(R.id.homepage_addingbook_bookauthor);
 
-		locationSpinner = location_spinner;
 		languageSpinner = language_spinner;
 
 	}
@@ -75,11 +79,11 @@ public class HomePage_AddNewBook extends Activity {
 	// TODO
 	public void addNewBook(View view) {
 
-		//Context context = getApplicationContext();
+		// Context context = getApplicationContext();
 
 		String bookTitle = titleEditText.getText().toString().trim();
 		String author = authorEditText.getText().toString().trim();
-		String location = locationSpinner.getSelectedItem().toString();
+		String location = autoCompleteLocation.getText().toString();
 		String language = languageSpinner.getSelectedItem().toString();
 
 		AsyncHttpClient client = new AsyncHttpClient();

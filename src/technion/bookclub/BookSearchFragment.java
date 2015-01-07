@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 //import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ public class BookSearchFragment extends Fragment {
 	private AutoCompleteTextView autoCompleteLocation;
 	private ArrayAdapter<String> autoCompleteAdapter;
 	private Spinner languageSpinner;
+	private ProgressBar spinner;
 
 	public BookSearchFragment() {
 
@@ -65,6 +67,10 @@ public class BookSearchFragment extends Fragment {
 		autoCompleteLocation.setAdapter(autoCompleteAdapter);
 		autoCompleteLocation.setThreshold(1);
 
+		// spinner status
+		spinner = (ProgressBar) rootView.findViewById(R.id.progressBar1);
+		spinner.setVisibility(View.GONE);
+
 		// button
 		final Button button = (Button) rootView.findViewById(R.id.searchBook);
 		button.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +78,7 @@ public class BookSearchFragment extends Fragment {
 
 				// Context context = getActivity();
 				// int duration = Toast.LENGTH_SHORT;
+				spinner.setVisibility(View.VISIBLE);
 
 				String bookTitle = titleQuery.getText().toString().trim();
 				String bookLanguage = languageSpinner.getSelectedItem()
@@ -113,8 +120,9 @@ public class BookSearchFragment extends Fragment {
 							public void onSuccess(int statusCode,
 									Header[] headers, byte[] response) {
 								String s = new String(response);
-								
+
 								System.out.println("sucees" + s);
+								spinner.setVisibility(View.GONE);
 
 								Fragment fragment = new BooksResultsFragment(s);
 								Bundle args = new Bundle();

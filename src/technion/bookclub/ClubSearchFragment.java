@@ -20,12 +20,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class ClubSearchFragment extends Fragment {
 
 	private AutoCompleteTextView autoCompleteLocation;
 	private ArrayAdapter<String> adapter;
+	private ProgressBar spinner;
 
 	public ClubSearchFragment() {
 	}
@@ -48,11 +50,16 @@ public class ClubSearchFragment extends Fragment {
 		autoCompleteLocation.setAdapter(adapter);
 		autoCompleteLocation.setThreshold(1);
 
+		// spinner status
+		spinner = (ProgressBar) rootView.findViewById(R.id.progressBar1);
+		spinner.setVisibility(View.GONE);
+
 		// button
 		final Button button = (Button) rootView.findViewById(R.id.searchClub);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
+				spinner.setVisibility(View.VISIBLE);
 				Context context = getActivity();
 				int duration = Toast.LENGTH_SHORT;
 
@@ -77,13 +84,17 @@ public class ClubSearchFragment extends Fragment {
 										Header[] headers, byte[] response) {
 									String s = new String(response);
 									System.out.println("sucees" + s);
-									
-									Fragment fragment = new ClubsResultsFragment(s);
+
+									spinner.setVisibility(View.GONE);
+									Fragment fragment = new ClubsResultsFragment(
+											s);
 									Bundle args = new Bundle();
 									fragment.setArguments(args);
 									FragmentManager fragmentManager = getFragmentManager();
-									fragmentManager.beginTransaction()
-											.replace(R.id.content_frame, fragment).commit();
+									fragmentManager
+											.beginTransaction()
+											.replace(R.id.content_frame,
+													fragment).commit();
 
 								}
 
@@ -94,7 +105,7 @@ public class ClubSearchFragment extends Fragment {
 									System.out.println(arg1);
 									System.out.println(arg2);
 									System.out.println(arg3);
-									
+
 									// TODO Auto-generated method stub
 
 								}
@@ -108,8 +119,6 @@ public class ClubSearchFragment extends Fragment {
 								 * }
 								 */
 							});
-
-				
 
 				}
 			}

@@ -43,12 +43,12 @@
         android:layout_height="wrap_content"
         android:text="Location" />
 
-    <Spinner
-        android:id="@+id/homepage_addingbook_location_spinner"
+    <AutoCompleteTextView
+        android:id="@+id/location_spinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbarSize="50dp" />
+        android:layout_marginTop="10dp"
+        android:ems="8" />
 
     <Button
         android:layout_width="wrap_content"

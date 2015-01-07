@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -20,25 +21,28 @@ public class HomePage_AddNewClub extends Activity {
 
 	EditText nameEditText;
 	EditText descEditText;
-	Spinner locationSpinner;
+
+	// Spinner locationSpinner;
+	private AutoCompleteTextView autoCompleteLocation;
+	private ArrayAdapter<String> autoCompleteAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.homepage_add_newclub);
 
-		Spinner location_spinner = (Spinner) findViewById(R.id.homepage_adding_club_location_spinner);
-		ArrayAdapter<CharSequence> location_spinner_adapter = ArrayAdapter
-				.createFromResource(this, R.array.location_array,
-						android.R.layout.simple_spinner_dropdown_item);
-		location_spinner.setAdapter(location_spinner_adapter);
-		location_spinner_adapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// location auto complete
+		String[] location = getResources().getStringArray(
+				R.array.location_array);
+
+		autoCompleteAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, location);
+		autoCompleteLocation = (AutoCompleteTextView) findViewById(R.id.location_spinner);
+		autoCompleteLocation.setAdapter(autoCompleteAdapter);
+		autoCompleteLocation.setThreshold(1);
 
 		nameEditText = (EditText) findViewById(R.id.club_name);
 		descEditText = (EditText) findViewById(R.id.club_description);
-
-		locationSpinner = location_spinner;
 
 		// getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -101,7 +105,7 @@ public class HomePage_AddNewClub extends Activity {
 
 		String clubName = nameEditText.getText().toString().trim();
 		String clubDesc = descEditText.getText().toString().trim();
-		String clubLocation = locationSpinner.getSelectedItem().toString();
+		String clubLocation = autoCompleteLocation.getText().toString();
 
 		if (clubName == null || clubDesc == null || clubLocation == null) {
 			Toast toast = Toast.makeText(context, "Error Can Not Create Club",
@@ -115,8 +119,8 @@ public class HomePage_AddNewClub extends Activity {
 			toast.show();
 
 		}
-		Toast toast = Toast.makeText(context, clubName 
-				+ " " + clubLocation + " " + clubDesc, duration);
+		Toast toast = Toast.makeText(context, clubName + " " + clubLocation
+				+ " " + clubDesc, duration);
 		toast.show();
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();

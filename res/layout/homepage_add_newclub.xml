@@ -21,11 +21,12 @@
         android:text="Location"
         android:textColor="#311B92" />
 
-    <Spinner
-        android:id="@+id/homepage_adding_club_location_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-    </Spinner>
+    <AutoCompleteTextView
+        android:id="@+id/location_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="8" />
 
     <EditText
         android:id="@+id/club_description"
