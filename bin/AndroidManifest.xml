@@ -16,7 +16,15 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
+        
+	          <!--  Facebook Application ID --> 
+  		   <meta-data android:name="com.facebook.sdk.ApplicationId" 
+  		       android:value="@string/facebookApplicationId" /> 
+	
+  		<!--  Facebook SDK activities --> 
+  		<activity android:name="com.facebook.LoginActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:label="@string/app_name" android:configChanges="orientation|keyboard|keyboardHidden" />
+       
+  		<activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
@@ -33,6 +41,28 @@
             android:name=".HomePage_AddNewBook"
             android:label="New Book"
             android:parentActivityName="technion.bookclub.MainActivity" />
+         <activity
+            android:name=".TempActivity"
+            android:label="Book Club"
+            android:parentActivityName="technion.bookclub.ClubListAdapter" />
+         <activity 
+             android:label="Club Page" 
+             android:name="ClubPageFragment"
+             android:parentActivityName="technion.bookclub.MainActivity" >
+  
+            </activity>
+            
+           <activity 
+             android:label="login Page" 
+             android:name="SplashFragment"
+             android:parentActivityName="technion.bookclub.ClubPageFragment" >
+  
+            </activity>
+         
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="technion.bookclub.MainActivity" />
+         
     </application>
 
 </manifest>

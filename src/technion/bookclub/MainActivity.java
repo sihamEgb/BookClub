@@ -147,7 +147,7 @@ public class MainActivity extends FragmentActivity {
 		switch (position) {
 
 		case 0:
-			currFragment = HomePage_Fragment.newInstance(0);
+			currFragment = new HomePageFragment();
 			break;
 
 		case 1:

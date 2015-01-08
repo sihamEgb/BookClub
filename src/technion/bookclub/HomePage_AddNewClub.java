@@ -106,6 +106,9 @@ public class HomePage_AddNewClub extends Activity {
 		String clubName = nameEditText.getText().toString().trim();
 		String clubDesc = descEditText.getText().toString().trim();
 		String clubLocation = autoCompleteLocation.getText().toString();
+		//TODO
+		String imageUrl = "http://www.viduman.com/dosya/default.jpg";
+
 
 		if (clubName == null || clubDesc == null || clubLocation == null) {
 			Toast toast = Toast.makeText(context, "Error Can Not Create Club",
@@ -128,6 +131,7 @@ public class HomePage_AddNewClub extends Activity {
 		params.put("location", clubLocation);
 		params.put("description", clubDesc);
 		params.put("adminId", "adminTemp");
+		params.put("imageUrl", imageUrl);
 
 		client.get("http://jalees-bookclub.appspot.com/addclub", params,
 				new AsyncHttpResponseHandler() {

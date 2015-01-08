@@ -20,7 +20,7 @@ public class HomePage_Fragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		 View rootView = inflater.inflate(R.layout.homepage_fragment, container,
+		View rootView = inflater.inflate(R.layout.homepage_fragment, container,
 				false);
 		int i = getArguments().getInt(ARG_PLANET_NUMBER);
 		String planet = getResources().getStringArray(R.array.drawer_options)[i];
@@ -28,26 +28,26 @@ public class HomePage_Fragment extends Fragment {
 		int imageId = getResources().getIdentifier(
 				planet.toLowerCase(Locale.getDefault()), "drawable",
 				getActivity().getPackageName());
-		//((ImageView) rootView.findViewById(R.id.image))
-		//		.setImageResource(imageId);
+		// ((ImageView) rootView.findViewById(R.id.image))
+		// .setImageResource(imageId);
 		getActivity().setTitle(planet);
-		
-		 final Button button = (Button) rootView.findViewById(R.id.button_id);
-	     button.setOnClickListener(new View.OnClickListener() {
-	         public void onClick(View v) { 
-	        	 Intent i = new Intent(getActivity(),HomePage_AddNewClub.class);                      
-	        	 startActivity(i);
-	         }
-	     });
-	     
-	     final Button button2 = (Button) rootView.findViewById(R.id.newbook);
-	     button2.setOnClickListener(new View.OnClickListener() {
-	         public void onClick(View v) { 
-	        	 Intent i = new Intent(getActivity(),HomePage_AddNewBook.class);                      
-	        	 startActivity(i);
-	         }
-	     });
-	     
+
+		final Button button = (Button) rootView.findViewById(R.id.button_id);
+		button.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), HomePage_AddNewClub.class);
+				startActivity(i);
+			}
+		});
+
+		final Button button2 = (Button) rootView.findViewById(R.id.newbook);
+		button2.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity(), HomePage_AddNewBook.class);
+				startActivity(i);
+			}
+		});
+
 		return rootView;
 	}
 

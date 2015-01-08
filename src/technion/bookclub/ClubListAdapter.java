@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.squareup.picasso.Picasso;
+
 import technion.bookclub.entities.Club;
 
 import android.content.Context;
@@ -13,8 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 //import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,9 +62,9 @@ public class ClubListAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.name = (TextView) view.findViewById(R.id.name);
 
-			// holder.location = (TextView) view.findViewById(R.id.location);
-			// holder.number = (TextView) view.findViewById(R.id.number);
-			// holder.img = (ImageView) view.findViewById(R.id.img);
+			holder.location = (TextView) view.findViewById(R.id.location);
+			holder.number = (TextView) view.findViewById(R.id.membersNum);
+			holder.img = (ImageView) view.findViewById(R.id.img);
 
 			view.setTag(holder);
 
@@ -72,18 +74,19 @@ public class ClubListAdapter extends BaseAdapter {
 		}
 
 		holder.name.setText(clubs.get(position).getName());
-		// holder.location.setText(clubs.get(position).getLocation());
-		// holder.number.setText(clubs.get(position).getNumber());
-		// holder.img.setText(clubs.get(position).getName());
+		holder.location.setText(clubs.get(position).getLocation());
+		holder.number.setText(clubs.get(position).getMemeberNum());
+		Picasso.with(context).load(clubs.get(position).getImageUrl())
+				.resize(50, 50).centerCrop().into(holder.img);
 
 		return view;
 	}
 
 	private class ViewHolder {
 		public TextView name;
-		// public TextView location;
-		// public TextView number;
-		// public ImageView img;
+		public TextView location;
+		public TextView number;
+		public ImageView img;
 
 	}
 
@@ -95,11 +98,11 @@ public class ClubListAdapter extends BaseAdapter {
 			Toast toast = Toast.makeText(context, "Hello toast!",
 					Toast.LENGTH_SHORT);
 			toast.show();
-			
-			 Intent i = new Intent(context,TempActivity.class);                      
-        	context.startActivity(i);
+
+			Intent i = new Intent(context, TempActivity.class);
+			context.startActivity(i);
 			// TODO Auto-generated method stub
-			//Intent intent = new Intent(CurrentActivity.this,
+			// Intent intent = new Intent(CurrentActivity.this,
 			// TargetActivity.class);
 			// startActivity(intent);
 		}
@@ -118,8 +121,7 @@ public class ClubListAdapter extends BaseAdapter {
 			for (int i = 0; i < numOfItems; i++) {
 				Club newClub = new Club();
 				json = jsonArr.getJSONObject(i);
-				newClub.fromJson(json);
-				// newClub.setName(json.getString("name"));
+				newClub = Club.constructFromJson(json.toString());
 				clubs.add(newClub);
 			}
 			// return results;
