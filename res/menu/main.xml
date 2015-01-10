@@ -12,5 +12,12 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    
+     <item
+        android:id="@+id/joinClub"
+        android:enabled="true"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="Add Book"/>
 
 </menu>

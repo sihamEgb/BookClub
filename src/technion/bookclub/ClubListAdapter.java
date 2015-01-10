@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -58,11 +59,11 @@ public class ClubListAdapter extends BaseAdapter {
 		ViewHolder holder = null;
 		if (null == convertView) {
 			view = inflater.inflate(R.layout.club_list_item, parent, false);
-			view.setOnClickListener(new MyListener());
+			// view.setOnClickListener(new MyListener());
 			holder = new ViewHolder();
 			holder.name = (TextView) view.findViewById(R.id.name);
 
-			holder.location = (TextView) view.findViewById(R.id.location);
+			holder.description = (TextView) view.findViewById(R.id.description);
 			holder.number = (TextView) view.findViewById(R.id.membersNum);
 			holder.img = (ImageView) view.findViewById(R.id.img);
 
@@ -74,8 +75,9 @@ public class ClubListAdapter extends BaseAdapter {
 		}
 
 		holder.name.setText(clubs.get(position).getName());
-		holder.location.setText(clubs.get(position).getLocation());
-		holder.number.setText(clubs.get(position).getMemeberNum());
+		holder.description.setText(clubs.get(position).getDescription());
+		holder.number.setText("Participants:"
+				+ clubs.get(position).getMemeberNum());
 		Picasso.with(context).load(clubs.get(position).getImageUrl())
 				.resize(50, 50).centerCrop().into(holder.img);
 
@@ -84,28 +86,9 @@ public class ClubListAdapter extends BaseAdapter {
 
 	private class ViewHolder {
 		public TextView name;
-		public TextView location;
+		public TextView description;
 		public TextView number;
 		public ImageView img;
-
-	}
-
-	private class MyListener implements OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-
-			Toast toast = Toast.makeText(context, "Hello toast!",
-					Toast.LENGTH_SHORT);
-			toast.show();
-
-			Intent i = new Intent(context, TempActivity.class);
-			context.startActivity(i);
-			// TODO Auto-generated method stub
-			// Intent intent = new Intent(CurrentActivity.this,
-			// TargetActivity.class);
-			// startActivity(intent);
-		}
 
 	}
 

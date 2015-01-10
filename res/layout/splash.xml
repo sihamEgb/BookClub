@@ -3,22 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="53dp"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="53dp" >
+        android:orientation="horizontal" >
 
         <ImageView
             android:id="@+id/splash_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            
             android:src="@drawable/bookshelf_icon" />
 
         <TextView
@@ -31,15 +29,5 @@
             android:textStyle="italic|bold"
             android:typeface="serif" />
     </LinearLayout>
-
-        <com.facebook.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="53dp"
-        android:gravity="center_vertical"
-        android:layout_height="wrap_content"/>
-        
-        
-            
 
 </LinearLayout>
