@@ -1,14 +1,11 @@
- <!-- res/values/styles.xml -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- your theme inherits from the material theme -->
-    <style name="AppTheme" parent="android:Theme.Material.Light.DarkActionBar">
-        <item name="android:colorPrimary">@color/cyan</item>
-        <item name="android:colorPrimaryDark">@color/cyan_80</item>
-        <item name="android:colorAccent">@color/orange_300</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
+    </style>
 
-        <!-- theme customizations -->
+    <style name="MyActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/cyan</item>
     </style>
 
 </resources>
