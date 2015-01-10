@@ -5,7 +5,11 @@ package technion.bookclub;
 //import technion.bookclub.MainActivity.DrawerItemClickListener;
 //import com.facebook.Session;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.RequestParams;
+
 import technion.bookclub.entities.Club;
+import technion.bookclub.entities.SuggestedBook;
 import android.app.Activity;
 //import android.app.FragmentManager;
 import android.app.SearchManager;
@@ -26,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -33,7 +38,8 @@ import android.widget.Toast;
 
 public class ClubPageActivity extends FragmentActivity {
 	public int suggestedBooks=2;
-	Club club;
+	public Club club;
+	public SuggestedBook[] books;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +88,28 @@ public class ClubPageActivity extends FragmentActivity {
 		
 	}
 	
+	
+	public void Vote(View view){
+		
+	}
+	/*
+	public void Suggest(View view){
+		EditText edit=(EditText)findViewById(R.id.Edit_Location);
+		edit.setVisibility(1);
+		Button button=(Button)findViewById(R.id.Suggest);
+		button.setVisibility(1);
+
+	}
+	*/	
 	public void getSeggestedBooks(View view) {
+//TODO: 
+		/*
+		AsyncHttpClient client = new AsyncHttpClient();
+	     RequestParams params = new RequestParams();
+	     //params.put("clubId", 6205504040730624);
+
+	     client.get("http://jalees-bookclub.appspot.com/getsuggestedbooks",params);
+*/	    		 
 		 FragmentManager fragmentManager = getSupportFragmentManager();
 		//android.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		
@@ -109,34 +136,44 @@ public class ClubPageActivity extends FragmentActivity {
 			return;
 		}
 		RadioButton button;
+		EditText edit=(EditText)findViewById(R.id.Edit_Location);
+		String bookName=edit.getText().toString().trim();
+		if(bookName.equals("")){
+			return;
+		}
+		//TODO::add book to server 
 		suggestedBooks++;
 		switch (suggestedBooks){
 		case 1:
 			button=(RadioButton)findViewById(R.id.book1);
-			button.setText("Book 1");
+			button.setText(bookName);
 			button.setVisibility(1);
 			break;
 		case 2:
 			button=(RadioButton)findViewById(R.id.book2);
-			button.setText("Book 2");
+			button.setText(bookName);
 			button.setVisibility(1);
 			break;
 		case 3:
 			button=(RadioButton)findViewById(R.id.book3);
-			button.setText("Book 3");
+			button.setText(bookName);
 			button.setVisibility(1);
 			break;
 		case 4:
 			button=(RadioButton)findViewById(R.id.book4);
-			button.setText("Book 4");
+			button.setText(bookName);
 			button.setVisibility(1);
 			break;
 		case 5:
 			button=(RadioButton)findViewById(R.id.book5);
-			button.setText("Book 5");
+			button.setText(bookName);
 			button.setVisibility(1);
 		default:
 		}
+/*		EditText edit=(EditText)findViewById(R.id.Edit_Location);
+		edit.setVisibility(0);
+		Button button2=(Button)findViewById(R.id.Suggest);
+		button2.setVisibility(0);*/
 	}
 	
 	public void onRadioButtonClicked(View view) {
