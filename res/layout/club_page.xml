@@ -9,7 +9,7 @@
        	android:layout_width="fill_parent"
     	android:layout_height="150dp"
    	 	android:scaleType="fitXY"
-   	 	android:src="@drawable/club1"/>
+   	 	android:src="@drawable/club2"/>
 
        		  <TextView
        		      android:id="@+id/Club_Name"
