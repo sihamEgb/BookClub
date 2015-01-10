@@ -164,10 +164,16 @@ public class MainActivity extends FragmentActivity {
 			break;
 			
 		case 3:
-			Intent myIntent = new Intent(this, SplashFragment.class);
+/*			Intent myIntent = new Intent(this, SplashFragment.class);
 			//myIntent.putExtra("key", value); //Optional parameters
 			startActivityForResult(myIntent,0);
-			return;
+			return;	*/
+			
+			Intent myIntent = new Intent(this, ClubPageActivity.class);
+			//myIntent.putExtra("key", value); //Optional parameters
+			startActivityForResult(myIntent,0);
+			//for(int i=0; i<1000; i++){}
+			return;			
 			//break;
 
 		// case 2:

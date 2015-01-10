@@ -49,11 +49,11 @@
             android:name=".TempActivity"
             android:label="Book Club"
             android:parentActivityName="technion.bookclub.ClubListAdapter" />
-        <activity
-            android:name="ClubPageFragment"
-            android:label="Golden Girls"
-            android:parentActivityName="technion.bookclub.MainActivity" >
-        </activity>
+         <activity 
+             android:label="Club Page" 
+             android:name="ClubPageActivity"
+             android:parentActivityName="technion.bookclub.MainActivity" />
+        
         <activity
             android:name="SplashFragment"
             android:label="login Page"

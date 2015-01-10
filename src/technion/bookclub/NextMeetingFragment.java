@@ -13,25 +13,19 @@ import android.support.v4.app.Fragment;
  * A simple {@link Fragment} subclass.
  * 
  */
-public class ClubPageFragment extends Fragment {
+public class NextMeetingFragment extends Fragment {
 
-	public ClubPageFragment() {
+	public NextMeetingFragment() {
 		// Required empty public constructor
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.club_page, container,
+		View rootView = inflater.inflate(R.layout.next_meeting, container,
 				false);
 		return rootView;
 	}
 	
-	public static Fragment newInstance() {
-		NextMeetingFragment fragment = new NextMeetingFragment();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
-		return fragment;
-	}
-
+	
 }
