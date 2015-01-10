@@ -28,6 +28,8 @@ public class HomePage_AddNewBook extends Activity {
 	private AutoCompleteTextView autoCompleteLocation;
 	private ArrayAdapter<String> autoCompleteAdapter;
 
+	EditText imageUrlEditText;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,7 +56,7 @@ public class HomePage_AddNewBook extends Activity {
 
 		titleEditText = (EditText) findViewById(R.id.homepage_addingbook_bookname);
 		authorEditText = (EditText) findViewById(R.id.homepage_addingbook_bookauthor);
-
+		//imageUrlEditText = (EditText) findViewById(R.id.homepage_addingbook_imageUrl);
 		languageSpinner = language_spinner;
 
 	}
@@ -85,6 +87,7 @@ public class HomePage_AddNewBook extends Activity {
 		String author = authorEditText.getText().toString().trim();
 		String location = autoCompleteLocation.getText().toString();
 		String language = languageSpinner.getSelectedItem().toString();
+		//String imageUrl = imageUrlEditText.getText().toString();
 
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
@@ -92,6 +95,7 @@ public class HomePage_AddNewBook extends Activity {
 		params.put("author", author);
 		params.put("location", location);
 		params.put("language", language);
+		//params.put("imageUrl", imageUrl);
 
 		client.get("http://jalees-bookclub.appspot.com/addbook", params,
 				new AsyncHttpResponseHandler() {

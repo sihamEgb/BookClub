@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="#BDBDBD">
+   
+   <RelativeLayout
+       android:layout_width="fill_parent"
+        android:background="#BDBDBD"
+       android:layout_height="127dp" >
+                  
+            <ImageView
+            android:id="@+id/homepage_meetings_edit_img"
+            android:layout_width="25dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/rel"
+            android:layout_alignTop="@+id/rel"
+            android:src="@drawable/ic_action_overflow" />
+   
+        <TextView 
+            android:id="@+id/meeting_date"
+            android:layout_width="270dp"
+            android:layout_height="20dp"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="3dp"
+            android:text="Date"/>
+        
+        <RelativeLayout
+            android:id="@+id/rel"
+            android:layout_width="270dp"
+            android:layout_height="123dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignLeft="@+id/meeting_date"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/meeting_date"
+            android:layout_marginLeft="20dp"
+            android:background="#FAFAFA" >
+        
+            <TextView 
+            android:id="@+id/meeting_hour"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:text="Hour"/>
+            
+            <TextView
+            android:id="@+id/meeting_club_name"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/meeting_hour"
+            android:text="Club Name" />
+
+                    
+            <TextView 
+            android:id="@+id/meeting_desc"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/meeting_club_name"
+            android:layout_alignLeft="@+id/meeting_club_name"
+            android:text="Description"/>
+          
+            <TextView 
+            android:id="@+id/meeting_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/meeting_desc"
+            android:layout_alignLeft="@+id/meeting_desc"
+            android:text="Location"/>
+          
+
+
+        
+        </RelativeLayout>
+        
+        
+        
+	</RelativeLayout>
+</LinearLayout>

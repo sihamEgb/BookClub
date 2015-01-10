@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="660dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.18" >
+
+        <EditText
+            android:id="@+id/homepage_addingbook_bookname"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/homepage_addingbook_bookauthor"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="Book Title"
+            android:inputType="text" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/homepage_addingbook_bookauthor"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/homepage_addingbook_language_text"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_addingbook_bookname"
+            android:ems="10"
+            android:hint="Book Author"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/homepage_addingbook_language_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_addingbook_bookauthor"
+            android:layout_marginTop="15dp"
+            android:text="Language"
+            android:textColor="#311B92" />
+
+        <Spinner
+            android:id="@+id/homepage_addingbook_language_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_addingbook_language_text" />
+
+        <TextView
+            android:id="@+id/homepage_addingbook_category_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_addingbook_language_spinner"
+            android:text="Category"
+            android:textColor="#311B92" />
+
+        <Spinner
+            android:id="@+id/homepage_addingbook_category_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_addingbook_category_text" />
+
+        <TextView
+            android:id="@+id/homepage_addingbook_location_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/homepage_addingbook_category_text"
+            android:layout_below="@+id/homepage_addingbook_category_spinner"
+            android:text="Location"
+            android:textColor="#311B92" />
+
+        <Spinner
+            android:id="@+id/homepage_addingbook_location_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_addingbook_location_text"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarSize="50dp" />
+    </RelativeLayout>
+
+</LinearLayout>

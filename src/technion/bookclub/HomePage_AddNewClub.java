@@ -21,6 +21,7 @@ public class HomePage_AddNewClub extends Activity {
 
 	EditText nameEditText;
 	EditText descEditText;
+	EditText imageUrlEditText;
 
 	// Spinner locationSpinner;
 	private AutoCompleteTextView autoCompleteLocation;
@@ -41,6 +42,7 @@ public class HomePage_AddNewClub extends Activity {
 		autoCompleteLocation.setAdapter(autoCompleteAdapter);
 		autoCompleteLocation.setThreshold(1);
 
+		imageUrlEditText = (EditText) findViewById(R.id.homepage_adding_club_imageUrl_text);
 		nameEditText = (EditText) findViewById(R.id.club_name);
 		descEditText = (EditText) findViewById(R.id.club_description);
 
@@ -106,9 +108,10 @@ public class HomePage_AddNewClub extends Activity {
 		String clubName = nameEditText.getText().toString().trim();
 		String clubDesc = descEditText.getText().toString().trim();
 		String clubLocation = autoCompleteLocation.getText().toString();
-		//TODO
-		String imageUrl = "http://www.viduman.com/dosya/default.jpg";
+		String imageUrl = imageUrlEditText.getText().toString();
 
+		if (imageUrl == "")
+			imageUrl = "http://www.viduman.com/dosya/default.jpg";
 
 		if (clubName == null || clubDesc == null || clubLocation == null) {
 			Toast toast = Toast.makeText(context, "Error Can Not Create Club",

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+     <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="290dp" 
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/homepage_books_card_background">
+
+           
+        <ImageView
+            android:id="@+id/club_img"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" 
+            android:scaleType="center"
+            android:src="@drawable/club_3" />
+
+        <ImageView
+            android:id="@+id/homepage_clubs_edit_img"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:cropToPadding="true"
+            android:src="@drawable/ic_action_overflow" />
+        <TextView
+            android:id="@+id/club_name"
+            android:textStyle="bold"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:layout_gravity="center_horizontal|bottom" 
+            android:padding="12dip"
+            android:background="#AA000000"
+            android:textColor="#ffffffff"
+            android:layout_alignParentLeft="true"
+            android:layout_above="@+id/club_mem_num"
+            android:text="HERE SHOULD APPEAR THE CLUB NAME " />
+        
+        <TextView 
+            android:id="@+id/club_mem_num"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            
+            android:layout_gravity="center_horizontal|bottom" 
+            android:padding="12dip"
+            android:background="#AA000000"
+            android:textColor="#ffffffff"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:text="Members Number"/>
+      <!---  
+         <TextView 
+            android:id="@+id/club_next_date"
+            android:layout_marginLeft="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_below="@id/club_mem_num"
+            android:text="17-07-2014"/> -->
+
+    </RelativeLayout>
+
+</LinearLayout>

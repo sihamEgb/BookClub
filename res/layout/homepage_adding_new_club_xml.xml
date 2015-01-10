@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="360dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp" >
+
+        <EditText
+            android:id="@+id/club_name"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="Choose a name for your club"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/adding_club_category_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/club_name"
+            android:layout_marginTop="14dp"
+            android:text="Category"
+            android:textColor="#311B92" />
+
+        <Spinner
+            android:id="@+id/homepage_adding_club_categories_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/adding_club_category_text" />
+
+        <TextView
+            android:id="@+id/adding_club_location_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_adding_club_categories_spinner"
+            android:text="Location"
+            android:textColor="#311B92" />
+
+        <Spinner
+            android:id="@+id/homepage_adding_club_location_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/adding_club_location_text" />
+
+        <EditText
+            android:id="@+id/club_description"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_adding_club_location_spinner"
+            android:ems="10"
+            android:hint="Insert club description"
+            android:inputType="textMultiLine" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/homepage_adding_club_imageUrl_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_adding_club_location_spinner"
+            android:text="Image url"
+            android:textColor="#311B92" />
+
+        <EditText
+            android:id="@+id/homepage_adding_club_imageUrl"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/homepage_adding_club_language_text"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homepage_adding_club_imageUrl_text"
+            android:ems="10"
+            android:hint="Image url for the book club"
+            android:inputType="textWebEmailAddress" />
+    </RelativeLayout>
+
+</LinearLayout>
