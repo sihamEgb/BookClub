@@ -80,28 +80,28 @@ public class BookSearchFragment extends Fragment {
 				// int duration = Toast.LENGTH_SHORT;
 				spinner.setVisibility(View.VISIBLE);
 
-				String bookTitle = titleQuery.getText().toString().trim();
-				String bookLanguage = languageSpinner.getSelectedItem()
+				final String bookTitle = titleQuery.getText().toString().trim();
+				final String bookLanguage = languageSpinner.getSelectedItem()
 						.toString();
-				String clubLocation = autoCompleteLocation.getText().toString();
+				final String clubLocation = autoCompleteLocation.getText().toString();
 
 				// TODO - change logica
 				if (clubLocation.equals("")) {
-					clubLocation = "Haifa";
+					//clubLocation = "Haifa";
 					// Toast toast = Toast.makeText(context,
 					// "Please choose a location from the list", duration);
 					// toast.show();
 
 				}
 				if (bookTitle.equals("")) {
-					bookTitle = "Frozen";
+					//bookTitle = "Frozen";
 					// Toast toast = Toast.makeText(context,
 					// "Please choose a location from the list", duration);
 					// toast.show();
 
 				}
 				if (bookLanguage.equals("")) {
-					bookLanguage = "Arabic";
+					//bookLanguage = "Arabic";
 					// Toast toast = Toast.makeText(context,
 					// "Please choose a location from the list", duration);
 					// toast.show();
@@ -125,7 +125,8 @@ public class BookSearchFragment extends Fragment {
 								System.out.println("sucees" + s);
 								spinner.setVisibility(View.GONE);
 
-								Fragment fragment = new BooksResultsFragment(s);
+								Fragment fragment = new BooksResultsFragment(s,
+										bookTitle, bookLanguage, clubLocation);
 								Bundle args = new Bundle();
 								fragment.setArguments(args);
 								FragmentManager fragmentManager = getFragmentManager();

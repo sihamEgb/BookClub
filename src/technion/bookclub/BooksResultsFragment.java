@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 /*
  * this is the listView fragment
@@ -20,8 +21,13 @@ public class BooksResultsFragment extends ListFragment {
 	BookListAdapter adapter;
 	private static String data;
 	
-	public BooksResultsFragment(String searchResult) {
+	private String title,language,location;
+	
+	public BooksResultsFragment(String searchResult, String title, String language, String location) {
 		data = searchResult;
+		this.title = title;
+		this.language = language;
+		this.location = location;
 	}
 
 	public BookListAdapter getAdapter() {
@@ -43,6 +49,10 @@ public class BooksResultsFragment extends ListFragment {
 
 		adapter = new BookListAdapter(getActivity(),data);
 
+		TextView v2 = (TextView) rootView.findViewById(
+				R.id.books_results_id);
+		v2.setText("Book title: "+title + " written in: "+language+" offered in: "+location);
+		
 		setListAdapter(adapter);
 
 		return rootView;

@@ -2,6 +2,8 @@ package technion.bookclub.entities;
 
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+
 public class Book {
 	private String bookId;
 	private String ownerId;
@@ -76,33 +78,15 @@ public class Book {
 		this.isAvailable = isAvailable;
 	}
 
-	@Override
-	public String toString() {
-		return "Book [bookId=" + bookId + ", ownerId=" + ownerId + ", title="
-				+ title + ", isAvailable=" + isAvailable + "]";
+	public String toJson() {
+		Gson gson = new Gson();
+		String json = gson.toJson(this);
+		return json;
 	}
 
-	public Book fromJson(JSONObject json) {
-
-		try {
-			this.setBookId(json.getString("bookId"));
-			this.setOwnerId(json.getString("ownerId"));
-			this.setTitle(json.getString("title"));
-			this.setAuthor(json.getString("author"));
-			this.setLocation(json.getString("location"));
-			this.setLanguage(json.getString("language"));
-			this.setImageUrl(json.getString("imageUrl"));
-			if (json.getString("isAvailable").equals("true"))
-				this.isAvailable = true;
-			else
-				this.isAvailable = false;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
-		return this;
+	public static Book constructFromJson(String json) {
+		Gson gson = new Gson();
+		return gson.fromJson(json, Book.class);
 	}
 
 }

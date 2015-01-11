@@ -63,7 +63,7 @@ public class ClubSearchFragment extends Fragment {
 				Context context = getActivity();
 				int duration = Toast.LENGTH_SHORT;
 
-				String clubLocation = autoCompleteLocation.getText().toString();
+				final String clubLocation = autoCompleteLocation.getText().toString();
 
 				if (clubLocation.equals("")) {
 					Toast toast = Toast.makeText(context,
@@ -87,7 +87,7 @@ public class ClubSearchFragment extends Fragment {
 
 									spinner.setVisibility(View.GONE);
 									Fragment fragment = new ClubsResultsFragment(
-											s);
+											s,clubLocation);
 									Bundle args = new Bundle();
 									fragment.setArguments(args);
 									FragmentManager fragmentManager = getFragmentManager();
@@ -106,18 +106,8 @@ public class ClubSearchFragment extends Fragment {
 									System.out.println(arg2);
 									System.out.println(arg3);
 
-									// TODO Auto-generated method stub
-
 								}
 
-								/*
-								 * @Override public void onFailure(int
-								 * statusCode, Header[] headers, byte[]
-								 * errorResponse, Throwable e) {
-								 * System.out.println("failure"+errorResponse);
-								 * 
-								 * }
-								 */
 							});
 
 				}

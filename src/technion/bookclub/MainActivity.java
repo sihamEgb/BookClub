@@ -38,9 +38,6 @@ public class MainActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		
-
 
 		mTitle = mDrawerTitle = getTitle();
 
@@ -147,6 +144,7 @@ public class MainActivity extends FragmentActivity {
 		switch (position) {
 
 		case 0:
+
 			currFragment = ClubSearchFragment.newInstance(0);
 			// fragment = new ClubSearchFragment();
 			System.out.println(position);
@@ -154,9 +152,10 @@ public class MainActivity extends FragmentActivity {
 			break;
 
 		case 1:
-			//currFragment = new HomePageFragment();
+
+			// currFragment = new HomePageFragment();
 			Intent HomePage_Intent = new Intent(this, HomePageActivity.class);
-			startActivityForResult(HomePage_Intent,0);
+			startActivityForResult(HomePage_Intent, 0);
 			return;
 		case 2:
 			currFragment = BookSearchFragment.newInstance(0);
@@ -164,25 +163,26 @@ public class MainActivity extends FragmentActivity {
 			System.out.println(position);
 			System.out.println(currFragment);
 			break;
-			
-		case 3:
-/*			Intent myIntent = new Intent(this, SplashFragment.class);
-			//myIntent.putExtra("key", value); //Optional parameters
-			startActivityForResult(myIntent,0);
-			return;	*/
-			
-			Intent myIntent = new Intent(this, ClubPageActivity.class);
-			//myIntent.putExtra("key", value); //Optional parameters
-			startActivityForResult(myIntent,0);
-			//for(int i=0; i<1000; i++){}
-			return;			
-			//break;
 
-		// case 2:
-		// fragment = new HomePage_ClubCreationFragment();
-		// System.out.println(position);
-		// System.out.println(currFragment);
-		// break;
+		case 3:
+			/*
+			 * Intent myIntent = new Intent(this, SplashFragment.class);
+			 * //myIntent.putExtra("key", value); //Optional parameters
+			 * startActivityForResult(myIntent,0); return;
+			 */
+
+			Intent myIntent = new Intent(this, ClubPageActivity.class);
+			// myIntent.putExtra("key", value); //Optional parameters
+			startActivityForResult(myIntent, 0);
+			// for(int i=0; i<1000; i++){}
+			return;
+			// break;
+
+			// case 2:
+			// fragment = new HomePage_ClubCreationFragment();
+			// System.out.println(position);
+			// System.out.println(currFragment);
+			// break;
 		default:
 			currFragment = PlanetFragment.newInstance(0);
 		}

@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.squareup.picasso.Picasso;
+
 import technion.bookclub.entities.Book;
+import technion.bookclub.entities.Club;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class BookListAdapter extends BaseAdapter {
@@ -55,6 +59,7 @@ public class BookListAdapter extends BaseAdapter {
 			holder.title = (TextView) view.findViewById(R.id.title);
 			holder.language = (TextView) view.findViewById(R.id.language);
 			holder.location = (TextView) view.findViewById(R.id.location);
+			holder.img = (ImageView) view.findViewById(R.id.img);
 
 			view.setTag(holder);
 
@@ -66,6 +71,8 @@ public class BookListAdapter extends BaseAdapter {
 		holder.title.setText(books.get(position).getTitle());
 		holder.location.setText(books.get(position).getLocation());
 		holder.language.setText(books.get(position).getLanguage());
+		Picasso.with(context).load(books.get(position).getImageUrl())
+		.resize(50, 50).centerCrop().into(holder.img);
 
 		return view;
 	}
@@ -74,6 +81,7 @@ public class BookListAdapter extends BaseAdapter {
 		public TextView title;
 		public TextView location;
 		public TextView language;
+		public ImageView img;
 
 	}
 
@@ -89,8 +97,9 @@ public class BookListAdapter extends BaseAdapter {
 			for (int i = 0; i < numOfItems; i++) {
 				Book newBook = new Book();
 				json = jsonArr.getJSONObject(i);
-				newBook.setTitle(json.getString("title"));
+				newBook = Book.constructFromJson(json.toString());
 				books.add(newBook);
+
 			}
 			// return results;
 		} catch (Exception e) {
