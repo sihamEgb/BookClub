@@ -2,22 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:padding= "5dp"
     android:layout_marginTop="10dp"
-    android:orientation="vertical"
-    android:padding="20dip" >
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/text3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Search results:"
+        android:text="Book clubs in Haifa"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:cacheColorHint="#00000000"
+        android:padding="3dp"
         android:listSelector="#b0b0b0" >
     </ListView>
 

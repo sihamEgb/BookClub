@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import technion.bookclub.entities.Book;
-import technion.bookclub.entities.Club;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -54,8 +53,8 @@ public class BookListAdapter extends BaseAdapter {
 
 			holder = new ViewHolder();
 			holder.title = (TextView) view.findViewById(R.id.title);
-			// holder.location = (TextView) view.findViewById(R.id.location);
-			// holder.language = (TextView) view.findViewById(R.id.language);
+			holder.language = (TextView) view.findViewById(R.id.language);
+			holder.location = (TextView) view.findViewById(R.id.location);
 
 			view.setTag(holder);
 
@@ -65,16 +64,16 @@ public class BookListAdapter extends BaseAdapter {
 		}
 
 		holder.title.setText(books.get(position).getTitle());
-		// holder.location.setText(books.get(position).getLocation());
-		// holder.language.setText(books.get(position).getLanguage());
+		holder.location.setText(books.get(position).getLocation());
+		holder.language.setText(books.get(position).getLanguage());
 
 		return view;
 	}
 
 	private class ViewHolder {
 		public TextView title;
-		// public TextView location;
-		// public TextView language;
+		public TextView location;
+		public TextView language;
 
 	}
 
