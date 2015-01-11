@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.PopupMenu;
@@ -229,10 +230,9 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 
 		@Override
 		public void onClick(View v) {
-
-			//v.animate().translationZ(1.5f).start();
-            Toast.makeText(context, "CLICK SHOULD REDIRECT TO ADD NEW BOOK SCREEN", Toast.LENGTH_SHORT).show();
-
+            //Toast.makeText(context, "CLICK SHOULD REDIRECT TO ADD NEW BOOK SCREEN", Toast.LENGTH_SHORT).show();
+			Intent i = new Intent(context, HomePage_AddNewBook.class);
+			context.startActivity(i);
 		}
 		
 	}

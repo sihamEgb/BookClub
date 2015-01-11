@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
@@ -187,8 +188,9 @@ public class HomePageClubsListAdapter extends BaseAdapter{
 
 		@Override
 		public void onClick(View v) {
-            Toast.makeText(context, "CLICK SHOULD REDIRECT TO ADD NEW CLUB SCREEN", Toast.LENGTH_SHORT).show();
-
+           // Toast.makeText(context, "CLICK SHOULD REDIRECT TO ADD NEW CLUB SCREEN", Toast.LENGTH_SHORT).show();
+			Intent i = new Intent(context, HomePage_AddNewClub.class);
+			context.startActivity(i);
 		}
 		
 	}

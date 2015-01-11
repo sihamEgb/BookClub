@@ -147,15 +147,17 @@ public class MainActivity extends FragmentActivity {
 		switch (position) {
 
 		case 0:
-			currFragment = new HomePageFragment();
-			break;
-
-		case 1:
 			currFragment = ClubSearchFragment.newInstance(0);
 			// fragment = new ClubSearchFragment();
 			System.out.println(position);
 			System.out.println(currFragment);
 			break;
+
+		case 1:
+			//currFragment = new HomePageFragment();
+			Intent HomePage_Intent = new Intent(this, HomePageActivity.class);
+			startActivityForResult(HomePage_Intent,0);
+			return;
 		case 2:
 			currFragment = BookSearchFragment.newInstance(0);
 			// fragment = new ClubSearchFragment();
