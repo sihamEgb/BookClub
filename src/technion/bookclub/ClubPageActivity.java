@@ -52,6 +52,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public String description;
 	public String memeberNum;
 	public String imageURL;
+	public String clubId;
 	
 	
 	@Override
@@ -66,6 +67,7 @@ public class ClubPageActivity extends FragmentActivity {
 		description=b.getString("description");
 		memeberNum=b.getString("memeberNum");
 		imageURL=b.getString("imageUrl");
+		clubId=b.getString("clubId");
 		
 		
 		 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -119,8 +121,18 @@ public class ClubPageActivity extends FragmentActivity {
 				});
 		}
 	}
+	
+	
 
 	public void getParticipants(View view) {
+		 FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//		setTitle("Next Meeting");
+		MembersPageActivity fragment =new MembersPageActivity(clubId);
+		
+		fragmentTransaction.replace(R.id.Club_Act, fragment);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();				
 	}	
 	
 ///////////////////////////////// Next Meeting /////////////////////////////////////

@@ -16,9 +16,11 @@ import com.loopj.android.http.RequestParams;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,35 +29,50 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MembersPageActivity extends ListActivity {
+public class MembersPageActivity extends ListFragment {
 
 	ListView myListView;
 	UserListAdapter adapter;
 	private static String data;
 	private String name;
 	private Context context;
-
-	
+	public View view;
+	public String clubId;
 
 	public UserListAdapter getAdapter() {
 		return adapter;
 	}
+	
+	
+	public MembersPageActivity(String clubId) {
+		this.clubId=clubId;
+		// Required empty public constructor
+	}
+
+	// Store instance variables based on arguments passed
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		//data = searchResult;
-		//name = clubName;
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 
-		context = this;
-		setContentView(R.layout.members_activity);
+		view = inflater.inflate(R.layout.members_activity, container, false);
 
-		Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+		//adapter = new ClubListAdapter(getActivity(), data);
+
+		//setListAdapter(adapter);
+
+		context = view.getContext();
+//		setContentView(R.layout.members_activity);
+
+//		Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
 
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
-		params.put("clubId", "6205504040730624");
+		params.put("clubId", clubId);
 
 		client.get("http://jalees-bookclub.appspot.com/getmembers", params,
 				new AsyncHttpResponseHandler() {
@@ -66,7 +83,7 @@ public class MembersPageActivity extends ListActivity {
 						String s = new String(response);
 						System.out.println("sucees" + s);
 						adapter = new UserListAdapter(context, s);
-						TextView v2 = (TextView) findViewById(R.id.members_results_id);
+						TextView v2 = (TextView) view.findViewById(R.id.members_results_id);
 						v2.setText("Members in this club:");
 						
 						setListAdapter(adapter);
@@ -79,9 +96,9 @@ public class MembersPageActivity extends ListActivity {
 					}
 
 				});
-
-		
-
+		return view;
 	}
+
+
 
 }
