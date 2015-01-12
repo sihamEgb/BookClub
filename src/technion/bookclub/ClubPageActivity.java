@@ -47,6 +47,8 @@ public class ClubPageActivity extends FragmentActivity {
 
 		setContentView(R.layout.club_activity);
 		
+		Bundle b = getIntent().getExtras();
+		String name = b.getString("name");
 
 		 FragmentManager fragmentManager = getSupportFragmentManager();
 		 ClubPageFragment fragment =new ClubPageFragment();

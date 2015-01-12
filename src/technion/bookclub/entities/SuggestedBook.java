@@ -1,46 +1,46 @@
 package technion.bookclub.entities;
 
-public class SuggestedBook implements Comparable<SuggestedBook>{
-	 
-	private String bookName;
-	private String bookDesc;
-	private int votes;
- 
-	public SuggestedBook(String bookName, String bookDesc, int votes) {
-		super();
-		this.bookName = bookName;
-		this.bookDesc = bookDesc;
-		this.votes = votes;
+import java.util.Set;
+
+import com.google.gson.Gson;
+
+public class SuggestedBook {
+	private String suggestedBookId;
+	private String title;
+	// private String goodReadsUrl;
+	private Number numOfLikes;
+	private String clubId;
+
+	// private Set<String> usersId;
+
+	
+
+	public String getSuggestedBookId() {
+		return suggestedBookId;
 	}
- 
-	public String getBookName() {
-		return bookName;
+
+	public void setSuggestedBookId(String suggestedBookId) {
+		this.suggestedBookId = suggestedBookId;
 	}
-	public void setBookName(String bookName) {
-		this.bookName = bookName;
+
+	public String toJson() {
+		Gson gson = new Gson();
+		String json = gson.toJson(this);
+		return json;
 	}
-	public String getBookDesc() {
-		return bookDesc;
+
+	public static SuggestedBook constructFromJson(String json) {
+		Gson gson = new Gson();
+		return gson.fromJson(json, SuggestedBook.class);
 	}
-	public void setBookDesc(String bookDesc) {
-		this.bookDesc = bookDesc;
-	}
-	public int getVotes() {
-		return votes;
-	}
-	public void addVote() {
-		this.votes++;
-	}
- 
-	public int compareTo(SuggestedBook book) {
- 
-		int numberOfVotes = ((SuggestedBook) book).getVotes(); 
- 
-		//ascending order
-		//return this.votes - numberOfVotes;
- 
-		//descending order
-		return numberOfVotes - this.votes;
- 
-	}	
+
+	/*
+	 * public boolean addLike(String userId) { if (usersId.contains(userId) ==
+	 * true) return false; numOfLikes++; usersId.add(userId); return true; }
+	 * 
+	 * public boolean removeLike(String userId) { if (usersId.contains(userId)
+	 * == false) return false; numOfLikes--; usersId.remove(userId); return
+	 * true; }
+	 */
+
 }

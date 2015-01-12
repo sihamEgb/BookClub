@@ -7,21 +7,20 @@ public class Meeting {
 	private String date;
 	private Set<String> participants;
 
+	public String getBook() {
+		return book;
+	}
 
-public String getBook() {
-	return book;
-}
+	public String getDate() {
+		return date;
+	}
 
-public String getDate() {
-	return date;
-}
+	public Integer getParticipantsNumber() {
+		return participants.size();
+	}
 
-public Integer getParticipantsNumber() {
-	return participants.size();
-}
-
-public void addParticipant(String participant) {
-	participants.add(participant);
-}
+	public void addParticipant(String participant) {
+		participants.add(participant);
+	}
 
 }

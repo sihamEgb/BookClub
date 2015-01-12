@@ -1,12 +1,17 @@
 package technion.bookclub;
 
+import technion.bookclub.entities.Club;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ClubsResultsFragment extends ListFragment {
 	ListView myListView;
@@ -35,13 +40,64 @@ public class ClubsResultsFragment extends ListFragment {
 
 		View v = inflater.inflate(R.layout.clubs_results, container, false);
 
-		TextView v2 = (TextView) v.findViewById(
-				R.id.club_results_id);
+		TextView v2 = (TextView) v.findViewById(R.id.club_results_id);
 		v2.setText("Book clubs in:" + location);
 		adapter = new ClubListAdapter(getActivity(), data);
 
+		// ListView listView = (ListView) findViewById(R.id.lvItems);
+		// listView.setAdapter(itemsAdapter);
+
 		setListAdapter(adapter);
+		// onListItemClick(this);
+
 		return v;
 	}
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		// Do your stuff..
+			
+		Club myClub = (Club) adapter.getItem(position);
+		Intent in = new Intent(getActivity().getApplicationContext(),
+                ClubPageActivity.class);
+        in.putExtra("clubId", myClub.getClubId());
+        in.putExtra("adminId", myClub.getAdminId());
+        in.putExtra("name", myClub.getName());
+        in.putExtra("location", myClub.getLocation());
+        in.putExtra("description", myClub.getDescription());
+        in.putExtra("imageUrl", myClub.getImageUrl());
+        in.putExtra("memeberNum", myClub.getMemeberNum());        
+        startActivity(in);
+        
+      		//Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
+
+	}
+	/*
+	 * 
+	 *   
+            String contenido = ((TextView) v.findViewById(R.id.content))
+            .getText().toString();
+            String fecha = ((TextView) v.findViewById(R.id.date))
+                    .getText().toString();
+
+            // Starting new detail
+            
+
+
+	 * @Override public void onItemClick(AdapterView<?> arg0, View arg1, int
+	 * arg2, long arg3) { // TODO Auto-generated method stub
+	 * 
+	 * // get selected items // String selectedValue = (String)
+	 * getListAdapter().getItem(position); Toast toast =
+	 * 
+	 * 
+	 * 
+	 * Context context = getApplicationContext(); CharSequence text =
+	 * "Hello toast!"; int duration = Toast.LENGTH_SHORT;
+	 * 
+	 * Toast toast = Toast.makeText(context, text, duration); toast.show();
+	 */
+	// this, "hello club", Toast.LENGTH_SHORT
+	// }
 
 }
