@@ -8,13 +8,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-        
 
         <TextView
             android:id="@+id/Book_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:text="Book:"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -24,14 +24,12 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.30"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/Book_Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="22dp"
                 android:layout_marginTop="20dp"
                 android:text="The Prince"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -40,13 +38,10 @@
                 android:id="@+id/Book_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="22dp"
                 android:text="Classic book that..."
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="14sp" />
-
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -59,53 +54,88 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="22dp"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
             android:text="Location:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/Edit_Location"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:ems="10" >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-            <requestFocus />
-        </EditText>
+            <EditText
+                android:id="@+id/Edit_Location"
+                android:layout_width="fill_parent"
+                android:layout_height="29dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:ems="10"
+                android:freezesText="true"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:text="Haifa" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="71dp" >
+            android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/Date:"
+                android:id="@+id/Date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="22dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="20dp"
-                android:text="Date"
+                android:text="Date:"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/Edit_Date"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="date" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="20dp"
+                    android:gravity="bottom"
+                    android:inputType="date"
+                    android:text="1/2/2015" />
+
+                <EditText
+                    android:id="@+id/Edit_Date"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="date"
+                    android:visibility="invisible" />
+            </RelativeLayout>
         </LinearLayout>
-    </LinearLayout>
+
+   
 
     <TextView
         android:id="@+id/Participants"
@@ -127,7 +157,7 @@
         android:onClick="joinMeeting"
         android:text="@string/Join_Us"
         android:textSize="12sp" />
-    
+
     <Button
         android:id="@+id/Edit_Meeting"
         android:layout_width="fill_parent"
@@ -136,4 +166,5 @@
         android:onClick="editMeeting"
         android:text="Edit"
         android:textSize="12sp" />
+
 </LinearLayout>

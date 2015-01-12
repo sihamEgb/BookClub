@@ -49,11 +49,11 @@ public class MembersPageActivity extends ListFragment {
 		// Required empty public constructor
 	}
 
-	// Store instance variables based on arguments passed
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+//	// Store instance variables based on arguments passed
+//	@Override
+//	public void onCreate(Bundle savedInstanceState) {
+//		super.onCreate(savedInstanceState);
+//	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
