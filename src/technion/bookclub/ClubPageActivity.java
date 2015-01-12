@@ -45,6 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ClubPageActivity extends FragmentActivity {
+	public View currentView;
 	public int selectedBook=0;
 	public int suggestedBooks=2;
 	public Club club;
@@ -52,7 +53,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public String description;
 	public String memeberNum;
 	public String imageURL;
-	public String clubId;
+	public String clubId="5795051464556544";
 	public Bundle b;
 	
 	
@@ -87,6 +88,7 @@ public class ClubPageActivity extends FragmentActivity {
 	}
 	
 	public void joinClub(View view) {
+		currentView=view;
 		if (!isLoggedIn()){
 			//if(isSessionValid()){
 			Intent myIntent = new Intent(this, SplashFragment.class);
@@ -94,23 +96,25 @@ public class ClubPageActivity extends FragmentActivity {
 			startActivityForResult(myIntent,0);
 			//}
 		} else{
-			
+//			((Button)currentView).h;
 			AsyncHttpClient client = new AsyncHttpClient();
 		     RequestParams params = new RequestParams();
 		     //TODO get user id
+//		     params.put("clubId", "5795051464556544");
 		     params.put("clubId", clubId);
-		     params.put("userId", "45464646");
+		     params.put("userId", "4859722209427456");
 		     params.put("op", "join");
 		     client.get("http://jalees-bookclub.appspot.com/joinclub",params, new AsyncHttpResponseHandler() {
 
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {
+						System.out.println(response.toString());
 						memeberNum=b.getString("memeberNum");
-						TextView memebers=(TextView)findViewById(R.id.participants_num);
-						memebers.setText(memeberNum);
-						Button button=(Button)findViewById(R.id.Join_Club);
-						button.setVisibility(2);
+//						TextView memebers=(TextView)currentView.findViewById(R.id.participants_num);
+//						memebers.setText(memeberNum);
+//						Button button=(Button)currentView.findViewById(R.id.Join_Club);
+						((Button)currentView).setVisibility(1);
 					}
 
 					@Override
