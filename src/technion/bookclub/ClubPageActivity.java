@@ -53,6 +53,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public String memeberNum;
 	public String imageURL;
 	public String clubId;
+	public Bundle b;
 	
 	
 	@Override
@@ -61,7 +62,7 @@ public class ClubPageActivity extends FragmentActivity {
 
 		setContentView(R.layout.club_activity);
 		
-		Bundle b = getIntent().getExtras();
+		b = getIntent().getExtras();
 		String name = b.getString("name");
 		setTitle(name);
 		description=b.getString("description");
@@ -93,27 +94,29 @@ public class ClubPageActivity extends FragmentActivity {
 			startActivityForResult(myIntent,0);
 			//}
 		} else{
+			
 			AsyncHttpClient client = new AsyncHttpClient();
 		     RequestParams params = new RequestParams();
 		     //TODO get user id
-		     params.put("clubId", "6205504040730624");
-		     params.put("userId", "111");
+		     params.put("clubId", clubId);
+		     params.put("userId", "45464646");
 		     params.put("op", "join");
 		     client.get("http://jalees-bookclub.appspot.com/joinclub",params, new AsyncHttpResponseHandler() {
 
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {
-						//Button button=(Button)findViewById(R.id.Join_Club);
-						//button.setVisibility(2);
+						memeberNum=b.getString("memeberNum");
+						TextView memebers=(TextView)findViewById(R.id.participants_num);
+						memebers.setText(memeberNum);
+						Button button=(Button)findViewById(R.id.Join_Club);
+						button.setVisibility(2);
 					}
 
 					@Override
 					public void onFailure(int arg0, Header[] arg1,
 							byte[] arg2, Throwable arg3) {
-						//Button button=(Button)findViewById(R.id.Join_Club);
-					//	button.setVisibility(2);
-						//System.out.println("failed");
+						System.out.println("failed");
 						// TODO Auto-generated method stub
 
 					}
