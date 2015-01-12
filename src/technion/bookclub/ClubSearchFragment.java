@@ -76,6 +76,7 @@ public class ClubSearchFragment extends Fragment {
 					RequestParams params = new RequestParams();
 					params.put("location", clubLocation);
 
+					
 					client.get("http://jalees-bookclub.appspot.com/searchclub",
 							params, new AsyncHttpResponseHandler() {
 

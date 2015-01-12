@@ -66,6 +66,10 @@
             android:name="BookPageActivity"
             android:label="Book Page"
             android:parentActivityName="technion.bookclub.BookListAdapter" />
+        <activity
+            android:name="MembersPageActivity"
+            android:label="Members"
+            android:parentActivityName="technion.bookclub.MainActivity" />
 
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
