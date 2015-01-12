@@ -44,11 +44,7 @@ public class ClubsResultsFragment extends ListFragment {
 		v2.setText("Book clubs in:" + location);
 		adapter = new ClubListAdapter(getActivity(), data);
 
-		// ListView listView = (ListView) findViewById(R.id.lvItems);
-		// listView.setAdapter(itemsAdapter);
-
 		setListAdapter(adapter);
-		// onListItemClick(this);
 
 		return v;
 	}
@@ -56,48 +52,21 @@ public class ClubsResultsFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// Do your stuff..
-			
+
 		Club myClub = (Club) adapter.getItem(position);
 		Intent in = new Intent(getActivity().getApplicationContext(),
-                ClubPageActivity.class);
-        in.putExtra("clubId", myClub.getClubId());
-        in.putExtra("adminId", myClub.getAdminId());
-        in.putExtra("name", myClub.getName());
-        in.putExtra("location", myClub.getLocation());
-        in.putExtra("description", myClub.getDescription());
-        in.putExtra("imageUrl", myClub.getImageUrl());
-        in.putExtra("memeberNum", myClub.getMemeberNum());        
-        startActivity(in);
-        
-      		//Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
+				ClubPageActivity.class);
+		in.putExtra("clubId", myClub.getClubId());
+		in.putExtra("adminId", myClub.getAdminId());
+		in.putExtra("name", myClub.getName());
+		in.putExtra("location", myClub.getLocation());
+		in.putExtra("description", myClub.getDescription());
+		in.putExtra("imageUrl", myClub.getImageUrl());
+		in.putExtra("memeberNum", myClub.getMemeberNum());
+		startActivity(in);
+
+		// Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
 
 	}
-	/*
-	 * 
-	 *   
-            String contenido = ((TextView) v.findViewById(R.id.content))
-            .getText().toString();
-            String fecha = ((TextView) v.findViewById(R.id.date))
-                    .getText().toString();
-
-            // Starting new detail
-            
-
-
-	 * @Override public void onItemClick(AdapterView<?> arg0, View arg1, int
-	 * arg2, long arg3) { // TODO Auto-generated method stub
-	 * 
-	 * // get selected items // String selectedValue = (String)
-	 * getListAdapter().getItem(position); Toast toast =
-	 * 
-	 * 
-	 * 
-	 * Context context = getApplicationContext(); CharSequence text =
-	 * "Hello toast!"; int duration = Toast.LENGTH_SHORT;
-	 * 
-	 * Toast toast = Toast.makeText(context, text, duration); toast.show();
-	 */
-	// this, "hello club", Toast.LENGTH_SHORT
-	// }
 
 }
