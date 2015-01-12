@@ -8,6 +8,7 @@
  
        	  <RadioGroup  
  	           android:id="@+id/suggusted_books_radio_group"  
+ 	           
  			   android:layout_width="fill_parent"
  			   android:layout_height="wrap_content"
  			   android:orientation="vertical">

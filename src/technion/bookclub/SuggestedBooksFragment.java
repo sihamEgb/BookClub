@@ -21,7 +21,6 @@ public class SuggestedBooksFragment extends Fragment {
 	//int suggestedBooks=0;
 
 	public SuggestedBooksFragment() {
-		// Required empty public constructor
 	}
 
 	@Override

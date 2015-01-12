@@ -11,6 +11,7 @@
    	 	android:scaleType="fitXY"
    	 	android:src="@drawable/club2"/>
 
+    
        		  <TextView
        		      android:id="@+id/Club_Name"
        		      android:layout_width="wrap_content"
@@ -19,7 +20,7 @@
        		      android:layout_alignParentLeft="true"
        		      android:layout_marginBottom="16dp"
        		      android:layout_marginLeft="22dp"
-       		      android:text="@string/app_name"
+       		      android:text=" "
        		      android:textSize="20sp"
        		      android:textStyle="bold" />
 
@@ -40,7 +41,7 @@
        		      android:layout_height="wrap_content"
        		      android:layout_alignLeft="@+id/Club_Info_Title"
        		      android:layout_below="@+id/Club_Info_Title"
-       		      android:text="group of pensioner women who read classic literature"
+       		      android:editable="true"
        		      android:textSize="12sp" />
        		  
        		  <Button style="?android:buttonBarButtonStyle"
@@ -62,7 +63,6 @@
         			android:layout_height="wrap_content"
         			android:layout_alignLeft="@+id/Club_Members"
         			android:layout_below="@+id/Club_Members"
-        			android:text="4"
         			android:textSize="12sp" />
        		      
        		  <Button style="?android:buttonBarButtonStyle"
