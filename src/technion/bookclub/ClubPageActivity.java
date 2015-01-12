@@ -98,8 +98,8 @@ public class ClubPageActivity extends FragmentActivity {
 			AsyncHttpClient client = new AsyncHttpClient();
 		     RequestParams params = new RequestParams();
 		     //TODO get user id
-		     params.put("clubId", clubId);
-		     params.put("userId", "45464646");
+		     params.put("clubId", "5795051464556544");
+		     params.put("userId", "4859722209427456");
 		     params.put("op", "join");
 		     client.get("http://jalees-bookclub.appspot.com/joinclub",params, new AsyncHttpResponseHandler() {
 
