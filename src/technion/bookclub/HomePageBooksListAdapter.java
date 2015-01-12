@@ -2,6 +2,16 @@ package technion.bookclub;
 
 import java.util.ArrayList;
 
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import technion.bookclub.entities.Book;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +19,9 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,17 +33,45 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomePageBooksListAdapter extends BaseAdapter{
-
+	private Context context;
+    private ArrayList<Book> books ;//= new ArrayList<Book>();
+    
+	private void BuildBooksListFromJson(String result) {
+		Book first_item = new Book();
+		first_item.setAuthor("");
+		first_item.setTitle("Add Book");
+		books.add(first_item);
+		try {
+			JSONObject obj = new JSONObject(result);
+			JSONArray jsonArr = new JSONArray(obj.getString("results"));
+			int numOfItems = jsonArr.length();
+			JSONObject json;
+			for (int i = 0; i < numOfItems; i++) {
+				Book newBook = new Book();
+				json = jsonArr.getJSONObject(i);
+				newBook = Book.constructFromJson(json.toString());
+				books.add(newBook);
+			}
+			// return results;
+		} catch (Exception e) {
+			System.out.println("homepage books adapter error : getting books from string FAILED");
+			//e.printStackTrace();
+		}
+	}
+	
 	private Book getBook(int position){
 		//TODO: HANDLE POSITION==0 - IT IS THE ELEMENT TO REDIRECT TO ADDING NEW BOOK PAGE
 		return books.get(position);
 	}
 	
-	private String firstListItemTitle = "Add A New Book";
+	
+
 /*****************************************************************************************************/	
 /***************************************SHOULD BE DELTED************************************************/	
 /*****************************************************************************************************/	
 	
+	//private String firstListItemTitle = "Add A New Book";
+/*	
 	String[] titles={"GOLDFINCH","POLICE","ONE SUMMER",
 			          "WELL TEMPERED HEART","CUCKOO'S CALLING","TWELVE YEARS A SLAVE (TIE-IN)","HEIST",
 			          "GOLDFINCH","POLICE","ONE SUMMER",
@@ -42,7 +83,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 	
 	String[] pics={"b1","b2","b3","b4",
 			       "b5","b6","b7","b1",
-			       "b1","b2","b3","b4"};
+			       "b1","b2","b3","b4"};	
 	private class Book{
 		public String book_title;
 		public String book_author;
@@ -100,8 +141,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 	        
         }
     }
-    
-    private ArrayList<Book> books = new ArrayList<Book>();
+ */   
 
 /*****************************************************************************************************/	
 /*****************************************************************************************************/	
@@ -111,16 +151,13 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 		public TextView book_author;
 	    public ImageView book_pic;
 	}
-	
-	
-	private Context context;
-  
-
-    
-    public HomePageBooksListAdapter(Context con){
+	  
+    public HomePageBooksListAdapter(Context con,String booksDataString){
     	super();
     	context = con;
-    	buildBooks();
+        books = new ArrayList<Book>();
+    	BuildBooksListFromJson(booksDataString);
+    	//buildBooks();
     }
 	@Override
 	public int getCount() {
@@ -148,9 +185,10 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 		overflowClickListener l = new overflowClickListener();
 		((ImageView)view.findViewById(R.id.homepage_edit_img)).setOnClickListener(l);
 		view.setTag(holder);
-		holder.book_title.setText(book.book_title);
-		holder.book_author.setText(book.book_author);
-		holder.book_pic.setImageDrawable(book.book_pic);
+		holder.book_title.setText(book.getTitle());
+		holder.book_author.setText(book.getAuthor());
+		//TODO: CHANGE THIS LINE AND TAKE IMAGE FROM BOOK.URL
+		holder.book_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.gray_book_group));
 		if(position==0){
 			((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.GONE);
 		    firstListItemListener first_item_l = new firstListItemListener();
@@ -194,9 +232,10 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 		}
 		
 		Book book = getBook(position);
-		holder.book_title.setText(book.book_title);
-		holder.book_author.setText(book.book_author);
-		holder.book_pic.setImageDrawable(book.book_pic);
+		holder.book_title.setText(book.getTitle());
+		holder.book_author.setText(book.getAuthor());
+		//TODO: CHANGE THIS LINE AND TAKE IMAGE FROM BOOK.URL
+		holder.book_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.gray_book_group));
 		if(position==0){
 			((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.GONE);
 			firstListItemListener first_item_l = new firstListItemListener();

@@ -2,6 +2,12 @@ package technion.bookclub;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import technion.bookclub.entities.Book;
+import technion.bookclub.entities.Club;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,10 +28,36 @@ import android.widget.Toast;
 
 public class HomePageClubsListAdapter extends BaseAdapter{
 	
+	private ArrayList<Club> clubs;
+	
+    
+	private void BuildClubsListFromJson(String result) {
+		Club first_item = new Club();
+		first_item.setMemeberNum("");
+		first_item.setName("Create Club");
+		clubs.add(first_item);
+		try {
+			JSONObject obj = new JSONObject(result);
+			JSONArray jsonArr = new JSONArray(obj.getString("results"));
+			int numOfItems = jsonArr.length();
+			JSONObject json;
+			for (int i = 0; i < numOfItems; i++) {
+				Club newBook = new Club();
+				json = jsonArr.getJSONObject(i);
+				newBook = Club.constructFromJson(json.toString());
+				clubs.add(newBook);
+			}
+			// return results;
+		} catch (Exception e) {
+			System.out.println("homepageclubs adapter error :getting Clubs from string FAILED");
+			//e.printStackTrace();
+		}
+	}
+	
 /**********************************************************************************/	
 /******************************SHOULD BE DELETED***********************************/	
 /**********************************************************************************/	
-	private class Club{
+/*	private class Club{
 		public String club_name;
 		public String club_members_num;
 		public String next_meeting_date;
@@ -52,7 +84,7 @@ public class HomePageClubsListAdapter extends BaseAdapter{
 	        clubs.add(new Club(resources.getDrawable(R.drawable.club_3),"Club Number"+i,String.valueOf(i+5)+" members","next meeting: Friday 2/12/2014 5:00pm"));
         }
     }
- 
+ */
 /**********************************************************************************/	
 /**********************************************************************************/	
 /**********************************************************************************/	
@@ -73,10 +105,12 @@ public class HomePageClubsListAdapter extends BaseAdapter{
  
 
     
-    public HomePageClubsListAdapter(Context con){
+    public HomePageClubsListAdapter(Context con,String clubsDataString){
     	super();
     	context = con;
-    	buildClubs();
+    	clubs = new ArrayList<Club>();
+    	BuildClubsListFromJson(clubsDataString);
+    	//buildClubs();
     }
 	@Override
 	public int getCount() {
@@ -105,10 +139,11 @@ public class HomePageClubsListAdapter extends BaseAdapter{
 		overflowClickListener l = new overflowClickListener();
 		((ImageView)view.findViewById(R.id.homepage_clubs_edit_img)).setOnClickListener(l);
 		view.setTag(holder);
-		holder.name.setText(club.club_name);
-		holder.members_num.setText(club.club_members_num);
+		holder.name.setText(club.getName());
+		holder.members_num.setText(club.getMemeberNum());
 		//holder.meeting_date.setText(club.next_meeting_date);
-		holder.pic.setImageDrawable(club.club_pic);
+		//TODO: GET IMAGE FROM URL
+		holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.club_3));
 		if(position==0){
 			((ImageView)view.findViewById(R.id.homepage_clubs_edit_img)).setVisibility(View.GONE);
 		    firstListItemListener first_item_l = new firstListItemListener();
@@ -151,10 +186,11 @@ public class HomePageClubsListAdapter extends BaseAdapter{
 		}
 		
 		Club club = getClub(position);
-		holder.name.setText(club.club_name);
-		holder.members_num.setText(club.club_members_num);
+		holder.name.setText(club.getName());
+		holder.members_num.setText(club.getMemeberNum());
 		//holder.meeting_date.setText(club.next_meeting_date);
-		holder.pic.setImageDrawable(club.club_pic);
+		//TODO: GET IMAGE FROM URL
+		holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.club_3));
 		
 		if(position==0){
 			((ImageView)view.findViewById(R.id.homepage_clubs_edit_img)).setVisibility(View.GONE);
