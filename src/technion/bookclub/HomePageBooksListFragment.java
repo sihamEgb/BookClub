@@ -13,7 +13,7 @@ public class HomePageBooksListFragment extends ListFragment{
 	private HomePageBooksListAdapter listAdapter;
 	//String[] options = {"Edit","Delete","Set As not Available"};
 	String[] menuItems = {"Edit","Delete","Mark As Available"};
-    private String userBooksString="";
+    private String userBooksString;
     private String user_id="6583832140578816";
     
 	@Override
@@ -21,8 +21,8 @@ public class HomePageBooksListFragment extends ListFragment{
         super.onCreate(savedInstanceState);
         
         getUserBooksListFromServer();
-        listAdapter = new HomePageBooksListAdapter(getActivity(),userBooksString);
-		setListAdapter(listAdapter);
+       // listAdapter = new HomePageBooksListAdapter(getActivity(),userBooksString);
+		//setListAdapter(listAdapter);
 		//getListView().setDivider(null);
 		//this.getListView().setDividerHeight(0);// getListView().setDividerHeight(10); 
     }
@@ -46,9 +46,10 @@ public class HomePageBooksListFragment extends ListFragment{
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {
-						String s = new String(response);
-						userBooksString=s;
-						System.out.println("SUCCESS - GETTING USER BOOKS FROM SERVER" + s);
+						userBooksString=new String(response);
+						System.out.println("SUCCESS - GETTING USER BOOKS FROM SERVER" + userBooksString);
+
+						setListAdapter(new HomePageBooksListAdapter(getActivity(),userBooksString));
 					}
 
 					@Override

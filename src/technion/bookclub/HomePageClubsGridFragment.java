@@ -27,11 +27,11 @@ public class HomePageClubsGridFragment extends Fragment{
 		//return inflater.inflate(R.layout.homepage_clubs_fragment_xml, container, false); 
 		
 		//return super.onCreateView(inflater, container, savedInstanceState);
-		
+		context = getActivity();
 		View view = inflater.inflate(R.layout.homepage_clubs_fragment_xml, container, false);
 		gView = (GridView)view.findViewById(R.id.homepage_clubs_gridview);
 		getUserClubsListFromServer();
-		context = getActivity();
+		
 		
         return view;
 	}
