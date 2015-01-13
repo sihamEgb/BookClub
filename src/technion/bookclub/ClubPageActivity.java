@@ -5,10 +5,17 @@ package technion.bookclub;
 //import technion.bookclub.MainActivity.DrawerItemClickListener;
 //import com.facebook.Session;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -47,7 +54,7 @@ import android.widget.Toast;
 public class ClubPageActivity extends FragmentActivity {
 	public View currentView;
 	public int selectedBook=0;
-	public int suggestedBooks=2;
+	public int suggestedBooks;
 	public Club club;
 	public SuggestedBook[] books;
 	public String description;
@@ -56,7 +63,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public String clubId;
 	public Bundle b;
 	public ClubPageFragment clubFragment;
-	
+	public SuggestedBooksFragment booksFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +109,6 @@ public class ClubPageActivity extends FragmentActivity {
 			AsyncHttpClient client = new AsyncHttpClient();
 		     RequestParams params = new RequestParams();
 		     //TODO get user id
-//		     params.put("clubId", "5795051464556544");
 		     params.put("clubId", clubId);
 		     params.put("userId", "5278093363118080");
 		     params.put("op", "join");
@@ -182,12 +188,51 @@ public class ClubPageActivity extends FragmentActivity {
 		//TODO: 				
 				AsyncHttpClient client = new AsyncHttpClient();
 			     RequestParams params = new RequestParams();
-			     params.put("clubId", "6205504040730624");
+			     params.put("clubId", clubId);
 			     client.get("http://jalees-bookclub.appspot.com/getsuggestedbooks",params, new AsyncHttpResponseHandler() {
 
 						@Override
 						public void onSuccess(int statusCode,
 								Header[] headers, byte[] response) {
+							JSONArray jsonItems;
+							String result=new String(response);
+							System.out.println(result);
+							try {
+								JSONObject json = new JSONObject(result);
+								jsonItems=json.getJSONArray("results");
+								suggestedBooks=jsonItems.length()-1;
+								if(suggestedBooks <= 0){
+									suggestedBooks=0;
+									return;
+								}
+								System.out.println(suggestedBooks);
+								String[] title=new String[suggestedBooks];
+								String[] numOfLikes=new String[suggestedBooks];
+								books=new SuggestedBook[5];
+				//
+								for(int i=0; i<suggestedBooks;i++){
+									json = jsonItems.getJSONObject(i);
+									title[i]=json.getString("title");
+									numOfLikes[i]=json.getString("numOfLikes");
+									books[i]= new SuggestedBook(clubId,title[i],numOfLikes[i]);
+									System.out.println(title[i]);
+								}
+								for(int i=suggestedBooks; i<5;i++){
+									Integer like=-i;
+									books[i]= new SuggestedBook("00","00",like.toString());
+								}
+								
+							} catch (JSONException e) {
+								System.out.println("failed");
+								e.printStackTrace();
+							}
+							Arrays.sort(books);
+							 FragmentManager fragmentManager = getSupportFragmentManager();
+							 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+							 booksFragment =new SuggestedBooksFragment(books,suggestedBooks);				
+							 fragmentTransaction.replace(R.id.Club_Act, booksFragment);
+							fragmentTransaction.addToBackStack(null);
+							fragmentTransaction.commit();
 						}
 
 						@Override
@@ -198,39 +243,69 @@ public class ClubPageActivity extends FragmentActivity {
 						}
 					});
 			     //setTitle("Suggested Books");
-				 FragmentManager fragmentManager = getSupportFragmentManager();
-				 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-				 SuggestedBooksFragment fragment =new SuggestedBooksFragment();				
-				 fragmentTransaction.replace(R.id.Club_Act, fragment);
-				fragmentTransaction.addToBackStack(null);
-				fragmentTransaction.commit();
+
 			}	
 	
 	public void Vote(View view){
 		if(selectedBook==0){
 			return;
 		}
-		
+		System.out.println(selectedBook);
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
-	     params.put("suggestedBookId", "Sense and Sensibility");
+	     params.put("suggestedBookId", books[selectedBook-1].getSuggestedBookId());
 	     client.get("http://jalees-bookclub.appspot.com/votetosuggestedbook",params, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
 						Header[] headers, byte[] response) {
+					System.out.println("important!!!");
+					System.out.println(selectedBook);
+					books[selectedBook-1].addLike();
+					Arrays.sort(books);
+					RadioButton button;
+					for(int i=1; i<=suggestedBooks; i++){
+						switch (i){
+						case 1:
+							button=(RadioButton)findViewById(R.id.book1);
+							button.setText(books[i-1].getSuggestedBookId());
+							button.setVisibility(0);
+							break;
+						case 2:
+							button=(RadioButton)findViewById(R.id.book2);
+							button.setText(books[i-1].getSuggestedBookId());
+							button.setVisibility(0);
+							break;
+						case 3:
+							button=(RadioButton)findViewById(R.id.book3);
+							button.setText(books[i-1].getSuggestedBookId());
+							button.setVisibility(0);
+							break;
+						case 4:
+							button=(RadioButton)findViewById(R.id.book4);
+							button.setText(books[i-1].getSuggestedBookId());
+							button.setVisibility(0);
+							break;
+						case 5:
+							button=(RadioButton)findViewById(R.id.book5);
+							button.setText(books[i-1].getSuggestedBookId());
+							button.setVisibility(0);
+						default:
+							break;
+						}
+					}
 				}
 
 				@Override
 				public void onFailure(int arg0, Header[] arg1,
 						byte[] arg2, Throwable arg3) {
-//					System.out.println("failed");
+					System.out.println("failed");
 //					 TODO Auto-generated method stub
 				}
 			});		
 		//TODO add vote to server
 	//	books[selectedBook].addVote();
-		Arrays.sort(books);
+//		Arrays.sort(books);
 	}
 	/*
 	public void Suggest(View view){
@@ -245,7 +320,7 @@ public class ClubPageActivity extends FragmentActivity {
 		AsyncHttpClient client = new AsyncHttpClient();
 	    RequestParams params = new RequestParams();
 	    params.put("title", bookName);
-	    params.put("clubId", "6205504040730624");
+	    params.put("clubId", clubId);
 	    client.get("http://jalees-bookclub.appspot.com/addsuggestedbook",params, new AsyncHttpResponseHandler() {
 
 				@Override
@@ -266,14 +341,15 @@ public class ClubPageActivity extends FragmentActivity {
 			return;
 		}
 		RadioButton button;
-		EditText edit=(EditText)findViewById(R.id.Edit_Location);
+		EditText edit=(EditText)findViewById(R.id.Edit_title);
 		String bookName=edit.getText().toString().trim();
 		if(bookName.equals("")){
 			return;
 		}
 		AddBookToServer(bookName);
+		books[suggestedBooks]=new SuggestedBook(clubId,bookName,"0");
 		suggestedBooks++;
-		//books[1];
+		
 		switch (suggestedBooks){
 		case 1:
 			button=(RadioButton)findViewById(R.id.book1);
@@ -310,18 +386,22 @@ public class ClubPageActivity extends FragmentActivity {
 	public void onRadioButtonClicked(View view) {
 	    // Is the button now checked?
 	    boolean checked = ((RadioButton) view).isChecked();
-	    
+	    System.out.println(view.getId());
+	    System.out.println(checked);
 	    // Check which radio button was clicked
 	    switch(view.getId()) {
 	        case R.id.book1:
+	        	System.out.println("1");
 	            if (checked)
 	            	selectedBook=1;
 	            break;
 	        case R.id.book2:
+	        	System.out.println("2");
 	            if (checked)
 	            	selectedBook=2;
 	            break;
 	        case R.id.book3:
+	        	System.out.println("3");
 	            if (checked)
 	            	selectedBook=3;
 	            break;

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.google.gson.Gson;
 
-public class SuggestedBook {
+public class SuggestedBook implements Comparable<SuggestedBook>{
 	private String suggestedBookId;
 	private String title;
 	// private String goodReadsUrl;
@@ -14,11 +14,21 @@ public class SuggestedBook {
 	// private Set<String> usersId;
 
 	
-
+	public SuggestedBook(String clubId,String title,String numOfLikes){
+		suggestedBookId=title;
+		this.title=title;
+		this.numOfLikes=Integer.parseInt(numOfLikes);
+		this.clubId=clubId;
+	}
 	public String getSuggestedBookId() {
 		return suggestedBookId;
 	}
-
+	public void addLike() {
+		this.numOfLikes=numOfLikes.intValue()+1;
+	}
+	public int getLikes() {
+		return numOfLikes.intValue();
+	}
 	public void setSuggestedBookId(String suggestedBookId) {
 		this.suggestedBookId = suggestedBookId;
 	}
@@ -32,6 +42,10 @@ public class SuggestedBook {
 	public static SuggestedBook constructFromJson(String json) {
 		Gson gson = new Gson();
 		return gson.fromJson(json, SuggestedBook.class);
+	}
+	@Override
+	public int compareTo(SuggestedBook another) {
+		return another.getLikes() - this.numOfLikes.intValue() ;
 	}
 
 	/*
