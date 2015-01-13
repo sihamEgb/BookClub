@@ -55,6 +55,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public String imageURL;
 	public String clubId;
 	public Bundle b;
+	public ClubPageFragment clubFragment;
 	
 	
 	@Override
@@ -73,10 +74,11 @@ public class ClubPageActivity extends FragmentActivity {
 		
 		
 		 FragmentManager fragmentManager = getSupportFragmentManager();
-		 ClubPageFragment fragment =new ClubPageFragment(description,memeberNum, imageURL);
+		 clubFragment =new ClubPageFragment(description,memeberNum, imageURL);
+		 
 		 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		 fragmentTransaction.replace(R.id.Club_Act, fragment);
-		fragmentTransaction.addToBackStack(null);
+		 fragmentTransaction.replace(R.id.Club_Act, clubFragment);
+//		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 
 	}
@@ -109,12 +111,19 @@ public class ClubPageActivity extends FragmentActivity {
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {
-						System.out.println(response.toString());
-						Integer num=Integer.parseInt(memeberNum);
-						num++;
-						memeberNum=num.toString();
-						TextView memebers=(TextView)currentView.findViewById(R.id.participants_num);
-						memebers.setText(memeberNum);
+						String result=new String(response);
+						System.out.println(result);
+						
+						if(result.trim().equals("member already joined this club".trim())){
+							return;
+						} else{
+							Integer num=Integer.parseInt(memeberNum);
+							num++;
+							memeberNum=num.toString();
+							clubFragment.setMembers(memeberNum);
+							TextView memebers=(TextView)currentView.findViewById(R.id.participants_num);
+							memebers.setText(memeberNum);
+						}
 //						Button button=(Button)currentView.findViewById(R.id.Join_Club);
 //						((Button)currentView).setVisibility(1);
 					}

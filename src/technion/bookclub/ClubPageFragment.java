@@ -28,6 +28,10 @@ public class ClubPageFragment extends Fragment {
 		this.imageURL=imageURL;
 		// Required empty public constructor
 	}
+	
+	public void setMembers(String memeberNum){
+		this.memeberNum=memeberNum;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
