@@ -165,7 +165,7 @@ public class MainActivity extends FragmentActivity {
 		case 1:
 			// currFragment = new HomePageFragment();
 			//TODO: GET THE CORRECT USER ID (WHEN LOGED IN)
-			String user_id = "5278093363118080";
+			String user_id = "4859722209427456";//"5278093363118080";
 			Intent home_page_intent = new Intent(this, HomePageActivity.class);
 			home_page_intent.putExtra("userId", user_id);
 			this.startActivity(home_page_intent);

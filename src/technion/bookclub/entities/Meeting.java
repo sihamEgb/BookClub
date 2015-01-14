@@ -10,6 +10,7 @@ public class Meeting {
 
 	private String meetingId;
 	private String title;
+	 private String date;
 	private String location;
 	private String clubId;
 
@@ -23,6 +24,25 @@ public class Meeting {
 	 * public void addParticipant(String participant) {
 	 * participants.add(participant); }
 	 */
+	public String getDate(){
+		return date;
+	}
+	
+	public String getTitle(){
+		return title;
+	}
+	
+	public String getMeetingId(){
+		return meetingId;
+	}
+	
+	public String getLocation(){
+		return location;
+	}
+	
+	public String getClubId(){
+		return clubId;
+	}
 	public String toJson() {
 		Gson gson = new Gson();
 		String json = gson.toJson(this);

@@ -2,6 +2,8 @@ package technion.bookclub;
 
 import java.util.ArrayList;
 
+import technion.bookclub.entities.Meeting;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -22,7 +24,7 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 /**********************************************************************************/	
 /******************************SHOULD BE DELETED***********************************/	
 /**********************************************************************************/	
-	
+/*	
 	String[] dates = {"Sunday, Dec 21","Monday, Dec 29","Friday, Jan 10","Wednesday, Jan 23",
 			          "Sunday, Feb 11","Monday, Dec 19","Friday, Feb 20","Wednesday, Feb 23",
 			          "Friday, March 1","Monday, March 19","Sunday, March 20","Sunday, March 26"};
@@ -57,16 +59,19 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 		}
 	}
 	
-    private ArrayList<Meeting> meetings = new ArrayList<Meeting>();
+    
     
     private void buildMeetings(){
         for(int i=0;i<12;i++){
         		meetings.add(new Meeting(dates[i],hours[i],names[i],desc[i],locations[i]));
         }
-    }
+    }*/
 	
 /**********************************************************************************/
-/**********************************************************************************/	
+/**********************************************************************************/
+    private ArrayList<Meeting> meetings ;//= new ArrayList<Meeting>();
+    private ArrayList<String> club_names;
+    
 	private Meeting getMeeting(int position){
 		return meetings.get(position);
 	}
@@ -74,7 +79,7 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 		public TextView meeting_date;
 		public TextView meeting_hour;
         public TextView meeting_club_name;
-        public TextView meeting_desc;
+        public TextView meeting_desc;//book
         public TextView meeting_location;
 	}
 	
@@ -82,11 +87,25 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 	private Context context;
 
     
-    public HomePageMeetingsListAdapter(Context con){
+    public HomePageMeetingsListAdapter(Context con,ArrayList<Meeting> meetingsList,ArrayList<String> c_names){
     	super();
     	context = con;
-    	buildMeetings();
+    	meetings = meetingsList;
+    	club_names = c_names;
+    	//buildMeetings();
     }
+    
+    private String getDateFromDateString(String date){
+    	String[] s= date.split(" ");
+    	return (s[0]+" "+s[1]+" "+s[2]);
+    }
+    
+    private String getHourFromDateString(String date){
+    	String[] s= date.split(" ");
+    	String[] h = (s[3].split(":"));
+    	return h[0]+":"+h[1];
+    }
+    
 	@Override
 	public int getCount() {
 		if(meetings==null){
@@ -113,11 +132,11 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 		holder.meeting_location = (TextView) view.findViewById(R.id.meeting_location);
 		holder.meeting_desc = (TextView) view.findViewById(R.id.meeting_desc);
 		view.setTag(holder);
-		holder.meeting_date.setText(meeting.meeting_date);
-		holder.meeting_hour.setText(meeting.meeting_hour);
-		holder.meeting_club_name.setText(meeting.meeting_club_name);
-		holder.meeting_location.setText(meeting.meeting_location);
-		holder.meeting_desc.setText(meeting.meeting_desc);
+		holder.meeting_date.setText(getDateFromDateString(meeting.getDate()));
+		holder.meeting_hour.setText(getHourFromDateString(meeting.getDate()));
+		holder.meeting_club_name.setText(club_names.get(position));
+		holder.meeting_location.setText(meeting.getLocation());
+		holder.meeting_desc.setText(meeting.getTitle());
 		overflowClickListener l = new overflowClickListener();
 		ImageView iv = ((ImageView)view.findViewById(R.id.homepage_meetings_edit_img));
 		iv.setOnClickListener(l);
@@ -156,11 +175,11 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 		}
 		
 		Meeting meeting = getMeeting(position);
-		holder.meeting_date.setText(meeting.meeting_date);
-		holder.meeting_hour.setText(meeting.meeting_hour);
-		holder.meeting_club_name.setText(meeting.meeting_club_name);
-		holder.meeting_location.setText(meeting.meeting_location);
-		holder.meeting_desc.setText(meeting.meeting_desc);
+		holder.meeting_date.setText(getDateFromDateString(meeting.getDate()));
+		holder.meeting_hour.setText(getHourFromDateString(meeting.getDate()));
+		holder.meeting_club_name.setText(club_names.get(position));
+		holder.meeting_location.setText(meeting.getLocation());
+		holder.meeting_desc.setText(meeting.getTitle());
 		overflowClickListener l = new overflowClickListener();
 		ImageView iv = ((ImageView)view.findViewById(R.id.homepage_meetings_edit_img));
 		iv.setOnClickListener(l);

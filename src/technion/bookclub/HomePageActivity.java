@@ -17,7 +17,7 @@ import android.widget.TabHost.TabContentFactory;
 public class HomePageActivity extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener, HomePageInterface {
 	//"6583832140578816"
 	//"6583832140578816"
-	public static String userId;//="5278093363118080"; 
+	public static String userId;//="5278093363118080";
     private TabHost mTabHost;
     private ViewPager mViewPager;
     private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, HomePageActivity.TabInfo>();
