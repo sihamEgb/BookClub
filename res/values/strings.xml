@@ -14,8 +14,8 @@
 	<string name="facebookApplicationId">335347833328029</string>
 	
     <string-array name="drawer_options">
-        <item>My home page</item>
         <item>Find a club</item>
+        <item>My home page</item>
         <item>Borrow a book</item>
         <item>Log out</item>
     </string-array>

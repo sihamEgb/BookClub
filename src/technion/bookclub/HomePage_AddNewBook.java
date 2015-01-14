@@ -95,6 +95,7 @@ public class HomePage_AddNewBook extends Activity {
 		params.put("author", author);
 		params.put("location", location);
 		params.put("language", language);
+		//params.put("ownerId", )
 		//params.put("imageUrl", imageUrl);
 
 		client.get("http://jalees-bookclub.appspot.com/addbook", params,

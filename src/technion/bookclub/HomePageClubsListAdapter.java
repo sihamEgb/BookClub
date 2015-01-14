@@ -131,7 +131,7 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		// holder.meeting_date = (TextView)
 		// view.findViewById(R.id.club_next_date);
 		holder.pic = (ImageView) view.findViewById(R.id.club_img);
-		overflowClickListener l = new overflowClickListener(holder);
+		overflowClickListener l = new overflowClickListener(holder,position);
 		((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
 				.setOnClickListener(l);
 		view.setTag(holder);
@@ -180,7 +180,7 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 			// holder.meeting_date = (TextView)
 			// view.findViewById(R.id.club_next_date);
 			holder.pic = (ImageView) view.findViewById(R.id.club_img);
-			overflowClickListener l = new overflowClickListener(holder);
+			overflowClickListener l = new overflowClickListener(holder,position);
 			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
 					.setOnClickListener(l);
 			view.setTag(holder);
@@ -216,8 +216,10 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 
 	private class overflowClickListener implements OnClickListener {
 		private ViewHolder holder;
-		public overflowClickListener(ViewHolder h){
+		private int position;
+		public overflowClickListener(ViewHolder h,int p){
 			holder=h;
+			position = p;
 		}
 		@Override
 		public void onClick(View v) {
@@ -228,6 +230,7 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 				@Override
 				public boolean onMenuItemClick(MenuItem item) {
 					leaveClub(holder.club_id);
+					clubs.remove(position);
 					//Toast.makeText(context,"You selected the action : " + item.getTitle(),Toast.LENGTH_SHORT).show();
 					return true;
 				}

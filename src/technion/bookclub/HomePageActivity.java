@@ -1,5 +1,6 @@
 package technion.bookclub;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -61,9 +62,11 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Inflate the layout
-        setContentView(R.layout.tabs_viewpager_layout);
-        Bundle b = getIntent().getExtras();
-		userId = b.getString("userId");
+        setContentView(R.layout.tabs_viewpager_layout);                
+		if(this.getIntent().hasExtra("userId")){
+			Bundle b = getIntent().getExtras();
+			userId= b.getString("userId");
+		}
         // Initialize the TabHost
         this.initialiseTabHost(savedInstanceState);
         if (savedInstanceState != null) {

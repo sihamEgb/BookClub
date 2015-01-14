@@ -192,7 +192,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 		holder.book_author = (TextView) view.findViewById(R.id.book_author);
 		holder.book_availability = (TextView) view.findViewById(R.id.book_avail);
 		holder.book_pic = (ImageView) view.findViewById(R.id.book_img);
-		overflowClickListener l = new overflowClickListener(holder);
+		overflowClickListener l = new overflowClickListener(holder,position);
 		((ImageView)view.findViewById(R.id.homepage_edit_img)).setOnClickListener(l);
 		view.setTag(holder);
 		holder.book_title.setText(book.getTitle());
@@ -207,6 +207,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 		//TODO: CHANGE THIS LINE AND TAKE IMAGE FROM BOOK.URL
 		holder.book_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.gray_book_group));
 		if(position==0){
+			
 			((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.GONE);
 			holder.book_availability.setVisibility(View.GONE);
 		    firstListItemListener first_item_l = new firstListItemListener();
@@ -243,7 +244,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 			holder.book_author = (TextView) view.findViewById(R.id.book_author);
 			holder.book_availability = (TextView) view.findViewById(R.id.book_avail);
 			holder.book_pic = (ImageView) view.findViewById(R.id.book_img);
-			overflowClickListener l = new overflowClickListener(holder);
+			overflowClickListener l = new overflowClickListener(holder,position);
 			((ImageView)view.findViewById(R.id.homepage_edit_img)).setOnClickListener(l);
 			view.setTag(holder);
 			}
@@ -283,9 +284,10 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 	
 	private class overflowClickListener implements  OnClickListener{
 		private ViewHolder holder;
-		
-		public overflowClickListener(ViewHolder h){
+		private int position;
+		public overflowClickListener(ViewHolder h,int p){
 			holder=h;
+			position=p;
 		}
 		@Override
 		public void onClick(View v) {
@@ -308,6 +310,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
                     	//Toast.makeText(context, "You selected the action : not available" , Toast.LENGTH_SHORT).show();
                     }else if(item.getTitle().equals("Remove")){
                     	removeBookFromServer(holder.book_id);
+                    	books.remove(position);
                     	//Toast.makeText(context, "You selected the action : remove" , Toast.LENGTH_SHORT).show();
                     }
                     
