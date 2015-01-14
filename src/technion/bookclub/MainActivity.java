@@ -163,10 +163,13 @@ public class MainActivity extends FragmentActivity {
 			break;
 
 		case 1:
-
 			// currFragment = new HomePageFragment();
-			Intent HomePage_Intent = new Intent(this, HomePageActivity.class);
-			startActivityForResult(HomePage_Intent, 0);
+			//TODO: GET THE CORRECT USER ID (WHEN LOGED IN)
+			String user_id = "5278093363118080";
+			Intent home_page_intent = new Intent(this, HomePageActivity.class);
+			home_page_intent.putExtra("userId", user_id);
+			this.startActivity(home_page_intent);
+			//startActivityForResult(home_page_intent, 0);
 			return;
 		case 2:
 			currFragment = BookSearchFragment.newInstance(0);

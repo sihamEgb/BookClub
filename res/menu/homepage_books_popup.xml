@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
-        android:id="@+id/homepage_books_edit"
-        android:title="Edit"
+        android:id="@+id/homepage_books_avail"
+        android:title="Available"
+    />
+    
+        <item
+        android:id="@+id/homepage_books_notavail"
+        android:title="Not Available"
     />
  
     <item

@@ -18,21 +18,18 @@ import android.widget.GridView;
 public class HomePageClubsGridFragment extends Fragment{
 
     private String userClubsString;
-    private String user_id="6583832140578816";
+    private String user_id;
     GridView gView ;
     Context context;
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		//return inflater.inflate(R.layout.homepage_clubs_fragment_xml, container, false); 
 		
-		//return super.onCreateView(inflater, container, savedInstanceState);
 		context = getActivity();
 		View view = inflater.inflate(R.layout.homepage_clubs_fragment_xml, container, false);
 		gView = (GridView)view.findViewById(R.id.homepage_clubs_gridview);
+		user_id = ((HomePageInterface)this.getActivity()).getUserId();
 		getUserClubsListFromServer();
-		
-		
         return view;
 	}
 
@@ -58,19 +55,7 @@ public class HomePageClubsGridFragment extends Fragment{
                           userClubsString = new String(response);
                           //String s =  new String(response);
                           System.out.println("SUCCESS - GETTING USER CLUBS FROM SERVER :" + userClubsString);
-                        
                           gView.setAdapter(new HomePageClubsListAdapter(context,userClubsString));
-                       // Adapter newAdapter =   HomePageClubsListAdapter(this,userClubsString);
-                         // Fragment fragment = new ClubsResultsFragment(
-						//			s,clubLocation);
-						//	Bundle args = new Bundle();
-						//	fragment.setArguments(args);
-						//	FragmentManager fragmentManager = getFragmentManager();
-						//	fragmentManager
-						//			.beginTransaction()
-						//			.replace(R.id.content_frame,
-						//					fragment).commit();
-                          //System.out.println("SUCCESS - GETTING USER CLUBS FROM SERVER (s):" + userClubsString);
                       }
                       
                       @Override

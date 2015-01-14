@@ -13,8 +13,10 @@ import android.view.View;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
 
-public class HomePageActivity extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
-	 
+public class HomePageActivity extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener, HomePageInterface {
+	//"6583832140578816"
+	//"6583832140578816"
+	private String userId;//="5278093363118080"; 
     private TabHost mTabHost;
     private ViewPager mViewPager;
     private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, HomePageActivity.TabInfo>();
@@ -60,7 +62,9 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
         super.onCreate(savedInstanceState);
         // Inflate the layout
         setContentView(R.layout.tabs_viewpager_layout);
-        // Initialise the TabHost
+        Bundle b = getIntent().getExtras();
+		userId = b.getString("userId");
+        // Initialize the TabHost
         this.initialiseTabHost(savedInstanceState);
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab")); //set the tab as per the saved state
@@ -148,5 +152,9 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
     public void onPageScrollStateChanged(int state) {
         // TODO Auto-generated method stub
  
+    }
+    
+    public String getUserId(){
+    	return userId;
     }
 }

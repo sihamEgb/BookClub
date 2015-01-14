@@ -2,18 +2,20 @@ package technion.bookclub;
 
 import java.util.ArrayList;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import technion.bookclub.entities.Book;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
+
 import technion.bookclub.entities.Club;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.LayoutInflater;
@@ -86,6 +88,7 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 	}
 
 	private class ViewHolder {
+		public String club_id;
 		public TextView name;
 		public TextView members_num;
 		// public TextView meeting_date;
@@ -117,7 +120,7 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		}
 		View view;
 		ViewHolder holder;
-		Club club = getClub(position);
+		
 		// LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -128,25 +131,27 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		// holder.meeting_date = (TextView)
 		// view.findViewById(R.id.club_next_date);
 		holder.pic = (ImageView) view.findViewById(R.id.club_img);
-		overflowClickListener l = new overflowClickListener();
+		overflowClickListener l = new overflowClickListener(holder);
 		((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
 				.setOnClickListener(l);
 		view.setTag(holder);
+		Club club = getClub(position);
 		holder.name.setText(club.getName());
-		holder.members_num.setText(club.getMemeberNum());
+		holder.members_num.setText(club.getMemeberNum()+" members");
+		holder.club_id=club.getClubId();
 		// holder.meeting_date.setText(club.next_meeting_date);
-		// TODO: GET IMAGE FROM URL
-		holder.pic.setImageDrawable(context.getResources().getDrawable(
-				R.drawable.club_3));
+		
 		if (position == 0) {
-			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
-					.setVisibility(View.GONE);
+			// TODO: SET APPROPRIATE IMAGE 
+			holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.blank_create_club));
+			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img)).setVisibility(View.GONE);
+			holder.members_num.setText("");
 			firstListItemListener first_item_l = new firstListItemListener();
 			view.setOnClickListener(first_item_l);
 		} else {
-			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
-					.setVisibility(View.VISIBLE);
-			view.setOnClickListener(null);
+			Picasso.with(view.getContext()).load(club.getImageUrl()).into(holder.pic);
+			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img)).setVisibility(View.VISIBLE);
+			view.setOnClickListener(new ClubItemListener(club));
 		}
 		return view;
 	}
@@ -171,12 +176,11 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 			view = inflater.inflate(R.layout.homepage_clubs_list_item, null);
 			holder = new ViewHolder();
 			holder.name = (TextView) view.findViewById(R.id.club_name);
-			holder.members_num = (TextView) view
-					.findViewById(R.id.club_mem_num);
+			holder.members_num = (TextView) view.findViewById(R.id.club_mem_num);
 			// holder.meeting_date = (TextView)
 			// view.findViewById(R.id.club_next_date);
 			holder.pic = (ImageView) view.findViewById(R.id.club_img);
-			overflowClickListener l = new overflowClickListener();
+			overflowClickListener l = new overflowClickListener(holder);
 			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
 					.setOnClickListener(l);
 			view.setTag(holder);
@@ -187,26 +191,34 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 
 		Club club = getClub(position);
 		holder.name.setText(club.getName());
-		holder.members_num.setText(club.getMemeberNum());
+		holder.members_num.setText(club.getMemeberNum()+" members");
+		holder.club_id=club.getClubId();
 		// holder.meeting_date.setText(club.next_meeting_date);
 		// TODO: GET IMAGE FROM URL
 		holder.pic.setImageDrawable(context.getResources().getDrawable(
 				R.drawable.club_3));
 
 		if (position == 0) {
+			holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.blank_create_club));
 			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
 					.setVisibility(View.GONE);
+			holder.members_num.setText("");
 			firstListItemListener first_item_l = new firstListItemListener();
 			view.setOnClickListener(first_item_l);
 		} else {
+			Picasso.with(view.getContext()).load(club.getImageUrl()).into(holder.pic);
 			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
 					.setVisibility(View.VISIBLE);
-			view.setOnClickListener(null);
+			view.setOnClickListener(new ClubItemListener(club));
 		}
 		return view;
 	}
 
 	private class overflowClickListener implements OnClickListener {
+		private ViewHolder holder;
+		public overflowClickListener(ViewHolder h){
+			holder=h;
+		}
 		@Override
 		public void onClick(View v) {
 			PopupMenu popup = new PopupMenu(context, v);
@@ -215,9 +227,8 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 			popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 				@Override
 				public boolean onMenuItemClick(MenuItem item) {
-					Toast.makeText(context,
-							"You selected the action : " + item.getTitle(),
-							Toast.LENGTH_SHORT).show();
+					leaveClub(holder.club_id);
+					//Toast.makeText(context,"You selected the action : " + item.getTitle(),Toast.LENGTH_SHORT).show();
 					return true;
 				}
 			});
@@ -237,4 +248,51 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		}
 
 	}
+	
+	private class ClubItemListener implements OnClickListener {
+		Club my_club ;
+		public ClubItemListener(Club c){
+			my_club=c;
+		}
+		@Override
+		public void onClick(View v) {
+			Intent in = new Intent(context.getApplicationContext(),ClubPageActivity.class);
+			in.putExtra("clubId", my_club.getClubId());
+			in.putExtra("adminId", my_club.getAdminId());
+			in.putExtra("name", my_club.getName());
+			in.putExtra("location", my_club.getLocation());
+			in.putExtra("description", my_club.getDescription());
+			in.putExtra("imageUrl", my_club.getImageUrl());
+			in.putExtra("memeberNum", my_club.getMemeberNum());
+			//TODO: PUT EXTRA DATA - USER ID
+			context.startActivity(in);
+
+		}
+
+	}
+	
+	 private void leaveClub(String club_id){
+			AsyncHttpClient client = new AsyncHttpClient();
+		     RequestParams params = new RequestParams();
+             
+		     String user_id = ((HomePageInterface)context).getUserId();
+		     params.put("clubId", club_id);
+		     params.put("userId", user_id);
+		     params.put("op", "leave");
+		     client.get("http://jalees-bookclub.appspot.com/joinclub",params, new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode,
+							Header[] headers, byte[] response) {
+						String s=new String(response);
+						System.out.println(s);			
+					}
+
+					@Override
+					public void onFailure(int arg0, Header[] arg1,
+							byte[] arg2, Throwable arg3) {
+						// TODO Auto-generated method stub
+					}
+
+				});
+	 }
 }

@@ -19,7 +19,7 @@
         android:layout_width="30dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="80dp"
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@+id/book_title"
         android:src="@drawable/ic_action_overflow" />
@@ -27,7 +27,7 @@
     <TextView
         android:id="@+id/book_title"
         android:layout_width="150dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="8dp"
@@ -39,11 +39,20 @@
 
     <TextView
         android:id="@+id/book_author"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="20dp"
         android:layout_below="@id/book_title"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/book_img"
         android:text="Author" />
+    
+        <TextView
+        android:id="@+id/book_avail"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="39dp"
+        android:layout_toRightOf="@id/book_author"
+        android:text="Not Available" />
 
 </RelativeLayout>

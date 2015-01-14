@@ -119,7 +119,10 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 		holder.meeting_location.setText(meeting.meeting_location);
 		holder.meeting_desc.setText(meeting.meeting_desc);
 		overflowClickListener l = new overflowClickListener();
-		((ImageView)view.findViewById(R.id.homepage_meetings_edit_img)).setOnClickListener(l);
+		ImageView iv = ((ImageView)view.findViewById(R.id.homepage_meetings_edit_img));
+		iv.setOnClickListener(l);
+		iv.setVisibility(View.GONE);
+		//((ImageView)view.findViewById(R.id.homepage_meetings_edit_img)).setOnClickListener(l);
 		return view;
 	}
 
@@ -159,7 +162,10 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 		holder.meeting_location.setText(meeting.meeting_location);
 		holder.meeting_desc.setText(meeting.meeting_desc);
 		overflowClickListener l = new overflowClickListener();
-		((ImageView)view.findViewById(R.id.homepage_meetings_edit_img)).setOnClickListener(l);
+		ImageView iv = ((ImageView)view.findViewById(R.id.homepage_meetings_edit_img));
+		iv.setOnClickListener(l);
+		iv.setVisibility(View.GONE);
+		//((ImageView)view.findViewById(R.id.homepage_meetings_edit_img)).setOnClickListener(l);
 		return view;
 	}
 
