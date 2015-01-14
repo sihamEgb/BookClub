@@ -253,7 +253,8 @@ public class ClubPageActivity extends FragmentActivity {
 		System.out.println(selectedBook);
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
-	     params.put("suggestedBookId", books[selectedBook-1].getSuggestedBookId());
+	     params.put("title", books[selectedBook-1].getSuggestedBookId());
+	     params.put("clubId", clubId);
 	     client.get("http://jalees-bookclub.appspot.com/votetosuggestedbook",params, new AsyncHttpResponseHandler() {
 
 				@Override
@@ -269,26 +270,31 @@ public class ClubPageActivity extends FragmentActivity {
 						case 1:
 							button=(RadioButton)findViewById(R.id.book1);
 							button.setText(books[i-1].getSuggestedBookId());
+							button.setChecked(false);
 							button.setVisibility(0);
 							break;
 						case 2:
 							button=(RadioButton)findViewById(R.id.book2);
 							button.setText(books[i-1].getSuggestedBookId());
+							button.setChecked(false);
 							button.setVisibility(0);
 							break;
 						case 3:
 							button=(RadioButton)findViewById(R.id.book3);
 							button.setText(books[i-1].getSuggestedBookId());
+							button.setChecked(false);
 							button.setVisibility(0);
 							break;
 						case 4:
 							button=(RadioButton)findViewById(R.id.book4);
 							button.setText(books[i-1].getSuggestedBookId());
+							button.setChecked(false);
 							button.setVisibility(0);
 							break;
 						case 5:
 							button=(RadioButton)findViewById(R.id.book5);
 							button.setText(books[i-1].getSuggestedBookId());
+							button.setChecked(false);
 							button.setVisibility(0);
 						default:
 							break;
