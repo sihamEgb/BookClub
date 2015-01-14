@@ -39,6 +39,8 @@ public class HomePageBooksListAdapter extends BaseAdapter{
     private ArrayList<Book> books ;//= new ArrayList<Book>();
     
     private void refreshBooksList(){
+    	//adapter.notifyDataSetChanged();
+    	this.notifyDataSetChanged();
     	//TODO: ADD IMPLEMENTATION
     	//Toast.makeText(context, "books list should be updated/ a book was deleted" , Toast.LENGTH_SHORT).show();
     }
@@ -309,8 +311,8 @@ public class HomePageBooksListAdapter extends BaseAdapter{
                     	}
                     	//Toast.makeText(context, "You selected the action : not available" , Toast.LENGTH_SHORT).show();
                     }else if(item.getTitle().equals("Remove")){
-                    	removeBookFromServer(holder.book_id);
                     	books.remove(position);
+                    	removeBookFromServer(holder.book_id);
                     	//Toast.makeText(context, "You selected the action : remove" , Toast.LENGTH_SHORT).show();
                     }
                     
@@ -327,6 +329,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 		public void onClick(View v) {
             //Toast.makeText(context, "CLICK SHOULD REDIRECT TO ADD NEW BOOK SCREEN", Toast.LENGTH_SHORT).show();
 			Intent i = new Intent(context, HomePage_AddNewBook.class);
+			i.putExtra("userId", ((HomePageInterface)context).getUserId());
 			context.startActivity(i);
 		}
 		

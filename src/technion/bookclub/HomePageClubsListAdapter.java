@@ -32,6 +32,9 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 
 	private ArrayList<Club> clubs;
 
+	private void refreshClubsList(){
+		this.notifyDataSetChanged();
+	}
 	private void BuildClubsListFromJson(String result) {
 		Club first_item = new Club();
 		first_item.setMemeberNum("");
@@ -229,8 +232,8 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 			popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 				@Override
 				public boolean onMenuItemClick(MenuItem item) {
-					leaveClub(holder.club_id);
 					clubs.remove(position);
+					leaveClub(holder.club_id);
 					//Toast.makeText(context,"You selected the action : " + item.getTitle(),Toast.LENGTH_SHORT).show();
 					return true;
 				}
@@ -286,6 +289,7 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {
+						refreshClubsList();
 						String s=new String(response);
 						System.out.println(s);			
 					}
