@@ -82,6 +82,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public Meeting meeting;
 	public String user="5278093363118080";
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -151,6 +152,7 @@ public class ClubPageActivity extends FragmentActivity {
 							clubFragment.setMembers(memeberNum);
 							TextView memebers=(TextView)currentView.findViewById(R.id.participants_num);
 							memebers.setText(memeberNum);
+
 						}
 //						Button button=(Button)currentView.findViewById(R.id.Join_Club);
 //						((Button)currentView).setVisibility(1);
@@ -165,6 +167,8 @@ public class ClubPageActivity extends FragmentActivity {
 					}
 
 				});
+				Toast.makeText(this, "Joined Successfully",
+						Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -332,6 +336,8 @@ public class ClubPageActivity extends FragmentActivity {
 //					 TODO Auto-generated method stub
 				}
 			});
+			Toast.makeText(this, "Joined Successfully",
+					Toast.LENGTH_LONG).show();
 	}
 	
 	public void editMeeting(View view){
