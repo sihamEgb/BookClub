@@ -28,7 +28,7 @@ public class HomePageClubsGridFragment extends Fragment{
 		context = getActivity();
 		View view = inflater.inflate(R.layout.homepage_clubs_fragment_xml, container, false);
 		gView = (GridView)view.findViewById(R.id.homepage_clubs_gridview);
-		user_id = ((HomePageInterface)this.getActivity()).getUserId();
+		user_id = UserInfo.getId();
 		getUserClubsListFromServer();
         return view;
 	}
@@ -48,7 +48,7 @@ public class HomePageClubsGridFragment extends Fragment{
 	 private void getUserClubsListFromServer(){
 		  AsyncHttpClient client = new AsyncHttpClient();
           RequestParams params = new RequestParams();
-          params.put("userId", user_id);
+          params.put("adminId", user_id);
           client.get("http://jalees-bookclub.appspot.com/getmyclubs",params, new AsyncHttpResponseHandler() {
                       @Override
                       public void onSuccess(int statusCode,Header[] headers, byte[] response) {

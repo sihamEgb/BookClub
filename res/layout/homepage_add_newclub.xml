@@ -18,6 +18,7 @@
         android:id="@+id/adding_club_location_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+         android:layout_marginTop="6dp"
         android:text="Location"
         android:textColor="#311B92" />
 
@@ -25,7 +26,7 @@
         android:id="@+id/location_spinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:ems="8" />
 
     <EditText
@@ -35,6 +36,16 @@
         android:ems="10"
         android:hint="Insert club description"
         android:inputType="textMultiLine" >
+    </EditText>
+
+    <EditText
+        android:id="@+id/homepage_adding_club_imageUrl"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text=""
+        android:hint="Insert a url for you club picture"
+        android:inputType="textWebEmailAddress" >
     </EditText>
 
     <Button

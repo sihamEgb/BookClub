@@ -42,7 +42,7 @@ public class HomePage_AddNewClub extends Activity {
 		autoCompleteLocation.setAdapter(autoCompleteAdapter);
 		autoCompleteLocation.setThreshold(1);
 
-		imageUrlEditText = (EditText) findViewById(R.id.homepage_adding_club_imageUrl_text);
+		imageUrlEditText = (EditText) findViewById(R.id.homepage_adding_club_imageUrl);
 		nameEditText = (EditText) findViewById(R.id.club_name);
 		descEditText = (EditText) findViewById(R.id.club_description);
 
@@ -105,16 +105,22 @@ public class HomePage_AddNewClub extends Activity {
 		Context context = getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
 
+		String imageUrl = "http://www.viduman.com/dosya/default.jpg";
+		
 		String clubName = nameEditText.getText().toString().trim();
 		String clubDesc = descEditText.getText().toString().trim();
 		String clubLocation = autoCompleteLocation.getText().toString();
-		String imageUrl = imageUrlEditText.getText().toString();
+		imageUrl = imageUrlEditText.getText().toString();
 
-		if (imageUrl == "")
+		if (imageUrl.equals(""))
 			imageUrl = "http://www.viduman.com/dosya/default.jpg";
 
+		if (imageUrl == null)
+			imageUrl = "http://www.viduman.com/dosya/default.jpg";
+
+				
 		if (clubName == null || clubDesc == null || clubLocation == null) {
-			Toast toast = Toast.makeText(context, "Error Can Not Create Club",
+			Toast toast = Toast.makeText(context, "Error Cannot Create Club",
 					duration);
 			toast.show();
 
@@ -133,7 +139,7 @@ public class HomePage_AddNewClub extends Activity {
 		params.put("name", clubName);
 		params.put("location", clubLocation);
 		params.put("description", clubDesc);
-		params.put("adminId", "adminTemp");
+		params.put("adminId", UserInfo.getId() );
 		params.put("imageUrl", imageUrl);
 
 		client.get("http://jalees-bookclub.appspot.com/addclub", params,
