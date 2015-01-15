@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 //import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
@@ -21,8 +22,14 @@ import android.support.v4.app.Fragment;
  */
 public class NextMeetingFragment extends Fragment {
 
-	public NextMeetingFragment() {
-		// Required empty public constructor.
+	public String bookName;
+	public String location;
+	public String date;
+	
+	public NextMeetingFragment(String bookName, String date, String location) {
+		this.bookName=bookName;
+		this.date=date;
+		this.location=location;
 	}
 
 	@Override
@@ -31,6 +38,12 @@ public class NextMeetingFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.next_meeting, container,
 				false);
 		setHasOptionsMenu(true);
+		TextView bookT=(TextView) rootView.findViewById(R.id.Book_Name);
+		TextView dateT=(TextView) rootView.findViewById(R.id.textView1);
+		TextView locationT=(TextView) rootView.findViewById(R.id.textView2);
+		bookT.setText(bookName);
+		dateT.setText(this.date);
+		locationT.setText(this.location);
 		return rootView;
 	}
 	

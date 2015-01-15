@@ -44,18 +44,20 @@
        		      android:editable="true"
        		      android:textSize="12sp" />
        		  
-       		  <Button style="?android:buttonBarButtonStyle"
+       		  <Button
        		      android:id="@+id/Club_Members"
+       		      style="?android:buttonBarButtonStyle"
        		      android:layout_width="fill_parent"
        		      android:layout_height="wrap_content"
        		      android:layout_alignLeft="@+id/Club_Name"
        		      android:layout_below="@+id/Club_Info"
        		      android:layout_marginTop="17dp"
        		      android:gravity="left"
+       		      android:minHeight="0dp"
+       		      android:onClick="getParticipants"
        		      android:text="Participants"
        		      android:textSize="20sp"
-       		      android:textStyle="bold"
-       		      android:onClick="getParticipants" />
+       		      android:textStyle="bold" />
        		
        		      <TextView
        		          android:id="@+id/participants_num"
@@ -79,39 +81,14 @@
        	
        		      android:onClick="getNextMeeting"/>
  
-       		  <TextView
-       		      android:id="@+id/Club_NextMeeting_Date"
-       		      android:layout_width="fill_parent"
-       		      android:layout_height="wrap_content"
-       		      android:layout_alignLeft="@+id/Club_NextMeeting_Title"
-       		      android:layout_below="@+id/Club_NextMeeting_Title"
-       		      android:text="Date:	20/01/2015"
-       		      android:textSize="12sp" />
- 
-       		  <TextView
-       		      android:id="@+id/Club_NextMeeting_Book"
-       		      android:layout_width="fill_parent"
-       		      android:layout_height="wrap_content"
-       		      android:layout_alignLeft="@+id/Club_NextMeeting_Title"
-       		      android:layout_below="@+id/Club_NextMeeting_Date"
-       		      android:text="Book: Gone with the Wind"
-       		      android:textSize="12sp" />      		  
-       		  
-       		  <TextView
-       		      android:id="@+id/Club_NextMeeting_Participants"
-       		      android:layout_width="fill_parent"
-       		      android:layout_height="wrap_content"
-       		      android:layout_alignLeft="@+id/Club_NextMeeting_Title"
-       		      android:layout_below="@+id/Club_NextMeeting_Book"
-       		      android:text="15 participants"
-       		      android:textSize="12sp" />       		  
+ 		  
  
        		  <Button style="?android:buttonBarButtonStyle"
        		      android:id="@+id/Suggested_Bookse"
        		      android:layout_width="fill_parent"
        		      android:layout_height="wrap_content"
        		      android:layout_alignLeft="@+id/Club_NextMeeting_Title"
-       		      android:layout_below="@+id/Club_NextMeeting_Participants"
+       		      android:layout_below="@+id/Club_NextMeeting_Title"
        		      android:layout_marginTop="17dp"
        		       android:gravity="left"
        		      android:text="Suggested books"
@@ -128,8 +105,13 @@
        		      android:layout_below="@+id/Suggested_Bookse"
        		      android:text="@string/Join_Us"
        		      android:textSize="12sp"
-       		      android:onClick="joinClub" />       		  
-       		      
-       		  
+       		      android:onClick="joinClub" />
+
+       		   <LinearLayout
+       		       android:layout_width="wrap_content"
+       		       android:layout_height="wrap_content"
+       		       android:layout_alignTop="@+id/Club_Members"
+       		       android:layout_toRightOf="@+id/Club_Name" >
+       		   </LinearLayout>
        		  		  		  		  
 </RelativeLayout>

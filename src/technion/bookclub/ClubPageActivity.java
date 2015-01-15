@@ -6,6 +6,8 @@ package technion.bookclub;
 //import com.facebook.Session;
 
 import java.util.ArrayList;
+import android.support.v4.app.ListFragment;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,10 +23,12 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import technion.bookclub.entities.Club;
+import technion.bookclub.entities.Meeting;
 import technion.bookclub.entities.SuggestedBook;
 import android.app.Activity;
 //import android.app.FragmentManager;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -35,6 +39,7 @@ import android.support.v4.app.FragmentTransaction;
 //import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,6 +52,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +70,17 @@ public class ClubPageActivity extends FragmentActivity {
 	public Bundle b;
 	public ClubPageFragment clubFragment;
 	public SuggestedBooksFragment booksFragment;
+	public NextMeetingFragment_Edit editMeetingF;
+	public NextMeetingFragment meetingFragment;
+	public boolean voteIsDone;
+	private PopupWindow pwindo;
+	public UserListAdapter adapter;
+	
+	public String bookName;
+	public String location;
+	public String date;
+	public Meeting meeting;
+	public String user="5278093363118080";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +95,11 @@ public class ClubPageActivity extends FragmentActivity {
 		memeberNum=b.getString("memeberNum");
 		imageURL=b.getString("imageUrl");
 		clubId=b.getString("clubId");
+		voteIsDone=false;
+		bookName=new String("");
+		location=new String("");
+		date=new String("");
+		meeting=new Meeting();
 		
 		
 		 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -110,7 +132,7 @@ public class ClubPageActivity extends FragmentActivity {
 		     RequestParams params = new RequestParams();
 		     //TODO get user id
 		     params.put("clubId", clubId);
-		     params.put("userId", "5278093363118080");
+		     params.put("userId", user);
 		     params.put("op", "join");
 		     client.get("http://jalees-bookclub.appspot.com/joinclub",params, new AsyncHttpResponseHandler() {
 
@@ -152,34 +174,231 @@ public class ClubPageActivity extends FragmentActivity {
 		 FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //		setTitle("Next Meeting");
-		MembersPageActivity fragment =new MembersPageActivity(clubId);
-		
+		MembersPageActivity fragment =new MembersPageActivity(clubId);	
 		fragmentTransaction.replace(R.id.Club_Act, fragment);
 		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();				
+		fragmentTransaction.commit();		
+		
+/*		
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final View viewtemp = inflater.inflate(R.layout.members_activity, (ViewGroup) findViewById(R.id.members_layout));
+		//adapter = new ClubListAdapter(getActivity(), data);
+		pwindo = new PopupWindow(viewtemp, 300, 370, true);
+		pwindo.showAtLocation(viewtemp, Gravity.CENTER, 0, 0);
+		//setListAdapter(adapter);
+
+		final Context context=this;
+//		setContentView(R.layout.members_activity);
+
+//		Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+
+		AsyncHttpClient client = new AsyncHttpClient();
+		RequestParams params = new RequestParams();
+		params.put("clubId", clubId);
+
+		client.get("http://jalees-bookclub.appspot.com/getmembers", params,
+				new AsyncHttpResponseHandler() {
+
+					@Override
+					public void onSuccess(int statusCode, Header[] headers,
+							byte[] response) {
+						String s = new String(response);
+						System.out.println("sucees" + s);
+						adapter = new UserListAdapter(context, s);
+						TextView v2 = (TextView) viewtemp.findViewById(R.id.members_results_id);
+						v2.setText("Members in this club:");
+						
+						MembersPageActivity t=new MembersPageActivity("clubId");
+						t.setListAdapter(adapter);
+
+					}
+
+					@Override
+					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+							Throwable arg3) {
+					}
+
+				});
+//		return view;
+	*/
 	}	
 	
 ///////////////////////////////// Next Meeting /////////////////////////////////////
 	
 	public void getNextMeeting(View view) {
-		 FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//		setTitle("Next Meeting");
-		NextMeetingFragment fragment =new NextMeetingFragment();
 		
-		fragmentTransaction.replace(R.id.Club_Act, fragment);
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();		
+		AsyncHttpClient client = new AsyncHttpClient();
+	     RequestParams params = new RequestParams();
+	     params.put("clubId", clubId);
+	     client.get("http://jalees-bookclub.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
+
+				@Override
+				public void onSuccess(int statusCode,
+						Header[] headers, byte[] response) {
+//					JSONArray jsonItems;
+					String result=new String(response);
+//					System.out.println(result);
+                    meeting= (Meeting.constructFromJson(result));
+                    
+                    bookName=meeting.getTitle();
+                    date=meeting.getDate();
+                    location=meeting.getLocation();
+                    
+           		 FragmentManager fragmentManager = getSupportFragmentManager();
+         		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//         		setTitle("Next Meeting");
+         		meetingFragment =new NextMeetingFragment(bookName,date,location);
+         		
+         		fragmentTransaction.replace(R.id.Club_Act, meetingFragment);
+         		fragmentTransaction.addToBackStack(null);
+         		fragmentTransaction.commit();
+				}
+
+				@Override
+				public void onFailure(int arg0, Header[] arg1,
+						byte[] arg2, Throwable arg3) {
+//					System.out.println("failed");
+//					 TODO Auto-generated method stub
+				}
+			});
+		
+		
+		
+		
 	}
 	
 	
+	public void submitMeeting(View view){
+		//TODO add to server
+//		currentView=view.getRootView();
+		EditText book=(EditText) findViewById(R.id.Book_Name_edit);
+		EditText date=(EditText) findViewById(R.id.Edit_Date2);
+		EditText location=(EditText) findViewById(R.id.Edit_Location2);
+		if((book.getText()).toString().trim().equals("") || (date.getText()).toString().trim().equals("") ||
+				(location.getText()).toString().trim().equals("")){
+			return;
+		}
+		System.out.println(suggestedBooks);
+		if(!((book.getText()).toString().trim().equals("") )){
+//			remove book[0]
+			for(int i=1;i<suggestedBooks;i++){
+				books[i-1]=books[i];
+			}
+			suggestedBooks=suggestedBooks-1;
+			books[suggestedBooks]=new SuggestedBook("00","00","00");
+		}
+
+		bookName=new String((book.getText()).toString().trim());
+		this.location=new String ((location.getText()).toString().trim());
+		this.date=new String((date.getText()).toString().trim());
+		
+		 FragmentManager fragmentManager = getSupportFragmentManager();
+		 fragmentManager.popBackStack();
+		 fragmentManager.popBackStack();
+		 
+		 
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		meetingFragment =new NextMeetingFragment(bookName,this.date,this.location);
+//		meetingFragment.setPrms();
+		
+		fragmentTransaction.replace(R.id.Club_Act, meetingFragment);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();		
+		 
+
+		 
+		 
+		
+		 //TODO: add meeting to server
+	
+	}
 
 	public void joinMeeting(View view){
-		
+		AsyncHttpClient client = new AsyncHttpClient();
+	     RequestParams params = new RequestParams();
+	     params.put("meetingId", meeting.getMeetingId());
+	     params.put("userId",user);
+	     client.get("http://jalees-bookclub.appspot.com/joinMeeting",params, new AsyncHttpResponseHandler() {
+
+				@Override
+				public void onSuccess(int statusCode,
+						Header[] headers, byte[] response) {
+//					JSONArray jsonItems;
+				}
+				@Override
+				public void onFailure(int arg0, Header[] arg1,
+						byte[] arg2, Throwable arg3) {
+//					System.out.println("failed");
+//					 TODO Auto-generated method stub
+				}
+			});
 	}
 	
 	public void editMeeting(View view){
+		final View currentView=view.getRootView();
+		 FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//		setTitle("Next Meeting");
+			editMeetingF =new NextMeetingFragment_Edit();
+			fragmentTransaction.replace(R.id.Club_Act, editMeetingF);
+			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.commit();	
 		
+		AsyncHttpClient client = new AsyncHttpClient();
+	     RequestParams params = new RequestParams();
+	     params.put("clubId", clubId);
+	     client.get("http://jalees-bookclub.appspot.com/getsuggestedbooks",params, new AsyncHttpResponseHandler() {
+
+				@Override
+				public void onSuccess(int statusCode,
+						Header[] headers, byte[] response) {
+					JSONArray jsonItems;
+					String result=new String(response);
+					System.out.println(result);
+					try {
+						JSONObject json = new JSONObject(result);
+						jsonItems=json.getJSONArray("results");
+						suggestedBooks=jsonItems.length()-1;
+						if(suggestedBooks <= 0){
+							suggestedBooks=0;
+//							return;
+						}
+						String[] title=new String[suggestedBooks];
+						String[] numOfLikes=new String[suggestedBooks];
+						books=new SuggestedBook[5];
+		//
+						for(int i=0; i<suggestedBooks;i++){
+							json = jsonItems.getJSONObject(i);
+							title[i]=json.getString("title");
+							numOfLikes[i]=json.getString("numOfLikes");
+							books[i]= new SuggestedBook(clubId,title[i],numOfLikes[i]);
+						}
+						for(int i=suggestedBooks; i<5;i++){
+							Integer like=-i;
+							books[i]= new SuggestedBook("00","00",like.toString());
+						}
+						
+					} catch (JSONException e) {
+						System.out.println("failed");
+						e.printStackTrace();
+					}
+					Arrays.sort(books);
+
+				     if(suggestedBooks != 0){
+				    	 EditText des=(EditText) currentView.findViewById(R.id.Book_Name_edit);
+				    	 des.setText(books[0].getSuggestedBookId());
+				     }
+				}
+
+				@Override
+				public void onFailure(int arg0, Header[] arg1,
+						byte[] arg2, Throwable arg3) {
+//					System.out.println("failed");
+//					 TODO Auto-generated method stub
+				}
+			});
+	     //setTitle("Suggested Books");
+
 	}	
 	
 ///////////////////////////////// Suggested Books /////////////////////////////////////	
@@ -203,7 +422,7 @@ public class ClubPageActivity extends FragmentActivity {
 								suggestedBooks=jsonItems.length()-1;
 								if(suggestedBooks <= 0){
 									suggestedBooks=0;
-									return;
+//									return;
 								}
 								System.out.println(suggestedBooks);
 								String[] title=new String[suggestedBooks];
@@ -247,7 +466,7 @@ public class ClubPageActivity extends FragmentActivity {
 			}	
 	
 	public void Vote(View view){
-		if(selectedBook==0){
+		if(selectedBook==0 || voteIsDone==true){
 			return;
 		}
 		System.out.println(selectedBook);
@@ -255,6 +474,7 @@ public class ClubPageActivity extends FragmentActivity {
 	     RequestParams params = new RequestParams();
 	     params.put("title", books[selectedBook-1].getSuggestedBookId());
 	     params.put("clubId", clubId);
+	     params.put("op", "like");
 	     client.get("http://jalees-bookclub.appspot.com/votetosuggestedbook",params, new AsyncHttpResponseHandler() {
 
 				@Override
@@ -265,41 +485,48 @@ public class ClubPageActivity extends FragmentActivity {
 					books[selectedBook-1].addLike();
 					Arrays.sort(books);
 					RadioButton button;
+//					selectedBook=0;
 					for(int i=1; i<=suggestedBooks; i++){
 						switch (i){
 						case 1:
 							button=(RadioButton)findViewById(R.id.book1);
 							button.setText(books[i-1].getSuggestedBookId());
 							button.setChecked(false);
+//							button.setClickable(false);
 							button.setVisibility(0);
 							break;
 						case 2:
 							button=(RadioButton)findViewById(R.id.book2);
 							button.setText(books[i-1].getSuggestedBookId());
 							button.setChecked(false);
+//							button.setClickable(false);
 							button.setVisibility(0);
 							break;
 						case 3:
 							button=(RadioButton)findViewById(R.id.book3);
 							button.setText(books[i-1].getSuggestedBookId());
 							button.setChecked(false);
+//							button.setClickable(false);
 							button.setVisibility(0);
 							break;
 						case 4:
 							button=(RadioButton)findViewById(R.id.book4);
 							button.setText(books[i-1].getSuggestedBookId());
 							button.setChecked(false);
+//							button.setClickable(false);
 							button.setVisibility(0);
 							break;
 						case 5:
 							button=(RadioButton)findViewById(R.id.book5);
 							button.setText(books[i-1].getSuggestedBookId());
 							button.setChecked(false);
+//							button.setClickable(false);
 							button.setVisibility(0);
 						default:
 							break;
 						}
 					}
+					voteIsDone=true;
 				}
 
 				@Override
@@ -309,9 +536,6 @@ public class ClubPageActivity extends FragmentActivity {
 //					 TODO Auto-generated method stub
 				}
 			});		
-		//TODO add vote to server
-	//	books[selectedBook].addVote();
-//		Arrays.sort(books);
 	}
 	/*
 	public void Suggest(View view){

@@ -48,11 +48,11 @@ public class ClubPageFragment extends Fragment {
 		Picasso.with(rootView.getContext()).load(imageURL).into(img);
 		return rootView;
 	}
-	public static Fragment newInstance() {
+/*	public static Fragment newInstance() {
 		NextMeetingFragment fragment = new NextMeetingFragment();
 		Bundle args = new Bundle();
 		fragment.setArguments(args);
 		return fragment;
-	}
+	}*/
 
 }
