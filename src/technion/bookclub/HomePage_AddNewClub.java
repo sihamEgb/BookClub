@@ -1,8 +1,13 @@
 package technion.bookclub;
 
+import org.apache.http.Header;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,10 +111,10 @@ public class HomePage_AddNewClub extends Activity {
 		int duration = Toast.LENGTH_SHORT;
 
 		String imageUrl = "http://www.viduman.com/dosya/default.jpg";
-		
-		String clubName = nameEditText.getText().toString().trim();
-		String clubDesc = descEditText.getText().toString().trim();
-		String clubLocation = autoCompleteLocation.getText().toString();
+
+		final String clubName = nameEditText.getText().toString().trim();
+		final String clubDesc = descEditText.getText().toString().trim();
+		final String clubLocation = autoCompleteLocation.getText().toString();
 		imageUrl = imageUrlEditText.getText().toString();
 
 		if (imageUrl.equals(""))
@@ -118,7 +123,6 @@ public class HomePage_AddNewClub extends Activity {
 		if (imageUrl == null)
 			imageUrl = "http://www.viduman.com/dosya/default.jpg";
 
-				
 		if (clubName == null || clubDesc == null || clubLocation == null) {
 			Toast toast = Toast.makeText(context, "Error Cannot Create Club",
 					duration);
@@ -139,25 +143,46 @@ public class HomePage_AddNewClub extends Activity {
 		params.put("name", clubName);
 		params.put("location", clubLocation);
 		params.put("description", clubDesc);
-		params.put("adminId", UserInfo.getId() );
+		params.put("adminId", UserInfo.getId());
 		params.put("imageUrl", imageUrl);
 
+		final String urlStam = imageUrl;
 		client.get("http://jalees-bookclub.appspot.com/addclub", params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
-					public void onFailure(int arg0,
-							org.apache.http.Header[] arg1, byte[] arg2,
-							Throwable arg3) {
-						// TODO Auto-generated method stub
+					public void onSuccess(int statusCode, Header[] headers,
+							byte[] response) {
+						String s = new String(response);
+						System.out.println("sucees" + s);
+
+						// s is the new clubId
+						// System.out.println("sucees" + s);
+
+						Intent in = new Intent(getApplicationContext(),
+								ClubPageActivity.class);
+						in.putExtra("clubId", s);
+						in.putExtra("adminId", UserInfo.getId());
+						in.putExtra("name", clubName);
+						in.putExtra("location", clubLocation);
+						in.putExtra("description", clubDesc);
+
+						in.putExtra("imageUrl", urlStam);
+						in.putExtra("memeberNum", 1);
+						startActivity(in);
+
 					}
 
 					@Override
-					public void onSuccess(int arg0,
-							org.apache.http.Header[] arg1, byte[] arg2) {
-						// TODO Auto-generated method stub
+					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+							Throwable arg3) {
+						System.out.println("failed");
+						System.out.println(arg1);
+						System.out.println(arg2);
+						System.out.println(arg3);
 
 					}
+
 				});
 
 	}
