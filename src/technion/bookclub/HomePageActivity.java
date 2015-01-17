@@ -160,4 +160,30 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
     public String getUserId(){
     	return userId;
     }
+    
+    private byte[] getMyClubsResponse;
+    public void setMyClubsResponse(byte[] response){
+    	if(response!=null){
+        	getMyClubsResponse = new byte[response.length];
+        	for(int i=0;i<response.length;i++){
+        		getMyClubsResponse[i] = response[i];
+        	}
+    	}
+    }
+    
+    public byte[] getMyClubsResponse(){
+    	return getMyClubsResponse;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

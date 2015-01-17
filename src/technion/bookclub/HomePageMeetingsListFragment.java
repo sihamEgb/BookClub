@@ -13,6 +13,7 @@ import com.loopj.android.http.RequestParams;
 import technion.bookclub.entities.Club;
 import technion.bookclub.entities.Meeting;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -21,53 +22,35 @@ import android.view.ViewGroup;
 
 public class HomePageMeetingsListFragment extends ListFragment{
 	private HomePageMeetingsListAdapter listAdapter;
+	Context context;
     private String user_id;
-    public ArrayList<Meeting> user_meetings = new ArrayList<Meeting>();
-    public ArrayList<String> club_ids = new ArrayList<String>();
-    public ArrayList<String> club_titles = new ArrayList<String>();
+    public ArrayList<Meeting> user_meetings ;//= new ArrayList<Meeting>();
+    public ArrayList<String> club_ids ;//= new ArrayList<String>();
+    public ArrayList<String> club_titles;// = new ArrayList<String>();
     
 	@Override
 	  public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
     }
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		context = getActivity();
+	    user_meetings = new ArrayList<Meeting>();
+	    club_ids = new ArrayList<String>();
+	    club_titles = new ArrayList<String>();
 		user_id = ((HomePageInterface)this.getActivity()).getUserId();
-		getUserMeetingsListFromServer();
         listAdapter = new HomePageMeetingsListAdapter(getActivity(),user_meetings,club_titles);
 		setListAdapter(listAdapter);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	
-	private void getUserMeetingsListFromServer(){
-		getUserClubsListFromServer();
-	}
 	
-	
-	 private void getUserClubsListFromServer(){
-		  AsyncHttpClient client = new AsyncHttpClient();
-         RequestParams params = new RequestParams();
-         params.put("userId", user_id);
-         client.get("http://jalees-bookclub.appspot.com/getmyclubs",params, new AsyncHttpResponseHandler() {
-                     @Override
-                     public void onSuccess(int statusCode,Header[] headers, byte[] response) {
-                         String userClubsString = new String(response);
-                         getMeetings(userClubsString);
-                     }
-                     
-                     @Override
-                     public void onFailure(int arg0, Header[] arg1,
-                             byte[] arg2, Throwable arg3) {
-                     }
-                 });
-	 }
-	
-	 private void getMeetings(String res){
-		 getClubIdsListFromJson(res);
+	 private void getMeetings(){
+		 System.out.println("W-W-W-W-W-W-W-W"+new String(((HomePageInterface)context).getMyClubsResponse()));
+		 getClubIdsListFromJson(new String(((HomePageInterface)context).getMyClubsResponse()));
 		 for(String c_id : club_ids){
 			 AddMeetingFromServer(c_id);
 		 }

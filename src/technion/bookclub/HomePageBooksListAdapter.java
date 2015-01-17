@@ -373,13 +373,14 @@ public class HomePageBooksListAdapter extends BaseAdapter{
                         if(s.equals("success")){
                         	refreshBooksList();
                         }else if(s.equals("fail")){
-                        	Toast.makeText(context, "try again later" , Toast.LENGTH_SHORT).show();
+                        	//Toast.makeText(context, "try again later" , Toast.LENGTH_SHORT).show();
                         }
                     }
                     
                     @Override
                     public void onFailure(int arg0, Header[] arg1,
                             byte[] arg2, Throwable arg3) {
+                    	Toast.makeText(context, "try again later" , Toast.LENGTH_SHORT).show();
                     }
                 });
 	 }
