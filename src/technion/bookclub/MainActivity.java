@@ -1,6 +1,7 @@
 package technion.bookclub;
 
 import technion.bookclub.entities.Book;
+import com.facebook.Session;
 import technion.bookclub.entities.Club;
 import android.app.SearchManager;
 import android.content.Intent;
