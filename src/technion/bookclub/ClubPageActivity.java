@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.facebook.Session;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
@@ -72,6 +73,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public SuggestedBooksFragment booksFragment;
 	public NextMeetingFragment_Edit editMeetingF;
 	public NextMeetingFragment meetingFragment;
+	public SplashFragment splashFragment;
 	public boolean voteIsDone;
 	private PopupWindow pwindo;
 	public UserListAdapter adapter;
@@ -121,11 +123,17 @@ public class ClubPageActivity extends FragmentActivity {
 	
 	public void joinClub(View view) {
 		currentView=view.getRootView();
-		if (!isLoggedIn()){
+	    Session session = Session.getActiveSession();
+
+		if (session == null || session.isClosed() ){
 			//if(isSessionValid()){
-			Intent myIntent = new Intent(this, SplashFragment.class);
-			//myIntent.putExtra("key", value); //Optional parameters
-			startActivityForResult(myIntent,0);
+			 FragmentManager fragmentManager = getSupportFragmentManager();
+			 splashFragment =new SplashFragment();
+			 
+			 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			 fragmentTransaction.replace(R.id.Club_Act, splashFragment);
+//			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.commit();
 			//}
 		} else{
 //			((Button)currentView).h;

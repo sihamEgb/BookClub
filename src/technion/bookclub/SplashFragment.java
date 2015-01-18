@@ -1,8 +1,11 @@
 package technion.bookclub;
 
+import java.util.Arrays;
+
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.LoginButton;
 
 import technion.bookclub.entities.Club;
 import android.app.SearchManager;
@@ -19,73 +22,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class SplashFragment extends FragmentActivity {
+public class SplashFragment extends Fragment {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		//Intent intent = getIntent();
-		setContentView(R.layout.splash);
-		// enable ActionBar app icon to behave as action to toggle nav drawer
-//		getActionBar().setDisplayHomeAsUpEnabled(true);
-	//	getActionBar().setHomeButtonEnabled(true);
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	// Called whenever we call invalidateOptionsMenu() 
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// If the nav drawer is open, hide action items related to the content
-		// view
-		//boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_websearch).setVisible(true);
-		return super.onPrepareOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// The action bar home/up action should open or close the drawer.
-		// ActionBarDrawerToggle will take care of this.
-		//if (mDrawerToggle.onOptionsItemSelected(item)) {
-		//	return true;
-		//}
-		// Handle action buttons
-		switch (item.getItemId()) {
-		case R.id.action_websearch:
-			// create intent to perform web search for this planet
-			Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-			intent.putExtra(SearchManager.QUERY, getActionBar().getTitle());
-			// catch event that there's no activity to handle intent
-			if (intent.resolveActivity(getPackageManager()) != null) {
-				startActivity(intent);
-			} else {
-				Toast.makeText(this, R.string.app_not_available,
-						Toast.LENGTH_LONG).show();
-			}
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-/*
+	private static final String TAG = "MainFragment";
+	public SplashFragment(){}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		//listView=(ExpandableListView) findViewById(R.id.club_info_list);
-		View rootView = inflater.inflate(R.layout.splash, container,
-				false);
+		View rootView = inflater.inflate(R.layout.splash, container,false);
 
+		LoginButton authButton = (LoginButton) rootView.findViewById(R.id.authButton);
+		authButton.setFragment(this);
+		authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
 		return rootView;
 	}
+	public static Fragment newInstance(){
+		SplashFragment fragment = new SplashFragment();
+		Bundle args = new Bundle();
+		fragment.setArguments(args);
+		return fragment;
+	}
 	
+//	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+//	    if (state.isOpened()) {
+//	        Log.i(TAG, "Logged in...");
+//	    } else if (state.isClosed()) {
+//	        Log.i(TAG, "Logged out...");
+//	    }
+//	}
 	
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 		Context context = this.getActivity().getApplicationContext();
@@ -115,12 +80,50 @@ public class SplashFragment extends FragmentActivity {
 	};
 	private UiLifecycleHelper uiHelper;
 
-	
-	public static Fragment newInstance() {
-		SplashFragment fragment = new SplashFragment();
-		Bundle args = new Bundle();
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+	    uiHelper = new UiLifecycleHelper(getActivity(), callback);
+	    uiHelper.onCreate(savedInstanceState);
+	}
 
-		fragment.setArguments(args);
-		return fragment;
-	}	*/
+	@Override
+	public void onResume() {
+	    super.onResume();
+//	    uiHelper.onResume();
+	    // For scenarios where the main activity is launched and user
+	    // session is not null, the session state change notification
+	    // may not be triggered. Trigger it if it's open/closed.
+	    Session session = Session.getActiveSession();
+	    if (session != null &&
+	           (session.isOpened() || session.isClosed()) ) {
+	        onSessionStateChange(session, session.getState(), null);
+	    }
+
+	    uiHelper.onResume();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    super.onActivityResult(requestCode, resultCode, data);
+	    uiHelper.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	public void onPause() {
+	    super.onPause();
+	    uiHelper.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+	    super.onDestroy();
+	    uiHelper.onDestroy();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+	    super.onSaveInstanceState(outState);
+	    uiHelper.onSaveInstanceState(outState);
+	}
 }

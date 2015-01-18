@@ -180,11 +180,11 @@ public class MainActivity extends FragmentActivity {
 			break;
 
 		case 3:
-			
-			  Intent myIntent = new Intent(this, SplashFragment.class);
-			  //myIntent.putExtra("key", value); //Optional parameters
-			  startActivityForResult(myIntent,0); return;
-			 
+			currFragment = SplashFragment.newInstance();
+			// fragment = new ClubSearchFragment();
+			System.out.println(position);
+			System.out.println(currFragment);
+
 
 			// break;
 
