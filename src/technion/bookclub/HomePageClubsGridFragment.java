@@ -55,7 +55,6 @@ public class HomePageClubsGridFragment extends Fragment{
                     	  userClubsString = new String(response);
                           System.out.println("SUCCESS - GETTING USER CLUBS FROM SERVER :" + userClubsString);
                     	  gView.setAdapter(new HomePageClubsListAdapter(context,userClubsString));    
-                          ((HomePageInterface)context).setMyClubsResponse(response);
                       }
                       
                       @Override

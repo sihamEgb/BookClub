@@ -1,6 +1,8 @@
 package technion.bookclub;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -10,12 +12,16 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import technion.bookclub.entities.Club;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.view.LayoutInflater;
@@ -103,6 +109,7 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 	public HomePageClubsListAdapter(Context con, String clubsDataString) {
 		super();
 		context = con;
+		((HomePageInterface)context).setClubsAdapter(this);
 		clubs = new ArrayList<Club>();
 		BuildClubsListFromJson(clubsDataString);
 		// buildClubs();
@@ -134,9 +141,9 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		// holder.meeting_date = (TextView)
 		// view.findViewById(R.id.club_next_date);
 		holder.pic = (ImageView) view.findViewById(R.id.club_img);
+		ImageView edit_img = ((ImageView) view.findViewById(R.id.homepage_clubs_edit_img));
 		overflowClickListener l = new overflowClickListener(holder,position);
-		((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
-				.setOnClickListener(l);
+		edit_img.setOnClickListener(l);
 		view.setTag(holder);
 		Club club = getClub(position);
 		holder.name.setText(club.getName());
@@ -147,13 +154,13 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		if (position == 0) {
 			// TODO: SET APPROPRIATE IMAGE 
 			holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.blank_create_club));
-			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img)).setVisibility(View.GONE);
+			 edit_img.setVisibility(View.GONE);
 			holder.members_num.setText("");
 			firstListItemListener first_item_l = new firstListItemListener();
 			view.setOnClickListener(first_item_l);
 		} else {
-			Picasso.with(view.getContext()).load(club.getImageUrl()).into(holder.pic);
-			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img)).setVisibility(View.VISIBLE);
+			Picasso.with(view.getContext()).load(club.getImageUrl()).fit().into(holder.pic);
+			 edit_img.setVisibility(View.VISIBLE);
 			view.setOnClickListener(new ClubItemListener(club));
 		}
 		return view;
@@ -171,7 +178,7 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view;
 		ViewHolder holder;
-
+		ImageView edit_img = null;
 		if (convertView == null) {
 			// LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
 			LayoutInflater inflater = (LayoutInflater) context
@@ -183,13 +190,14 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 			// holder.meeting_date = (TextView)
 			// view.findViewById(R.id.club_next_date);
 			holder.pic = (ImageView) view.findViewById(R.id.club_img);
+			edit_img = ((ImageView) view.findViewById(R.id.homepage_clubs_edit_img));
 			overflowClickListener l = new overflowClickListener(holder,position);
-			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
-					.setOnClickListener(l);
+			edit_img.setOnClickListener(l);
 			view.setTag(holder);
 		} else {
 			view = convertView;
 			holder = (ViewHolder) convertView.getTag();
+			edit_img = ((ImageView) view.findViewById(R.id.homepage_clubs_edit_img));
 		}
 
 		Club club = getClub(position);
@@ -197,21 +205,16 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		holder.members_num.setText(club.getMemeberNum()+" members");
 		holder.club_id=club.getClubId();
 		// holder.meeting_date.setText(club.next_meeting_date);
-		// TODO: GET IMAGE FROM URL
-		holder.pic.setImageDrawable(context.getResources().getDrawable(
-				R.drawable.club_3));
-
+		//holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.club_3));
 		if (position == 0) {
 			holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.blank_create_club));
-			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
-					.setVisibility(View.GONE);
+			edit_img.setVisibility(View.GONE);
 			holder.members_num.setText("");
 			firstListItemListener first_item_l = new firstListItemListener();
 			view.setOnClickListener(first_item_l);
 		} else {
-			Picasso.with(view.getContext()).load(club.getImageUrl()).into(holder.pic);
-			((ImageView) view.findViewById(R.id.homepage_clubs_edit_img))
-					.setVisibility(View.VISIBLE);
+			Picasso.with(view.getContext()).load(club.getImageUrl()).fit().into(holder.pic);
+			edit_img.setVisibility(View.VISIBLE);
 			view.setOnClickListener(new ClubItemListener(club));
 		}
 		return view;
@@ -232,8 +235,13 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 			popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 				@Override
 				public boolean onMenuItemClick(MenuItem item) {
-					clubs.remove(position);
-					leaveClub(holder.club_id);
+					if(item.getTitle().equals("Leave")){
+						String club_id = holder.club_id;
+						clubs.remove(position);
+						leaveClub(club_id);
+						((HomePageInterface)context).getMeetingsAdapter().removeClubMeetings(club_id);
+						((HomePageInterface)context).removeClubFromLists(club_id);
+					}
 					//Toast.makeText(context,"You selected the action : " + item.getTitle(),Toast.LENGTH_SHORT).show();
 					return true;
 				}

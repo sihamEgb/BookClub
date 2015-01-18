@@ -1,9 +1,19 @@
 package technion.bookclub;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import technion.bookclub.entities.Club;
+import technion.bookclub.entities.Meeting;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
  
 import android.content.Context;
 import android.os.Bundle;
@@ -17,9 +27,19 @@ import android.widget.TabHost.TabContentFactory;
 public class HomePageActivity extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener, HomePageInterface {
 	//"6583832140578816"
 	//"6583832140578816"
+	private HomePageMeetingsListAdapter meetingsAdapter;
+	private HomePageClubsListAdapter clubsAdapter;
+	private HomePageBooksListAdapter booksAdapter;
+	
+	private String clubs_string;
+   // private HashMap<String,String> clubs_ids;
+    private HashMap<String,String> clubs_titles;
+    private HashMap<String,String> club_meetings; 
+    
 	public static String userId;//="5278093363118080";
     private TabHost mTabHost;
     private ViewPager mViewPager;
+
     private HashMap<String, TabInfo> mapTabInfo = new HashMap<String, HomePageActivity.TabInfo>();
     private HomePagePagerAdapter mPagerAdapter;
     /**
@@ -67,6 +87,9 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
 			Bundle b = getIntent().getExtras();
 			userId= b.getString("userId");
 		}
+		clubs_titles = new HashMap<String,String>();
+		club_meetings = new HashMap<String,String>();
+		getUserClubsInfoListFromServer();
         // Initialize the TabHost
         this.initialiseTabHost(savedInstanceState);
         if (savedInstanceState != null) {
@@ -161,29 +184,118 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
     	return userId;
     }
     
-    private byte[] getMyClubsResponse;
-    public void setMyClubsResponse(byte[] response){
-    	if(response!=null){
-        	getMyClubsResponse = new byte[response.length];
-        	for(int i=0;i<response.length;i++){
-        		getMyClubsResponse[i] = response[i];
-        	}
+
+	 private void getUserClubsInfoListFromServer(){
+		  AsyncHttpClient client = new AsyncHttpClient();
+         RequestParams params = new RequestParams();
+         params.put("userId", userId);
+         client.get("http://jalees-bookclub.appspot.com/getmyclubs",params, new AsyncHttpResponseHandler() {
+                     @Override
+                     public void onSuccess(int statusCode,Header[] headers, byte[] response) {
+                   	  clubs_string = new String(response);
+                   	  getClubsIdsFromJson(clubs_string);
+                     }
+                     
+                     @Override
+                     public void onFailure(int arg0, Header[] arg1,
+                             byte[] arg2, Throwable arg3) {
+                     }
+                 });
+	 }
+    
+    
+		private void getClubsIdsFromJson(String result) {
+			
+			try {
+				JSONObject obj = new JSONObject(result);
+				JSONArray jsonArr = new JSONArray(obj.getString("results"));
+				int numOfItems = jsonArr.length();
+				JSONObject json;
+				for (int i = 0; i < numOfItems; i++) {
+					Club club = new Club();
+					json = jsonArr.getJSONObject(i);
+					club = Club.constructFromJson(json.toString());
+					clubs_titles.put(club.getClubId(),club.getName());
+					getClubMeetingFromServer(club.getClubId());
+				}
+				// return results;
+			} catch (Exception e) {
+
+			}
+		}
+    
+		private void getClubMeetingFromServer(final String club_id){
+			  AsyncHttpClient client = new AsyncHttpClient();
+		         RequestParams params = new RequestParams();
+		         params.put("clubId", club_id);
+		         client.get("http://jalees-bookclub.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
+		                     @Override
+		                     public void onSuccess(int statusCode,Header[] headers, byte[] response) {
+		                         String s = new String(response);
+		                         System.out.println("HomePage Meetings:"+s);
+		                         club_meetings.put(club_id, s);
+		                     }
+		                     
+		                     @Override
+		                     public void onFailure(int arg0, Header[] arg1,
+		                             byte[] arg2, Throwable arg3) {
+		                    	 System.out.println("HomePage NO Meetings:");
+		                    	 club_meetings.put(club_id, " ");
+		                     }
+		                 });
+		}
+    
+    public void removeClubFromLists(String club_id){
+    	if(club_meetings.containsKey(club_id)){
+    		club_meetings.remove(club_id);
+    	}
+    	if(clubs_titles.containsKey(club_id)){
+    		clubs_titles.remove(club_id);
     	}
     }
     
-    public byte[] getMyClubsResponse(){
-    	return getMyClubsResponse;
+    public String getClubsString(){
+    	return clubs_string;
+    }
+    public HashMap<String,String> getClubsTitles(){
+    	return clubs_titles;
+    }
+
+    public HashMap<String,String> getClubMeetings(){
+    	return club_meetings;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public HomePageMeetingsListAdapter getMeetingsAdapter(){
+    	return meetingsAdapter;
+    }
+
+
+	@Override
+	public void setClubsAdapter(HomePageClubsListAdapter adp) {
+		clubsAdapter = adp;
+	}
+
+
+	@Override
+	public void setBooksAdapter(HomePageBooksListAdapter adp) {
+		booksAdapter = adp;
+	}
+
+
+	@Override
+	public void setMeetingsAdapter(HomePageMeetingsListAdapter adp) {
+		meetingsAdapter = adp;
+	}
+
+
+	@Override
+	public HomePageBooksListAdapter getBooksAdapter() {
+		return booksAdapter;
+	}
+
+
+	@Override
+	public HomePageClubsListAdapter getClubsAdapter() {
+		return clubsAdapter;
+	}
 }

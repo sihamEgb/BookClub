@@ -166,6 +166,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
     public HomePageBooksListAdapter(Context con,String booksDataString){
     	super();
     	context = con;
+    	((HomePageInterface)context).setBooksAdapter(this);
         books = new ArrayList<Book>();
     	BuildBooksListFromJson(booksDataString);
     	//buildBooks();

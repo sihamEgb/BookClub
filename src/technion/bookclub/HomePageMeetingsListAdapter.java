@@ -1,6 +1,17 @@
 package technion.bookclub;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.http.Header;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import technion.bookclub.entities.Meeting;
 
@@ -23,7 +34,27 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 	
 /**********************************************************************************/	
 /******************************SHOULD BE DELETED***********************************/	
-/**********************************************************************************/	
+/**********************************************************************************/
+	
+/*	private void AddMeetingFromServer(String club_id){
+		  AsyncHttpClient client = new AsyncHttpClient();
+	         RequestParams params = new RequestParams();
+	         params.put("clubId", club_id);
+	         client.get("http://jalees-bookclub.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
+	        	 String res;
+	                     @Override
+	                     public void onSuccess(int statusCode,Header[] headers, byte[] response) {
+	                         res = new String(response);
+	                         addToMeetings(res);
+	                     }
+	                     
+	                     @Override
+	                     public void onFailure(int arg0, Header[] arg1,
+	                             byte[] arg2, Throwable arg3) {
+	                     }
+	                 });
+	}
+*/
 /*	
 	String[] dates = {"Sunday, Dec 21","Monday, Dec 29","Friday, Jan 10","Wednesday, Jan 23",
 			          "Sunday, Feb 11","Monday, Dec 19","Friday, Feb 20","Wednesday, Feb 23",
@@ -69,11 +100,15 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 	
 /**********************************************************************************/
 /**********************************************************************************/
-    private ArrayList<Meeting> meetings ;//= new ArrayList<Meeting>();
-    private ArrayList<String> club_names;
+    private LinkedHashMap<String,Meeting> meetings ;//= new ArrayList<Meeting>();
+    private LinkedHashMap<String,String> club_names;
+    private ArrayList<String> club_ids_list;
     
+    private String getClubName(String club_id){
+    	return club_names.get(club_id);
+    }
 	private Meeting getMeeting(int position){
-		return meetings.get(position);
+		return meetings.get(club_ids_list.get(position));
 	}
 	private class ViewHolder{
 		public TextView meeting_date;
@@ -83,18 +118,57 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
         public TextView meeting_location;
 	}
 	
-	
 	private Context context;
-
-    
-    public HomePageMeetingsListAdapter(Context con,ArrayList<Meeting> meetingsList,ArrayList<String> c_names){
+	
+  public void setMeetings(HashMap<String,String> club_meetings){
+	  Set<String> keys = club_meetings.keySet();
+      for(String k : keys){
+         meetings.put(k, Meeting.constructFromJson(club_meetings.get(k)));
+         club_ids_list.add(k);
+      }
+  }
+  
+  public void setClubNames(HashMap<String,String> club_titles){
+	  Set<String> keys = club_titles.keySet();
+      for(String k : keys){
+    	club_names.put(k,club_titles.get(k));
+      }
+  }
+    public HomePageMeetingsListAdapter(Context con,HashMap<String,String> club_meetings,HashMap<String,String> titles){
     	super();
     	context = con;
-    	meetings = meetingsList;
-    	club_names = c_names;
+    	((HomePageInterface)context).setMeetingsAdapter(this);
+    	meetings = new LinkedHashMap<String,Meeting>();
+    	club_names = new LinkedHashMap<String,String>(); 
+    	club_ids_list = new ArrayList<String>();
+    	ArrayList<String> ids = new ArrayList<String>();
+    	for(Map.Entry<String, String> entry  : club_meetings.entrySet()){
+    		if(entry.getValue().equals(" ")){
+    			ids.add(entry.getKey());
+    			//titles.remove(entry.getKey());
+    			//club_meetings.remove(entry.getKey());
+    		}
+    	}
+    	for(String id : ids){
+			titles.remove(id);
+			club_meetings.remove(id);
+    	}
+    	setMeetings(club_meetings);
+    	setClubNames(titles);
     	//buildMeetings();
     }
     
+	public void removeClubMeetings(String club_id){
+		meetings.remove(club_id);
+		club_names.remove(club_id);
+		for(int i=0;i<club_ids_list.size();i++){
+			if(club_ids_list.get(i).equals(club_id)){
+				club_ids_list.remove(i);
+			}
+		}
+		this.notifyDataSetChanged();
+	}
+
     private String getDateFromDateString(String date){
     	String[] s= date.split(" ");
     	return (s[0]+" "+s[1]+" "+s[2]);
@@ -134,7 +208,7 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 		view.setTag(holder);
 		holder.meeting_date.setText(getDateFromDateString(meeting.getDate()));
 		holder.meeting_hour.setText(getHourFromDateString(meeting.getDate()));
-		holder.meeting_club_name.setText(club_names.get(position));
+		holder.meeting_club_name.setText(getClubName(meeting.getClubId()));
 		holder.meeting_location.setText(meeting.getLocation());
 		holder.meeting_desc.setText(meeting.getTitle());
 		overflowClickListener l = new overflowClickListener();
@@ -177,7 +251,7 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 		Meeting meeting = getMeeting(position);
 		holder.meeting_date.setText(getDateFromDateString(meeting.getDate()));
 		holder.meeting_hour.setText(getHourFromDateString(meeting.getDate()));
-		holder.meeting_club_name.setText(club_names.get(position));
+		holder.meeting_club_name.setText(getClubName(meeting.getClubId()));
 		holder.meeting_location.setText(meeting.getLocation());
 		holder.meeting_desc.setText(meeting.getTitle());
 		overflowClickListener l = new overflowClickListener();
