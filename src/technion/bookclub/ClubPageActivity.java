@@ -124,6 +124,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public void joinClub(View view) {
 		currentView=view.getRootView();
 	    Session session = Session.getActiveSession();
+	    
 
 		if (session == null || session.isClosed() ){
 			//if(isSessionValid()){
