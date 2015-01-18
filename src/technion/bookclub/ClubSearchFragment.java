@@ -17,6 +17,8 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -54,11 +56,15 @@ public class ClubSearchFragment extends Fragment {
 		spinner = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 		spinner.setVisibility(View.GONE);
 
+	
 		// button
 		final Button button = (Button) rootView.findViewById(R.id.searchClub);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
+				InputMethodManager in = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+			    in.hideSoftInputFromWindow(v.getWindowToken(), 0);
+			    
 				spinner.setVisibility(View.VISIBLE);
 				Context context = getActivity();
 				int duration = Toast.LENGTH_SHORT;

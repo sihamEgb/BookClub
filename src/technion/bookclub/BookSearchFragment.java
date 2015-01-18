@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -76,6 +77,10 @@ public class BookSearchFragment extends Fragment {
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
+				InputMethodManager in = (InputMethodManager) getActivity()
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				in.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
 				// Context context = getActivity();
 				// int duration = Toast.LENGTH_SHORT;
 				spinner.setVisibility(View.VISIBLE);
@@ -83,25 +88,26 @@ public class BookSearchFragment extends Fragment {
 				final String bookTitle = titleQuery.getText().toString().trim();
 				final String bookLanguage = languageSpinner.getSelectedItem()
 						.toString();
-				final String clubLocation = autoCompleteLocation.getText().toString();
+				final String clubLocation = autoCompleteLocation.getText()
+						.toString();
 
 				// TODO - change logica
 				if (clubLocation.equals("")) {
-					//clubLocation = "Haifa";
+					// clubLocation = "Haifa";
 					// Toast toast = Toast.makeText(context,
 					// "Please choose a location from the list", duration);
 					// toast.show();
 
 				}
 				if (bookTitle.equals("")) {
-					//bookTitle = "Frozen";
+					// bookTitle = "Frozen";
 					// Toast toast = Toast.makeText(context,
 					// "Please choose a location from the list", duration);
 					// toast.show();
 
 				}
 				if (bookLanguage.equals("")) {
-					//bookLanguage = "Arabic";
+					// bookLanguage = "Arabic";
 					// Toast toast = Toast.makeText(context,
 					// "Please choose a location from the list", duration);
 					// toast.show();

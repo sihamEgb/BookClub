@@ -54,7 +54,7 @@ public class UserListAdapter extends BaseAdapter {
 
 			holder = new ViewHolder();
 			holder.name = (TextView) view.findViewById(R.id.name);
-			holder.email = (TextView) view.findViewById(R.id.email);
+			//holder.email = (TextView) view.findViewById(R.id.email);
 
 			view.setTag(holder);
 
@@ -64,14 +64,14 @@ public class UserListAdapter extends BaseAdapter {
 		}
 
 		holder.name.setText(users.get(position).getName());
-		holder.email.setText(users.get(position).getEmail());
+	//	holder.email.setText(users.get(position).getEmail());
 
 		return view;
 	}
 
 	private class ViewHolder {
 		public TextView name;
-		public TextView email;
+		//public TextView email;
 
 	}
 

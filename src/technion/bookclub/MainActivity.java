@@ -193,12 +193,12 @@ public class MainActivity extends FragmentActivity {
 			// System.out.println(position);
 			// System.out.println(currFragment);
 			// break;
-		default:
-			currFragment = PlanetFragment.newInstance(0);
+		//default:
+		//	currFragment = PlanetFragment.newInstance(0);
 		}
-		Bundle args = new Bundle();
-		args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-		currFragment.setArguments(args);
+		//Bundle args = new Bundle();
+		//args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
+		//currFragment.setArguments(args);
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.beginTransaction()
