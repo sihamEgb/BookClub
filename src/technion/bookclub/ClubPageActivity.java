@@ -565,7 +565,7 @@ public class ClubPageActivity extends FragmentActivity {
 	     RequestParams params = new RequestParams();
 	     params.put("title", books[selectedBook-1].getSuggestedBookId());
 	     params.put("clubId", clubId);
-	     params.put("op", "like");
+//	     params.put("op", "like");
 	     client.get("http://jalees-bookclub.appspot.com/votetosuggestedbook",params, new AsyncHttpResponseHandler() {
 
 				@Override
