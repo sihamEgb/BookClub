@@ -75,10 +75,20 @@
         android:layout_below="@+id/participants_num"
         android:layout_marginTop="17dp"
         android:gravity="left"
+        android:minHeight="0dp"
         android:onClick="getNextMeeting"
         android:text="Next meeting"
         android:textSize="20sp"
         android:textStyle="bold" />
+    
+                    <TextView
+                    android:id="@+id/meetingDate"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+        			android:layout_alignLeft="@+id/Club_Members"
+        			android:layout_below="@+id/Club_NextMeeting_Title"
+                    android:inputType="date"/>
 
     <Button
         android:id="@+id/Suggested_Books"
@@ -86,7 +96,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/Club_NextMeeting_Title"
-        android:layout_below="@+id/Club_NextMeeting_Title"
+        android:layout_below="@+id/meetingDate"
         android:layout_marginTop="17dp"
         android:gravity="left"
         android:onClick="getSeggestedBooks"

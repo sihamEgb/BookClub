@@ -24,12 +24,14 @@ public class ClubPageFragment extends Fragment {
 	public String description;
 	public String memeberNum;
 	public String imageURL;
+	public String date;
 
 	public ClubPageFragment(String description, String memeberNum,
-			String imageURL) {
+			String imageURL, String date) {
 		this.description = description;
 		this.memeberNum = memeberNum;
 		this.imageURL = imageURL;
+		this.date=date;
 		// Required empty public constructor
 	}
 
@@ -47,6 +49,9 @@ public class ClubPageFragment extends Fragment {
 		TextView memebers = (TextView) rootView
 				.findViewById(R.id.participants_num);
 		memebers.setText(memeberNum);
+		
+		TextView meetingDate=(TextView) rootView.findViewById(R.id.meetingDate);
+		meetingDate.setText(this.date);
 
 		ImageView img = (ImageView) rootView.findViewById(R.id.Club_Image);
 		Picasso.with(rootView.getContext()).load(imageURL).resize(180, 200)
