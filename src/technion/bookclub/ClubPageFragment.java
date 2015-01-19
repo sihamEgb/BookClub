@@ -38,6 +38,9 @@ public class ClubPageFragment extends Fragment {
 	public void setMembers(String memeberNum) {
 		this.memeberNum = memeberNum;
 	}
+	public void setDate(String date) {
+		this.date = date;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

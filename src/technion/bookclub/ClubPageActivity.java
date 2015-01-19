@@ -121,7 +121,7 @@ public class ClubPageActivity extends FragmentActivity {
                    bookName=meeting.getTitle();
                    date=meeting.getDate();
                    location=meeting.getLocation();
-                   if(!date.isEmpty()){
+                   if(date != null && !date.isEmpty()){
                 		 FragmentManager fragmentManager = getSupportFragmentManager();
                 		 clubFragment =new ClubPageFragment(description,memeberNum, imageURL,date);
                 		 
@@ -140,9 +140,9 @@ public class ClubPageActivity extends FragmentActivity {
 //					 TODO Auto-generated method stub
 				}
 			});
-
+	     System.out.println("date is empty");
   		 FragmentManager fragmentManager = getSupportFragmentManager();
-		 clubFragment =new ClubPageFragment(description,memeberNum, imageURL,date);
+		 clubFragment =new ClubPageFragment(description,memeberNum, imageURL,"");
 		 
 		 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		 fragmentTransaction.replace(R.id.Club_Act, clubFragment);
@@ -316,41 +316,43 @@ public class ClubPageActivity extends FragmentActivity {
 	public void submitMeeting(View view){
 		//TODO add to server
 //		currentView=view.getRootView();
+		
 		EditText book=(EditText) findViewById(R.id.Book_Name_edit);
+		
 		EditText date=(EditText) findViewById(R.id.Edit_Date2);
 		EditText location=(EditText) findViewById(R.id.Edit_Location2);
+		System.out.println("hiiii");
 		if((book.getText()).toString().trim().equals("") || (date.getText()).toString().trim().equals("") ||
 				(location.getText()).toString().trim().equals("")){
 			return;
 		}
 		bookName=new String((book.getText()).toString().trim());
+		System.out.println(bookName);
 		this.location=new String ((location.getText()).toString().trim());
+		System.out.println(this.location);
 		this.date=new String((date.getText()).toString().trim());
-		TextView meetingDate=(TextView) findViewById(R.id.meetingDate);
-		meetingDate.setText(this.date);
-//		meetingDate
-//		deletesuggestedbook
-		AsyncHttpClient client = new AsyncHttpClient();
-	     RequestParams params = new RequestParams();
-	     params.put("clubId", clubId);
-	     params.put("bookId",bookName);
-	     client.get("http://jalees-bookclub.appspot.com/deletesuggestedbook",params, new AsyncHttpResponseHandler() {
+		System.out.println(this.date);
 
+//		deletesuggestedbook
+		System.out.println(bookName);
+		if(!(bookName.equals("") ) && books[0] != null && bookName.equals(books[0].getTitle())){
+			System.out.println(bookName);
+			AsyncHttpClient client = new AsyncHttpClient();
+			RequestParams params = new RequestParams();
+			params.put("clubId", clubId);
+			params.put("title",bookName);
+			client.get("http://jalees-bookclub.appspot.com/deletesuggestedbook",params, new AsyncHttpResponseHandler() {
 				@Override
 				public void onSuccess(int statusCode,
-						Header[] headers, byte[] response) {
-				}
+						Header[] headers, byte[] response) {System.out.println("success");}
 				@Override
 				public void onFailure(int arg0, Header[] arg1,
-						byte[] arg2, Throwable arg3) {
-//					System.out.println("failed");
-//					 TODO Auto-generated method stub
-				}
+						byte[] arg2, Throwable arg3) {}
 			});
+		}
 	     
-		
 		System.out.println(suggestedBooks);
-		if(!((book.getText()).toString().trim().equals("") )){
+		if(!(bookName.equals("") ) && books[0] != null && bookName.equals(books[0].getTitle())){
 //			remove book[0]
 			for(int i=1;i<suggestedBooks;i++){
 				books[i-1]=books[i];
@@ -358,7 +360,6 @@ public class ClubPageActivity extends FragmentActivity {
 			suggestedBooks=suggestedBooks-1;
 			books[suggestedBooks]=new SuggestedBook("00","00","00");
 		}
-
 
 //		addmeeting
 		AsyncHttpClient client2 = new AsyncHttpClient();
@@ -368,38 +369,27 @@ public class ClubPageActivity extends FragmentActivity {
 	     params2.put("location", this.location);
 	     params2.put("date",this.date);
 	     client2.get("http://jalees-bookclub.appspot.com/addmeeting",params2, new AsyncHttpResponseHandler() {
-
 				@Override
 				public void onSuccess(int statusCode,
-						Header[] headers, byte[] response) {
-				}
+						Header[] headers, byte[] response) {}
 				@Override
 				public void onFailure(int arg0, Header[] arg1,
-						byte[] arg2, Throwable arg3) {
-//					System.out.println("failed");
-//					 TODO Auto-generated method stub
-				}
+						byte[] arg2, Throwable arg3) {}
 			});
 		
 		 FragmentManager fragmentManager = getSupportFragmentManager();
 		 fragmentManager.popBackStack();
 		 fragmentManager.popBackStack();
-		 
-		 
+		 this.clubFragment.setDate(this.date);
+		 System.out.println("here it is");
+		 //TODO fix this
+//			TextView meetingDate=(TextView) this.clubFragment.getView().findViewById(R.id.meetingDate);
+//			meetingDate.setText(this.date);
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		meetingFragment =new NextMeetingFragment(bookName,this.date,this.location);
-//		meetingFragment.setPrms();
-		
 		fragmentTransaction.replace(R.id.Club_Act, meetingFragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();		
-		 
-
-		 
-		 
-		
-		 //TODO: add meeting to server
-	
 	}
 
 	public void joinMeeting(View view){
@@ -477,7 +467,10 @@ public class ClubPageActivity extends FragmentActivity {
 
 				     if(suggestedBooks != 0){
 				    	 EditText des=(EditText) currentView.findViewById(R.id.Book_Name_edit);
-				    	 des.setText(books[0].getSuggestedBookId());
+				    	 des.setText(books[0].getTitle());
+				     } else{
+				    	 EditText des=(EditText) currentView.findViewById(R.id.Book_Name_edit);
+				    	 des.setVisibility(2);
 				     }
 				}
 
@@ -563,7 +556,7 @@ public class ClubPageActivity extends FragmentActivity {
 		System.out.println(selectedBook);
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
-	     params.put("title", books[selectedBook-1].getSuggestedBookId());
+	     params.put("title", books[selectedBook-1].getTitle());
 	     params.put("clubId", clubId);
 //	     params.put("op", "like");
 	     client.get("http://jalees-bookclub.appspot.com/votetosuggestedbook",params, new AsyncHttpResponseHandler() {
@@ -581,35 +574,35 @@ public class ClubPageActivity extends FragmentActivity {
 						switch (i){
 						case 1:
 							button=(RadioButton)findViewById(R.id.book1);
-							button.setText(books[i-1].getSuggestedBookId());
+							button.setText(books[i-1].getTitle());
 							button.setChecked(false);
 //							button.setClickable(false);
 							button.setVisibility(0);
 							break;
 						case 2:
 							button=(RadioButton)findViewById(R.id.book2);
-							button.setText(books[i-1].getSuggestedBookId());
+							button.setText(books[i-1].getTitle());
 							button.setChecked(false);
 //							button.setClickable(false);
 							button.setVisibility(0);
 							break;
 						case 3:
 							button=(RadioButton)findViewById(R.id.book3);
-							button.setText(books[i-1].getSuggestedBookId());
+							button.setText(books[i-1].getTitle());
 							button.setChecked(false);
 //							button.setClickable(false);
 							button.setVisibility(0);
 							break;
 						case 4:
 							button=(RadioButton)findViewById(R.id.book4);
-							button.setText(books[i-1].getSuggestedBookId());
+							button.setText(books[i-1].getTitle());
 							button.setChecked(false);
 //							button.setClickable(false);
 							button.setVisibility(0);
 							break;
 						case 5:
 							button=(RadioButton)findViewById(R.id.book5);
-							button.setText(books[i-1].getSuggestedBookId());
+							button.setText(books[i-1].getTitle());
 							button.setChecked(false);
 //							button.setClickable(false);
 							button.setVisibility(0);

@@ -20,6 +20,9 @@ public class SuggestedBook implements Comparable<SuggestedBook>{
 		this.numOfLikes=Integer.parseInt(numOfLikes);
 		this.clubId=clubId;
 	}
+	public String getTitle() {
+		return title;
+	}
 	public String getSuggestedBookId() {
 		return suggestedBookId;
 	}
@@ -28,6 +31,9 @@ public class SuggestedBook implements Comparable<SuggestedBook>{
 	}
 	public int getLikes() {
 		return numOfLikes.intValue();
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public void setSuggestedBookId(String suggestedBookId) {
 		this.suggestedBookId = suggestedBookId;
