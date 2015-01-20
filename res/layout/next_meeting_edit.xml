@@ -20,15 +20,24 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            
             <EditText
                 android:id="@+id/Book_Name_edit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_height="match_parent"
                 android:editable="false"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-          
+            <EditText
+                android:id="@+id/newBook_Name_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:textAppearance="?android:attr/textAppearanceMedium" />            
+            
+          </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout

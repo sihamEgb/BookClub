@@ -79,6 +79,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public UserListAdapter adapter;
 	
 	public String bookName;
+	public String newbookName;
 	public String location;
 	public String date;
 	public Meeting meeting;
@@ -101,6 +102,7 @@ public class ClubPageActivity extends FragmentActivity {
 		clubId=b.getString("clubId");
 		voteIsDone=false;
 		bookName=new String("");
+		newbookName=new String("");
 		location=new String("");
 		date=new String("");
 		meeting=new Meeting();
@@ -318,24 +320,23 @@ public class ClubPageActivity extends FragmentActivity {
 //		currentView=view.getRootView();
 		
 		EditText book=(EditText) findViewById(R.id.Book_Name_edit);
-		
+		EditText newbook=(EditText) findViewById(R.id.newBook_Name_edit);
 		EditText date=(EditText) findViewById(R.id.Edit_Date2);
 		EditText location=(EditText) findViewById(R.id.Edit_Location2);
 		System.out.println("hiiii");
-		if((book.getText()).toString().trim().equals("") || (date.getText()).toString().trim().equals("") ||
+		if(((book.getText()).toString().trim().equals("") && (newbook.getText()).toString().trim().equals(""))||
+				(date.getText()).toString().trim().equals("") ||
 				(location.getText()).toString().trim().equals("")){
 			return;
 		}
 		bookName=new String((book.getText()).toString().trim());
-		System.out.println(bookName);
+		newbookName=new String((newbook.getText()).toString().trim());
 		this.location=new String ((location.getText()).toString().trim());
-		System.out.println(this.location);
 		this.date=new String((date.getText()).toString().trim());
-		System.out.println(this.date);
 
 //		deletesuggestedbook
 		System.out.println(bookName);
-		if(!(bookName.equals("") ) && books[0] != null && bookName.equals(books[0].getTitle())){
+		if(!(bookName.equals("") ) && newbookName.equals("") &&  books[0] != null && bookName.equals(books[0].getTitle())){
 			System.out.println(bookName);
 			AsyncHttpClient client = new AsyncHttpClient();
 			RequestParams params = new RequestParams();
@@ -352,7 +353,7 @@ public class ClubPageActivity extends FragmentActivity {
 		}
 	     
 		System.out.println(suggestedBooks);
-		if(!(bookName.equals("") ) && books[0] != null && bookName.equals(books[0].getTitle())){
+		if(!(bookName.equals("")) && newbookName.equals("") && books[0] != null && bookName.equals(books[0].getTitle())){
 //			remove book[0]
 			for(int i=1;i<suggestedBooks;i++){
 				books[i-1]=books[i];
@@ -365,7 +366,12 @@ public class ClubPageActivity extends FragmentActivity {
 		AsyncHttpClient client2 = new AsyncHttpClient();
 	     RequestParams params2 = new RequestParams();
 	     params2.put("clubId", clubId);
-	     params2.put("title",bookName);
+	     if(!(bookName.equals("")) && newbookName.equals("")){
+	    	 params2.put("title",bookName);
+	     }
+	     if(bookName.equals("") && !(newbookName.equals(""))){
+	    	 params2.put("title",newbookName);
+	     }
 	     params2.put("location", this.location);
 	     params2.put("date",this.date);
 	     client2.get("http://jalees-bookclub.appspot.com/addmeeting",params2, new AsyncHttpResponseHandler() {
@@ -386,7 +392,13 @@ public class ClubPageActivity extends FragmentActivity {
 //			TextView meetingDate=(TextView) this.clubFragment.getView().findViewById(R.id.meetingDate);
 //			meetingDate.setText(this.date);
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		meetingFragment =new NextMeetingFragment(bookName,this.date,this.location);
+	     if(!(bookName.equals("")) && newbookName.equals("")){
+	    	 meetingFragment =new NextMeetingFragment(bookName,this.date,this.location);
+	     }
+	     if(bookName.equals("") && !(newbookName.equals(""))){
+	    	 meetingFragment =new NextMeetingFragment(newbookName,this.date,this.location);
+	     }
+		
 		fragmentTransaction.replace(R.id.Club_Act, meetingFragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();		
@@ -469,8 +481,10 @@ public class ClubPageActivity extends FragmentActivity {
 				    	 EditText des=(EditText) currentView.findViewById(R.id.Book_Name_edit);
 				    	 des.setText(books[0].getTitle());
 				     } else{
-				    	 EditText des=(EditText) currentView.findViewById(R.id.Book_Name_edit);
-				    	 des.setVisibility(2);
+				    	 EditText des=(EditText) currentView.findViewById(R.id.newBook_Name_edit);
+				    	 des.setVisibility(0);
+//				    	 EditText des2=(EditText) currentView.findViewById(R.id.newBook_Name_edit);
+//				    	 des2.setVisibility(0);
 				     }
 				}
 
@@ -550,7 +564,11 @@ public class ClubPageActivity extends FragmentActivity {
 			}	
 	
 	public void Vote(View view){
-		if(selectedBook==0 || voteIsDone==true){
+		if(selectedBook==0 ){
+			return;
+		}
+		if( voteIsDone==true){
+			Toast.makeText(this, "You already voted", Toast.LENGTH_LONG).show();
 			return;
 		}
 		System.out.println(selectedBook);
@@ -564,8 +582,16 @@ public class ClubPageActivity extends FragmentActivity {
 				@Override
 				public void onSuccess(int statusCode,
 						Header[] headers, byte[] response) {
-					System.out.println("important!!!");
-					System.out.println(selectedBook);
+					
+					String result=new String(response);
+					if(result.equals("this user already voted")){
+						voteIsDone=true;
+						print("this user already voted");
+						System.out.println("important!!!");
+						System.out.println(result);
+						return;						
+					}
+
 					books[selectedBook-1].addLike();
 					Arrays.sort(books);
 					RadioButton button;
@@ -619,17 +645,19 @@ public class ClubPageActivity extends FragmentActivity {
 					System.out.println("failed");
 //					 TODO Auto-generated method stub
 				}
-			});		
+			});	
+//			if( voteIsDone==true){
+//				Toast.makeText(this, "You already voted", Toast.LENGTH_LONG).show();
+//				return;
+//			}
+			voteIsDone=true;
 	}
-	/*
-	public void Suggest(View view){
-		EditText edit=(EditText)findViewById(R.id.Edit_Location);
-		edit.setVisibility(1);
-		Button button=(Button)findViewById(R.id.Suggest);
-		button.setVisibility(1);
+	
+	public void print(String string){
+		Toast.makeText(this, string, Toast.LENGTH_LONG).show();
 
 	}
-	*/	
+		
 	public void AddBookToServer(String bookName){
 		AsyncHttpClient client = new AsyncHttpClient();
 	    RequestParams params = new RequestParams();
