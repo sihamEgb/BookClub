@@ -2,12 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     
      <item
-        android:id="@+id/New_Meeting"
+        android:id="@+id/Submit_Meeting"
         android:enabled="true"
-        android:orderInCategory="200"
+        android:orderInCategory="300"
         android:showAsAction="always"
-        android:title="New meeting"
-        android:icon="@drawable/edit_add"/>
+        android:title="Submit"/>
 
         
 </menu>

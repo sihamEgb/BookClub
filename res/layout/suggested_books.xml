@@ -72,6 +72,14 @@
        		 android:text="Suggest"
        		 android:textSize="12sp"
        		 android:onClick="NewBookSuggestion"  />
+         
+                  <Button
+       		 android:id="@+id/popup"
+       		 android:layout_width="wrap_content"
+       		 android:layout_height="wrap_content"
+       		 android:text="popup"
+       		 android:textSize="12sp"
+       		 android:onClick="popup"  />
       
 
 </LinearLayout>

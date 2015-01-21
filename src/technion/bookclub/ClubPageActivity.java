@@ -47,8 +47,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -83,7 +85,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public String location;
 	public String date;
 	public Meeting meeting;
-	public String user="5278093363118080";
+	public String user;
 	public  boolean result;
 	
 	
@@ -106,7 +108,7 @@ public class ClubPageActivity extends FragmentActivity {
 		location=new String("");
 		date=new String("");
 		meeting=new Meeting();
-		
+		user= UserInfo.getId();
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
 	     params.put("clubId", clubId);
@@ -162,7 +164,7 @@ public class ClubPageActivity extends FragmentActivity {
 		
 		currentView=view.getRootView();
 	    Session session = Session.getActiveSession();
-		if (session == null || session.isClosed() ){
+		if (session == null || !(session.isOpened()) ){
 			 FragmentManager fragmentManager = getSupportFragmentManager();
 			 splashFragment =new SplashFragment();
 			 
@@ -221,10 +223,24 @@ public class ClubPageActivity extends FragmentActivity {
 	
 
 	public void getParticipants(View view) {
+//		   LayoutInflater layoutInflater 
+//		     = (LayoutInflater)getBaseContext()
+//		      .getSystemService(LAYOUT_INFLATER_SERVICE);  
+//		    View popupView = layoutInflater.inflate(R.layout.popup, null);  
+//		             final PopupWindow popupWindow = new PopupWindow(
+//		               popupView, 
+//		               LayoutParams.WRAP_CONTENT,  
+//		                     LayoutParams.WRAP_CONTENT); 
+		             
 		 FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //		setTitle("Next Meeting");
+		
 		MembersPageActivity fragment =new MembersPageActivity(clubId);	
+//		PopupWindow popupWindow = new PopupWindow(fragment.getView(),LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+//		PopupWindow popupWindow = new PopupWindow();
+//		popupWindow.showAtLocation(fragment, Gravity.CENTER, 0, 0);
+
 		fragmentTransaction.replace(R.id.Club_Act, fragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();		
@@ -287,7 +303,7 @@ public class ClubPageActivity extends FragmentActivity {
 						Header[] headers, byte[] response) {
 //					JSONArray jsonItems;
 					String result=new String(response);
-//					System.out.println(result);
+					System.out.println(result);
                     meeting= (Meeting.constructFromJson(result));
                     
                     bookName=meeting.getTitle();
@@ -307,7 +323,13 @@ public class ClubPageActivity extends FragmentActivity {
 				@Override
 				public void onFailure(int arg0, Header[] arg1,
 						byte[] arg2, Throwable arg3) {
-//					System.out.println("failed");
+	           		 FragmentManager fragmentManager = getSupportFragmentManager();
+	          		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//	          		setTitle("Next Meeting");
+	          		meetingFragment =new NextMeetingFragment("","","");
+	          		fragmentTransaction.replace(R.id.Club_Act, meetingFragment);
+	          		fragmentTransaction.addToBackStack(null);
+	          		fragmentTransaction.commit();
 //					 TODO Auto-generated method stub
 				}
 			});
@@ -315,24 +337,37 @@ public class ClubPageActivity extends FragmentActivity {
 	}
 	
 	
-	public void submitMeeting(View view){
-		//TODO add to server
-//		currentView=view.getRootView();
-		
+	public void submitMeeting(){
 		EditText book=(EditText) findViewById(R.id.Book_Name_edit);
 		EditText newbook=(EditText) findViewById(R.id.newBook_Name_edit);
-		EditText date=(EditText) findViewById(R.id.Edit_Date2);
 		EditText location=(EditText) findViewById(R.id.Edit_Location2);
-		System.out.println("hiiii");
+		DatePicker dateP=(DatePicker) findViewById(R.id.datePicker1);
+		TimePicker24Hours time=(TimePicker24Hours) findViewById(R.id.timePicker1);
+	
 		if(((book.getText()).toString().trim().equals("") && (newbook.getText()).toString().trim().equals(""))||
-				(date.getText()).toString().trim().equals("") ||
 				(location.getText()).toString().trim().equals("")){
 			return;
 		}
 		bookName=new String((book.getText()).toString().trim());
 		newbookName=new String((newbook.getText()).toString().trim());
 		this.location=new String ((location.getText()).toString().trim());
-		this.date=new String((date.getText()).toString().trim());
+		Integer month=dateP.getMonth()+1;
+		String fix="";
+		if(month < 10)
+			fix="0";
+		Integer hours=time.getCurrentHour();
+		String fixH="";
+		if(hours < 10)
+			fixH="0";
+		Integer minutes=time.getCurrentMinute();
+		String fixM="";
+		if(minutes < 10)
+			fixM="0";
+				
+		this.date=((Integer)dateP.getYear()).toString().concat("-").concat(fix).concat(month.toString())
+				.concat("-").concat(((Integer)dateP.getDayOfMonth()).toString()).concat(" ").concat(fixH)
+				.concat(((Integer)time.getCurrentHour()).toString()).concat(":").concat(fixM)
+				.concat(((Integer)time.getCurrentMinute()).toString().concat(":00"));
 
 //		deletesuggestedbook
 		System.out.println(bookName);
@@ -352,7 +387,6 @@ public class ClubPageActivity extends FragmentActivity {
 			});
 		}
 	     
-		System.out.println(suggestedBooks);
 		if(!(bookName.equals("")) && newbookName.equals("") && books[0] != null && bookName.equals(books[0].getTitle())){
 //			remove book[0]
 			for(int i=1;i<suggestedBooks;i++){
@@ -387,17 +421,17 @@ public class ClubPageActivity extends FragmentActivity {
 		 fragmentManager.popBackStack();
 		 fragmentManager.popBackStack();
 		 this.clubFragment.setDate(this.date);
-		 System.out.println("here it is");
-		 //TODO fix this
-//			TextView meetingDate=(TextView) this.clubFragment.getView().findViewById(R.id.meetingDate);
-//			meetingDate.setText(this.date);
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+		 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 	     if(!(bookName.equals("")) && newbookName.equals("")){
 	    	 meetingFragment =new NextMeetingFragment(bookName,this.date,this.location);
+	    	 System.out.println("case1");
 	     }
 	     if(bookName.equals("") && !(newbookName.equals(""))){
 	    	 meetingFragment =new NextMeetingFragment(newbookName,this.date,this.location);
+	    	 System.out.println("case2");
 	     }
+//	     meetingFragment =new NextMeetingFragment(bookName,this.date,this.location);
 		
 		fragmentTransaction.replace(R.id.Club_Act, meetingFragment);
 		fragmentTransaction.addToBackStack(null);
@@ -405,6 +439,11 @@ public class ClubPageActivity extends FragmentActivity {
 	}
 
 	public void joinMeeting(View view){
+		if(bookName.trim().equals("") && newbookName.trim().equals("") && location.trim().equals("") && date.trim().equals("")){
+			Toast.makeText(this, "There is no meeting to join",
+					Toast.LENGTH_LONG).show();
+			return;
+		}
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
 	     params.put("meetingId", meeting.getMeetingId());
@@ -427,8 +466,8 @@ public class ClubPageActivity extends FragmentActivity {
 					Toast.LENGTH_LONG).show();
 	}
 	
-	public void editMeeting(View view){
-		final View currentView=view.getRootView();
+	public void editMeeting(){
+//		final View currentView=view.getRootView();
 		 FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //		setTitle("Next Meeting");
@@ -456,6 +495,7 @@ public class ClubPageActivity extends FragmentActivity {
 							suggestedBooks=0;
 //							return;
 						}
+						System.out.println(suggestedBooks);
 						String[] title=new String[suggestedBooks];
 						String[] numOfLikes=new String[suggestedBooks];
 						books=new SuggestedBook[5];
@@ -466,6 +506,7 @@ public class ClubPageActivity extends FragmentActivity {
 							numOfLikes[i]=json.getString("numOfLikes");
 							books[i]= new SuggestedBook(clubId,title[i],numOfLikes[i]);
 						}
+						
 						for(int i=suggestedBooks; i<5;i++){
 							Integer like=-i;
 							books[i]= new SuggestedBook("00","00",like.toString());
@@ -475,17 +516,19 @@ public class ClubPageActivity extends FragmentActivity {
 						System.out.println("failed");
 						e.printStackTrace();
 					}
+					System.out.println("here");
 					Arrays.sort(books);
 
 				     if(suggestedBooks != 0){
-				    	 EditText des=(EditText) currentView.findViewById(R.id.Book_Name_edit);
+				    	 EditText des=(EditText) findViewById(R.id.Book_Name_edit);
 				    	 des.setText(books[0].getTitle());
 				     } else{
-				    	 EditText des=(EditText) currentView.findViewById(R.id.newBook_Name_edit);
+				    	 EditText des=(EditText) findViewById(R.id.newBook_Name_edit);
 				    	 des.setVisibility(0);
 //				    	 EditText des2=(EditText) currentView.findViewById(R.id.newBook_Name_edit);
 //				    	 des2.setVisibility(0);
 				     }
+				     
 				}
 
 				@Override
@@ -500,6 +543,31 @@ public class ClubPageActivity extends FragmentActivity {
 	}	
 	
 ///////////////////////////////// Suggested Books /////////////////////////////////////	
+	
+	public void popup(View view) {
+		   LayoutInflater layoutInflater 
+		     = (LayoutInflater)getBaseContext()
+		      .getSystemService(LAYOUT_INFLATER_SERVICE);  
+		    View popupView = layoutInflater.inflate(R.layout.popupp_suggest_new_book, null);  
+		             final PopupWindow popupWindow = new PopupWindow(
+		               popupView, 
+		               LayoutParams.WRAP_CONTENT,  
+		                     LayoutParams.WRAP_CONTENT);  
+//		             
+//		             Button btnDismiss = (Button)popupView.findViewById(R.id.dismiss);
+//		             btnDismiss.setOnClickListener(new Button.OnClickListener(){
+//
+//		     @Override
+//		     public void onClick(View v) {
+//		      // TODO Auto-generated method stub
+//		      popupWindow.dismiss();
+//		     }});
+//		               
+		             popupWindow.showAsDropDown(view, 50, -30);
+		         
+		   }
+		   
+	
 	
 	public void getSeggestedBooks(View view) {
 		//TODO: 				
@@ -799,7 +867,11 @@ public class ClubPageActivity extends FragmentActivity {
 						Toast.LENGTH_LONG).show();
 			}
 			return true;
-		case R.id.Edit_Meeting:
+		case R.id.Submit_Meeting:
+			submitMeeting();
+			return true;
+		case R.id.New_Meeting:
+			editMeeting();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

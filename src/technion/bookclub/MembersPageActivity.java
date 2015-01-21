@@ -61,18 +61,13 @@ public class MembersPageActivity extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+//	    LayoutInflater layoutInflater 
+//	     = (LayoutInflater)this.getActivity().getBaseContext().getSystemService(this.getActivity().LAYOUT_INFLATER_SERVICE);  
 		view = inflater.inflate(R.layout.members_activity, container, false);
-
-		//adapter = new ClubListAdapter(getActivity(), data);
-
-		//setListAdapter(adapter);
-
+//		PopupWindow popupWindow = new PopupWindow(view);
+//		PopupWindow popupWindow = new PopupWindow();
+//		popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 		context = view.getContext();
-//		setContentView(R.layout.members_activity);
-
-//		Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
-
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("clubId", clubId);

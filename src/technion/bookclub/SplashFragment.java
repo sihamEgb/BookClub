@@ -2,10 +2,16 @@ package technion.bookclub;
 
 import java.util.Arrays;
 
+import org.apache.http.Header;
+
+import com.facebook.Request;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import technion.bookclub.entities.Club;
 import android.app.SearchManager;
@@ -20,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SplashFragment extends Fragment {
@@ -44,29 +51,73 @@ public class SplashFragment extends Fragment {
 		return fragment;
 	}
 	
-//	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-//	    if (state.isOpened()) {
-//	        Log.i(TAG, "Logged in...");
-//	    } else if (state.isClosed()) {
-//	        Log.i(TAG, "Logged out...");
-//	    }
-//	}
+	/*private void makeMeRequest(final Session session) {
+	    // Make an API call to get user data and define a 
+	    // new callback to handle the response.
+	    Request request = Request.newMeRequest(session, 
+	            new Request.GraphUserCallback() {
+	        @Override
+	        public void onCompleted(GraphUser user, Response response) {
+	            // If the response is successful
+	            if (session == Session.getActiveSession()) {
+	                if (user != null) {
+	                    // Set the id for the ProfilePictureView
+	                    // view that in turn displays the profile picture.
+	                    profilePictureView.setProfileId(user.getId());
+	                    // Set the Textview's text to the user's name.
+	                    userNameView.setText(user.getName());
+	                }
+	            }
+	            if (response.getError() != null) {
+	                // Handle errors, will do so later.
+	            }
+	        }
+	    });
+	    request.executeAsync();
+	} */
 	
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 		Context context = this.getActivity().getApplicationContext();
-		CharSequence text = "Hello toast!";
-		CharSequence text2 = "bye toast!";
-		int duration = Toast.LENGTH_SHORT;
-
-		Toast toast = Toast.makeText(context, text, duration);
-		Toast toast2 = Toast.makeText(context, text2, duration);
-		//toast.show();
+//		CharSequence text = "Hello toast!";
+//		CharSequence text2 = "bye toast!";
+//		int duration = Toast.LENGTH_SHORT;
+//
+//		Toast toast = Toast.makeText(context, text, duration);
+//		Toast toast2 = Toast.makeText(context, text2, duration);
+//		//toast.show();
 		
 	    if (state.isOpened()) {
-	    	toast.show();
+	    	System.out.println("opened");
+//	    	UserInfo.setId("3");
+//	    	if(FB.getLoginStatus()){
+/*	    		AsyncHttpClient client = new AsyncHttpClient();
+	    		RequestParams params = new RequestParams();
+	    		//TODO get user id
+	    		params.put("name", "Fatima Murra");
+	    		params.put("email", "Fatima Murra@mail");
+	    		client.get("http://jalees-bookclub.appspot.com/adduser",params, new AsyncHttpResponseHandler() {
+	    				@Override
+	    				public void onSuccess(int statusCode,
+	    						Header[] headers, byte[] response) {
+	    					String res=new String(response);
+	    					System.out.println(res);
+//							Button button=(Button)currentView.findViewById(R.id.Join_Club);
+//							((Button)currentView).setVisibility(1);
+	    				}
+
+	    				@Override
+	    				public void onFailure(int arg0, Header[] arg1,
+	    						byte[] arg2, Throwable arg3) {
+	    					String res=new String(arg2);
+	    					System.out.println(res);
+	    				}
+					});
+//	    	}*/
+
+	    	//popup transaction
 	    } else if (state.isClosed()) {
 	        //Log.i(TAG, "Logged out...");
-	    	toast2.show();
+//	    	toast2.show();
 	    }
 	}
 	

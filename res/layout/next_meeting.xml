@@ -152,13 +152,6 @@
         android:text="@string/Join_Us"
         android:textSize="12sp" />
 
-    <Button
-        android:id="@+id/Edit_Meeting"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="22dp"
-        android:onClick="editMeeting"
-        android:text="Add new meeting"
-        android:textSize="12sp" />
+
 
 </LinearLayout>

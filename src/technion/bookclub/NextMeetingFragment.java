@@ -47,13 +47,14 @@ public class NextMeetingFragment extends Fragment {
 		return rootView;
 	}
 	
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = this.getActivity().getMenuInflater();
-		inflater.inflate(R.menu.club_next_meeting, menu);
-		//return getActivity().super.onCreateOptionsMenu(menu, inflater);
-		return true;
-	}
-	
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Auto-generated method stub
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.club_next_meeting, menu);
+    }
+    
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return true;
 	}
