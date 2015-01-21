@@ -7,13 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-             <TextView
-       		 android:id="@+id/Suggest_Book"
-       		 android:layout_marginTop="30dp"
-       		 android:layout_width="fill_parent"
-       		 android:layout_height="wrap_content"
-       		 android:text="Add new suggestion:"
-       		 android:textSize="12sp"  />  
+
  
  
    		 

@@ -33,6 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -446,24 +447,37 @@ public class ClubPageActivity extends FragmentActivity {
 		}
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
-	     params.put("meetingId", meeting.getMeetingId());
 	     params.put("userId",user);
+	     params.put("meetingId", meeting.getMeetingId());
+	     params.put("op","join");
 	     client.get("http://jalees-bookclub.appspot.com/joinMeeting",params, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
 						Header[] headers, byte[] response) {
-//					JSONArray jsonItems;
+					String res=new String (response);
+					System.out.println(res);
+					if(res.equals("already joined this meeting")){
+						result=false;
+					} 
+					if(res.equals("member joined meeting")){
+						result=true;
+					}
 				}
 				@Override
 				public void onFailure(int arg0, Header[] arg1,
 						byte[] arg2, Throwable arg3) {
-//					System.out.println("failed");
+					System.out.println("failed");
+					String res=new String (arg2);
+					System.out.println(res);
 //					 TODO Auto-generated method stub
 				}
 			});
-			Toast.makeText(this, "Joined Successfully",
-					Toast.LENGTH_LONG).show();
+	     if(result){
+			Toast.makeText(this, "Joined Successfully",Toast.LENGTH_LONG).show();
+	     } else{
+	    	 Toast.makeText(this, "You already joined this meeting",Toast.LENGTH_LONG).show();
+	     }
 	}
 	
 	public void editMeeting(){
@@ -545,14 +559,8 @@ public class ClubPageActivity extends FragmentActivity {
 ///////////////////////////////// Suggested Books /////////////////////////////////////	
 	
 	public void popup(View view) {
-		   LayoutInflater layoutInflater 
-		     = (LayoutInflater)getBaseContext()
-		      .getSystemService(LAYOUT_INFLATER_SERVICE);  
-		    View popupView = layoutInflater.inflate(R.layout.popupp_suggest_new_book, null);  
-		             final PopupWindow popupWindow = new PopupWindow(
-		               popupView, 
-		               LayoutParams.WRAP_CONTENT,  
-		                     LayoutParams.WRAP_CONTENT);  
+	    DialogFragment newFragment =  SuggestNewBook.newInstance();
+	    newFragment.show(getSupportFragmentManager(), "dialog");  
 //		             
 //		             Button btnDismiss = (Button)popupView.findViewById(R.id.dismiss);
 //		             btnDismiss.setOnClickListener(new Button.OnClickListener(){
@@ -563,7 +571,7 @@ public class ClubPageActivity extends FragmentActivity {
 //		      popupWindow.dismiss();
 //		     }});
 //		               
-		             popupWindow.showAsDropDown(view, 50, -30);
+//		             popupWindow.showAsDropDown(view, 50, -30);
 		         
 		   }
 		   
