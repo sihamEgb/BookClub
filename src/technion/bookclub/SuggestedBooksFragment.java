@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 //import android.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,6 +37,7 @@ public class SuggestedBooksFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.suggested_books, container, false);
 		RadioButton button;
+		setHasOptionsMenu(true);
 		for(int i=1; i<=suggestedBooks; i++){
 			System.out.println(i);
 			switch (i){
@@ -68,10 +72,34 @@ public class SuggestedBooksFragment extends Fragment {
 		return view;
 	}
 	
-	
-	
-	
-
-	
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Auto-generated method stub
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.suggested_books_menu, menu);
+    }
+//    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+//		switch (item.getItemId()) {
+//
+//		case R.id.New_Book:
+//			((ClubPageActivity)this.getActivity()).popup();
+//			return true;
+//		default:
+//			return ((ClubPageActivity)this.getActivity()).onOptionsItemSelected(item);
+//		}   	
+//    }
+//    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+//		switch (item.getItemId()) {
+//
+//		case R.id.New_Book:
+//			((ClubPageActivity)this.getActivity()).popup();
+//			return true;
+//		default:
+//			return ((ClubPageActivity)this.getActivity()).onOptionsItemSelected(item);
+//		}
+		return true;
+	}
+//	
 
 }

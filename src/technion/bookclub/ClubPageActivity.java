@@ -85,6 +85,7 @@ public class ClubPageActivity extends FragmentActivity {
 	public String newbookName;
 	public String location;
 	public String date;
+	public String meetingId;
 	public Meeting meeting;
 	public String user;
 	public  boolean result;
@@ -142,7 +143,6 @@ public class ClubPageActivity extends FragmentActivity {
 				public void onFailure(int arg0, Header[] arg1,
 						byte[] arg2, Throwable arg3) {
 //					System.out.println("failed");
-//					 TODO Auto-generated method stub
 				}
 			});
 	     System.out.println("date is empty");
@@ -176,7 +176,6 @@ public class ClubPageActivity extends FragmentActivity {
 		} else{
 			AsyncHttpClient client = new AsyncHttpClient();
 		     RequestParams params = new RequestParams();
-		     //TODO get user id
 		     params.put("clubId", clubId);
 		     params.put("userId", user);
 		     params.put("op", "join");
@@ -206,8 +205,6 @@ public class ClubPageActivity extends FragmentActivity {
 					public void onFailure(int arg0, Header[] arg1,
 							byte[] arg2, Throwable arg3) {
 						System.out.println(clubId.toCharArray());
-						// TODO Auto-generated method stub
-
 					}
 
 				});
@@ -221,73 +218,49 @@ public class ClubPageActivity extends FragmentActivity {
 		}
 	}
 	
-	
 
 	public void getParticipants(View view) {
-//		   LayoutInflater layoutInflater 
-//		     = (LayoutInflater)getBaseContext()
-//		      .getSystemService(LAYOUT_INFLATER_SERVICE);  
-//		    View popupView = layoutInflater.inflate(R.layout.popup, null);  
-//		             final PopupWindow popupWindow = new PopupWindow(
-//		               popupView, 
-//		               LayoutParams.WRAP_CONTENT,  
-//		                     LayoutParams.WRAP_CONTENT); 
-		             
 		 FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//		setTitle("Next Meeting");
-		
 		MembersPageActivity fragment =new MembersPageActivity(clubId);	
-//		PopupWindow popupWindow = new PopupWindow(fragment.getView(),LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-//		PopupWindow popupWindow = new PopupWindow();
-//		popupWindow.showAtLocation(fragment, Gravity.CENTER, 0, 0);
-
 		fragmentTransaction.replace(R.id.Club_Act, fragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();		
+	}	
+	
+	public void getMeetingParticipants(View view) {
 		
-/*		
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		final View viewtemp = inflater.inflate(R.layout.members_activity, (ViewGroup) findViewById(R.id.members_layout));
-		//adapter = new ClubListAdapter(getActivity(), data);
-		pwindo = new PopupWindow(viewtemp, 300, 370, true);
-		pwindo.showAtLocation(viewtemp, Gravity.CENTER, 0, 0);
-		//setListAdapter(adapter);
-
-		final Context context=this;
-//		setContentView(R.layout.members_activity);
-
-//		Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
-
 		AsyncHttpClient client = new AsyncHttpClient();
-		RequestParams params = new RequestParams();
-		params.put("clubId", clubId);
+	     RequestParams params = new RequestParams();
+	     params.put("clubId", clubId);
+	     client.get("http://jalees-bookclub.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
 
-		client.get("http://jalees-bookclub.appspot.com/getmembers", params,
-				new AsyncHttpResponseHandler() {
+				@Override
+				public void onSuccess(int statusCode,
+						Header[] headers, byte[] response) {
+					String result=new String(response);
+					System.out.println(result);
+                   meeting= (Meeting.constructFromJson(result));
+                   meetingId=meeting.getMeetingId();
+                   bookName=meeting.getTitle();
+                   date=meeting.getDate();
+                   location=meeting.getLocation();
+                   
+              	 FragmentManager fragmentManager = getSupportFragmentManager();
+         		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+         		MeetingMembersPageActivity fragment =new MeetingMembersPageActivity(meetingId);	
+         		fragmentTransaction.replace(R.id.Club_Act, fragment);
+         		fragmentTransaction.addToBackStack(null);
+         		fragmentTransaction.commit();	
+				}
 
-					@Override
-					public void onSuccess(int statusCode, Header[] headers,
-							byte[] response) {
-						String s = new String(response);
-						System.out.println("sucees" + s);
-						adapter = new UserListAdapter(context, s);
-						TextView v2 = (TextView) viewtemp.findViewById(R.id.members_results_id);
-						v2.setText("Members in this club:");
-						
-						MembersPageActivity t=new MembersPageActivity("clubId");
-						t.setListAdapter(adapter);
-
-					}
-
-					@Override
-					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
-							Throwable arg3) {
-					}
-
-				});
-//		return view;
-	*/
+				@Override
+				public void onFailure(int arg0, Header[] arg1,
+						byte[] arg2, Throwable arg3) {
+				}
+			});
+		
+		
 	}	
 	
 ///////////////////////////////// Next Meeting /////////////////////////////////////
@@ -308,6 +281,7 @@ public class ClubPageActivity extends FragmentActivity {
                     meeting= (Meeting.constructFromJson(result));
                     
                     bookName=meeting.getTitle();
+                    meetingId=meeting.getMeetingId();
                     date=meeting.getDate();
                     location=meeting.getLocation();
                     
@@ -331,7 +305,6 @@ public class ClubPageActivity extends FragmentActivity {
 	          		fragmentTransaction.replace(R.id.Club_Act, meetingFragment);
 	          		fragmentTransaction.addToBackStack(null);
 	          		fragmentTransaction.commit();
-//					 TODO Auto-generated method stub
 				}
 			});
 		
@@ -450,29 +423,26 @@ public class ClubPageActivity extends FragmentActivity {
 	     params.put("userId",user);
 	     params.put("meetingId", meeting.getMeetingId());
 	     params.put("op","join");
-	     client.get("http://jalees-bookclub.appspot.com/joinMeeting",params, new AsyncHttpResponseHandler() {
+	     client.get("http://jalees-bookclub.appspot.com/joinmeeting",params, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
 						Header[] headers, byte[] response) {
 					String res=new String (response);
 					System.out.println(res);
-					if(res.equals("already joined this meeting")){
+					if(res.trim().equals("already joined this meeting")){
 						result=false;
 					} 
-					if(res.equals("member joined meeting")){
+					if(res.trim().equals("member joined meeting")){
 						result=true;
 					}
 				}
 				@Override
 				public void onFailure(int arg0, Header[] arg1,
 						byte[] arg2, Throwable arg3) {
-					System.out.println("failed");
-					String res=new String (arg2);
-					System.out.println(res);
-//					 TODO Auto-generated method stub
 				}
 			});
+	     //TODO 
 	     if(result){
 			Toast.makeText(this, "Joined Successfully",Toast.LENGTH_LONG).show();
 	     } else{
@@ -549,7 +519,6 @@ public class ClubPageActivity extends FragmentActivity {
 				public void onFailure(int arg0, Header[] arg1,
 						byte[] arg2, Throwable arg3) {
 //					System.out.println("failed");
-//					 TODO Auto-generated method stub
 				}
 			});
 	     //setTitle("Suggested Books");
@@ -558,27 +527,14 @@ public class ClubPageActivity extends FragmentActivity {
 	
 ///////////////////////////////// Suggested Books /////////////////////////////////////	
 	
-	public void popup(View view) {
+	public void popup() {
 	    DialogFragment newFragment =  SuggestNewBook.newInstance();
 	    newFragment.show(getSupportFragmentManager(), "dialog");  
-//		             
-//		             Button btnDismiss = (Button)popupView.findViewById(R.id.dismiss);
-//		             btnDismiss.setOnClickListener(new Button.OnClickListener(){
-//
-//		     @Override
-//		     public void onClick(View v) {
-//		      // TODO Auto-generated method stub
-//		      popupWindow.dismiss();
-//		     }});
-//		               
-//		             popupWindow.showAsDropDown(view, 50, -30);
-		         
 		   }
 		   
 	
 	
 	public void getSeggestedBooks(View view) {
-		//TODO: 				
 				AsyncHttpClient client = new AsyncHttpClient();
 			     RequestParams params = new RequestParams();
 			     params.put("clubId", clubId);
@@ -632,7 +588,6 @@ public class ClubPageActivity extends FragmentActivity {
 						public void onFailure(int arg0, Header[] arg1,
 								byte[] arg2, Throwable arg3) {
 //							System.out.println("failed");
-//							 TODO Auto-generated method stub
 						}
 					});
 			     //setTitle("Suggested Books");
@@ -719,7 +674,6 @@ public class ClubPageActivity extends FragmentActivity {
 				public void onFailure(int arg0, Header[] arg1,
 						byte[] arg2, Throwable arg3) {
 					System.out.println("failed");
-//					 TODO Auto-generated method stub
 				}
 			});	
 //			if( voteIsDone==true){
@@ -754,17 +708,18 @@ public class ClubPageActivity extends FragmentActivity {
 	}
 	
 	
-	public void NewBookSuggestion(View view) {
+	public void NewBookSuggestion(String bookName) {
 		if(suggestedBooks >=5){
 			return;
 		}
 		RadioButton button;
-		EditText edit=(EditText)findViewById(R.id.Edit_title);
-		String bookName=edit.getText().toString().trim();
-		if(bookName.equals("")){
-			return;
-		}
-		AddBookToServer(bookName);
+//		EditText edit=(EditText)findViewById(R.id.Edit_title);
+//		String bookName=edit.getText().toString().trim();
+//		if(bookName.equals("")){
+//			return;
+//		}
+//		String bookName=bookNamenew;
+		this.AddBookToServer(bookName);
 		books[suggestedBooks]=new SuggestedBook(clubId,bookName,"0");
 		suggestedBooks++;
 		
@@ -856,6 +811,7 @@ public class ClubPageActivity extends FragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.
 		//if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -878,9 +834,15 @@ public class ClubPageActivity extends FragmentActivity {
 		case R.id.Submit_Meeting:
 			submitMeeting();
 			return true;
+		case R.id.New_Book:
+//		case 0x7f0a009e:
+			popup();
+			return true;
 		case R.id.New_Meeting:
+//		case 0x7f0a008d:
 			editMeeting();
 			return true;
+
 		default:
 			return super.onOptionsItemSelected(item);
 		}

@@ -131,8 +131,9 @@
 
    
 
-    <TextView
+    <Button
         android:id="@+id/Participants"
+        style="?android:buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -141,11 +142,12 @@
         android:text="Participants"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold" 
+        android:onClick="getMeetingParticipants" />
 
     <Button
         android:id="@+id/Join_Meeting"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="22dp"
         android:onClick="joinMeeting"

@@ -22,7 +22,6 @@
        		 android:layout_width="wrap_content"
        		 android:layout_height="wrap_content"
        		 android:text="Suggest"
-       		 android:textSize="12sp"
-       		 android:onClick="NewBookSuggestion"  />
+       		 android:textSize="12sp" />
 
 </LinearLayout>

@@ -49,37 +49,7 @@
        		 android:textSize="12sp"
        		 android:onClick="Vote"  />
                 	  
-         <TextView
-       		 android:id="@+id/Suggest_Book"
-       		 android:layout_marginTop="30dp"
-       		 android:layout_width="fill_parent"
-       		 android:layout_height="wrap_content"
-       		 android:text="Add new suggestion:"
-       		 android:textSize="12sp"  />  
- 
- 
-   		 
-          <EditText
-   			    android:id="@+id/Edit_title"
-       		 android:layout_width="fill_parent"
-     	  		android:layout_height="wrap_content"
-        		android:layout_marginTop="10dp"
-        		android:inputType="text"/>
-         <Button
-       		 android:id="@+id/Suggest"
-       		 android:layout_width="wrap_content"
-       		 android:layout_height="wrap_content"
-       		 android:text="Suggest"
-       		 android:textSize="12sp"
-       		 android:onClick="NewBookSuggestion"  />
-         
-                  <Button
-       		 android:id="@+id/popup"
-       		 android:layout_width="wrap_content"
-       		 android:layout_height="wrap_content"
-       		 android:text="popup"
-       		 android:textSize="12sp"
-       		 android:onClick="popup"  />
+ />
       
 
 </LinearLayout>

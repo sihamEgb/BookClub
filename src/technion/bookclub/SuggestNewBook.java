@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 
 
@@ -37,12 +38,23 @@ public class SuggestNewBook extends DialogFragment {
         Button button = (Button)v.findViewById(R.id.Suggest);
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                // When button is clicked, call up to owning activity.
+//                // When button is clicked, call up to owning activity.
+//            	
+////                (((Fragment) v.getRootView()).getActivity());
+            	NewBookSuggestion(v.getRootView());
             	
-//                (((Fragment) v.getRootView()).getActivity());
-//                NewBookSuggestion(v);
             }
         });
         return v;
+    }
+    
+    public void NewBookSuggestion(View v){
+		EditText edit=(EditText)v.findViewById(R.id.Edit_title);
+		String bookName=edit.getText().toString().trim();
+		if(bookName.equals("")){
+			return;
+		}
+    	((ClubPageActivity)this.getActivity()).NewBookSuggestion(bookName);
+    	dismiss();
     }
 }

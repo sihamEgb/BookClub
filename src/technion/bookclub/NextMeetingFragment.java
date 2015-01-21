@@ -52,10 +52,30 @@ public class NextMeetingFragment extends Fragment {
         // TODO Auto-generated method stub
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.club_next_meeting, menu);
+//        menu.findItem(R.id.New_Meeting).setOnMenuItemClickListener(new menuItemClickListener)
     }
-    
-
+//    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+//		switch (item.getItemId()) {
+//
+//		case R.id.New_Meeting:
+//			((ClubPageActivity)this.getActivity()).editMeeting();
+//			return true;
+//
+//		default:
+//			return ((ClubPageActivity)this.getActivity()).onOptionsItemSelected(item);
+//		}
+//    }
+//    @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+//		switch (item.getItemId()) {
+//
+//		case R.id.New_Meeting:
+//			((ClubPageActivity)this.getActivity()).editMeeting();
+//			return true;
+//
+//		default:
+//			return ((ClubPageActivity)this.getActivity()).onOptionsItemSelected(item);
+//		}
 		return true;
 	}
 }
