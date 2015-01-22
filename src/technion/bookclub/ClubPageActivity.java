@@ -16,12 +16,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+
 
 import technion.bookclub.entities.Club;
 import technion.bookclub.entities.Meeting;
@@ -62,6 +69,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ClubPageActivity extends FragmentActivity {
+	private static final int SPLASH = 0;
+	private static final int SELECTION = 1;
+	private static final int FRAGMENT_COUNT = SELECTION +1;
+	private static final int REAUTH_ACTIVITY_CODE = 100;
+
+	private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
+	
+
+	private boolean isResumed = false;
+	private UiLifecycleHelper uiHelper;
+	private boolean isLogedIn;
+	
 	public View currentView;
 	public int selectedBook=0;
 	public int suggestedBooks;
@@ -89,12 +108,21 @@ public class ClubPageActivity extends FragmentActivity {
 	public Meeting meeting;
 	public String user;
 	public  boolean result;
+	public  boolean result2;
+	
+	public String fbUserId;
+	public String serverUserId;
+	public String fbUserName;
+	
+	public SelectionFragment selectionF;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+        uiHelper = new UiLifecycleHelper(this, callback);
+        uiHelper.onCreate(savedInstanceState);
 		setContentView(R.layout.club_activity);
 		
 		b = getIntent().getExtras();
@@ -110,7 +138,15 @@ public class ClubPageActivity extends FragmentActivity {
 		location=new String("");
 		date=new String("");
 		meeting=new Meeting();
-		user= UserInfo.getId();
+//		user= UserInfo.getId();
+		selectionF=new SelectionFragment();
+	    Session session = Session.getActiveSession();
+	    if (session != null && session.isOpened()) {
+	        // Get the user's data
+	        makeMeRequest(session);
+	        
+	    }
+	     
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
 	     params.put("clubId", clubId);
@@ -134,7 +170,11 @@ public class ClubPageActivity extends FragmentActivity {
                 		 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 		 fragmentTransaction.replace(R.id.Club_Act, clubFragment);
 //                		fragmentTransaction.addToBackStack(null);
-                		fragmentTransaction.commit();
+//                		fragmentTransaction.commit();
+                		
+//                        fragments[SPLASH] = new SplashFragment();
+//                       	fragmentTransaction.hide(fragments[SPLASH]);
+                       	fragmentTransaction.commit();
                    }
                    
 				}
@@ -152,6 +192,8 @@ public class ClubPageActivity extends FragmentActivity {
 		 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		 fragmentTransaction.replace(R.id.Club_Act, clubFragment);
 //		fragmentTransaction.addToBackStack(null);
+//         fragments[SPLASH] = new SplashFragment();
+//        fragmentTransaction.hide(fragments[SPLASH]);
 		fragmentTransaction.commit();
 	}
 
@@ -164,8 +206,9 @@ public class ClubPageActivity extends FragmentActivity {
 	public void joinClub(View view) {
 		
 		currentView=view.getRootView();
-	    Session session = Session.getActiveSession();
-		if (session == null || !(session.isOpened()) ){
+//		fragments[SELECTION]=null;
+//		isLogedIn=true;
+		if (!isLogedIn ){
 			 FragmentManager fragmentManager = getSupportFragmentManager();
 			 splashFragment =new SplashFragment();
 			 
@@ -173,20 +216,48 @@ public class ClubPageActivity extends FragmentActivity {
 			 fragmentTransaction.replace(R.id.Club_Act, splashFragment);
 //			fragmentTransaction.addToBackStack(null);
 			fragmentTransaction.commit();
+			return;
 		} else{
+			
+			//get user Id from server based on facebook Id
 			AsyncHttpClient client = new AsyncHttpClient();
 		     RequestParams params = new RequestParams();
-		     params.put("clubId", clubId);
-		     params.put("userId", user);
-		     params.put("op", "join");
-		     client.get("http://jalees-bookclub.appspot.com/joinclub",params, new AsyncHttpResponseHandler() {
+		     
+		     System.out.println("facebook user details:");
+		     System.out.println(fbUserId);
+		     System.out.println(fbUserName);
+		     
+		     params.put("email", fbUserId);
+		     client.get("http://jalees-bookclub.appspot.com/getuser",params, new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode,
+							Header[] headers, byte[] response) {
+						String res=new String(response);
+						System.out.println(res);
+						serverUserId=res;
+					}
+
+					@Override
+					public void onFailure(int arg0, Header[] arg1,
+							byte[] arg2, Throwable arg3) {
+						System.out.println(clubId.toCharArray());
+					}
+
+				});
+			//
+			AsyncHttpClient client2 = new AsyncHttpClient();
+		     RequestParams params2 = new RequestParams();
+		     params2.put("clubId", clubId);
+		     params2.put("userId", serverUserId);
+		     params2.put("op", "join");
+		     client2.get("http://jalees-bookclub.appspot.com/joinclub",params2, new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {
 						String res=new String(response);
 						System.out.println(res);
 						if(res.trim().equals("member already joined this club".trim())){
-							result=false;
+							result2=false;
 							return;
 						} else{
 							Integer num=Integer.parseInt(memeberNum);
@@ -195,7 +266,7 @@ public class ClubPageActivity extends FragmentActivity {
 							clubFragment.setMembers(memeberNum);
 							TextView memebers=(TextView)currentView.findViewById(R.id.participants_num);
 							memebers.setText(memeberNum);
-
+							result2=true;
 						}
 //						Button button=(Button)currentView.findViewById(R.id.Join_Club);
 //						((Button)currentView).setVisibility(1);
@@ -208,7 +279,7 @@ public class ClubPageActivity extends FragmentActivity {
 					}
 
 				});
-		     if(!result){
+		     if(!result2){
 				Toast.makeText(this, "Already joined this club",
 						Toast.LENGTH_LONG).show();
 		     } else {
@@ -413,17 +484,46 @@ public class ClubPageActivity extends FragmentActivity {
 	}
 
 	public void joinMeeting(View view){
-		if(bookName.trim().equals("") && newbookName.trim().equals("") && location.trim().equals("") && date.trim().equals("")){
-			Toast.makeText(this, "There is no meeting to join",
-					Toast.LENGTH_LONG).show();
-			return;
-		}
-		AsyncHttpClient client = new AsyncHttpClient();
-	     RequestParams params = new RequestParams();
-	     params.put("userId",user);
-	     params.put("meetingId", meeting.getMeetingId());
-	     params.put("op","join");
-	     client.get("http://jalees-bookclub.appspot.com/joinmeeting",params, new AsyncHttpResponseHandler() {
+		if (!isLogedIn ){
+			 FragmentManager fragmentManager = getSupportFragmentManager();
+			 splashFragment =new SplashFragment();
+			 
+			 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			 fragmentTransaction.replace(R.id.Club_Act, splashFragment);
+//			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.commit();
+		} else{
+			if(bookName.trim().equals("") && newbookName.trim().equals("") && location.trim().equals("") && date.trim().equals("")){
+				Toast.makeText(this, "There is no meeting to join",
+						Toast.LENGTH_LONG).show();
+				return;
+			}
+			AsyncHttpClient client = new AsyncHttpClient();
+			RequestParams params = new RequestParams();
+			params.put("email", selectionF.userId);
+			client.get("http://jalees-bookclub.appspot.com/getuser",params, new AsyncHttpResponseHandler() {
+					@Override
+					public void onSuccess(int statusCode,
+							Header[] headers, byte[] response) {
+						String res=new String(response);
+						System.out.println(res);
+						user=res;
+					}
+
+					@Override
+					public void onFailure(int arg0, Header[] arg1,
+							byte[] arg2, Throwable arg3) {
+						System.out.println(clubId.toCharArray());
+					}
+
+				});
+	     
+			AsyncHttpClient client2 = new AsyncHttpClient();
+			RequestParams params2 = new RequestParams();
+			params2.put("userId",user);
+			params2.put("meetingId", meeting.getMeetingId());
+			params2.put("op","join");
+			client2.get("http://jalees-bookclub.appspot.com/joinmeeting",params2, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
@@ -442,12 +542,13 @@ public class ClubPageActivity extends FragmentActivity {
 						byte[] arg2, Throwable arg3) {
 				}
 			});
-	     //TODO 
-	     if(result){
-			Toast.makeText(this, "Joined Successfully",Toast.LENGTH_LONG).show();
-	     } else{
-	    	 Toast.makeText(this, "You already joined this meeting",Toast.LENGTH_LONG).show();
-	     }
+			//TODO 
+			if(result){
+				Toast.makeText(this, "Joined Successfully",Toast.LENGTH_LONG).show();
+			} else{
+				Toast.makeText(this, "You already joined this meeting",Toast.LENGTH_LONG).show();
+			}
+		}
 	}
 	
 	public void editMeeting(){
@@ -852,4 +953,180 @@ public class ClubPageActivity extends FragmentActivity {
 	public void setTitle(CharSequence title) {
 		getActionBar().setTitle(title);
 	}
+	
+	/////**********************************************************************************/////
+	///*******************************   Facebook  *****************************************////
+	
+  
+
+
+@Override
+public void onResume() {
+    super.onResume();
+    uiHelper.onResume();
+    isResumed = true;
+}
+
+@Override
+public void onPause() {
+    super.onPause();
+    uiHelper.onPause();
+    isResumed = false;
+}
+
+private void makeMeRequest(final Session session) {
+    // Make an API call to get user data and define a 
+    // new callback to handle the response.
+    Request request = Request.newMeRequest(session, 
+            new Request.GraphUserCallback() {
+
+		@Override
+		public void onCompleted(GraphUser user, Response response) {
+            // If the response is successful
+            if (session == Session.getActiveSession()) {
+                if (user != null) {
+                    // Set the id for the ProfilePictureView
+                    // view that in turn displays the profile picture.
+                    // Set the Textview's text to the user's name.
+                	fbUserName=user.getName();
+                	fbUserId=user.getId();
+                    
+                    
+        			AsyncHttpClient client = new AsyncHttpClient();
+       		     RequestParams params = new RequestParams();
+       		  params.put("name", fbUserName);
+       		     params.put("email", fbUserId);
+       		     
+       		     client.get("http://jalees-bookclub.appspot.com/adduser",params, new AsyncHttpResponseHandler() {
+       					@Override
+       					public void onSuccess(int statusCode,
+       							Header[] headers, byte[] response) {
+       						String res=new String(response);
+       						System.out.println(res);
+       					}
+
+       					@Override
+       					public void onFailure(int arg0, Header[] arg1,
+       							byte[] arg2, Throwable arg3) {
+       					}
+
+       				});
+                }
+            }
+            if (response.getError() != null) {
+                // Handle errors, will do so later.
+            }				
+		}
+    });
+    request.executeAsync();
+} 
+
+private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+	System.out.println("here on session changed");
+    // Only make changes if the activity is visible
+    if (session != null && session.isOpened()) {
+        // Get the user's data
+        makeMeRequest(session);
+        System.out.println("facebook user details:");
+        System.out.println(fbUserId);
+        System.out.println(fbUserName);
+        return;
+    }
+    System.out.println("here on session changed2");
+    if (isResumed) {
+
+        if (state.isOpened()) {
+        	isLogedIn=true;
+	        FragmentManager fragmentManager = getSupportFragmentManager();
+	        // Get the number of entries in the back stack
+	        int backStackSize = fragmentManager.getBackStackEntryCount();
+//		    Session session = Session.getActiveSession();
+
+//	        selectionF=new SelectionFragment();
+//	        fragmentManager.beginTransaction().remove(splashFragment).commit();
+	        // Clear the back stack
+
+//   		 FragmentManager fragmentManager = getSupportFragmentManager();
+//   		 fragmentManager.popBackStack();
+//   		fragmentManager.beginTransaction().commit();
+	        System.out.println("here!!");
+        } else if (state.isClosed()) {
+        	isLogedIn=false;
+        }
+    }
+}
+
+
+@Override
+protected void onResumeFragments() {
+	System.out.println("here On resume!!");
+    super.onResumeFragments();
+    Session session = Session.getActiveSession();
+
+    if (session != null && session.isOpened()) {
+    	isLogedIn=true;
+//    	selectionF=new SelectionFragment();
+            // Get the user's data.
+    	System.out.println("here On resume1.22!!");
+            makeMeRequest(session);
+            System.out.println("here On resume2!!");
+            System.out.println("facebook user details after resume:");
+            System.out.println(fbUserId);
+            System.out.println(fbUserName);
+//		 FragmentManager fragmentManager = getSupportFragmentManager();
+//		 fragmentManager.popBackStack();
+    } else {
+    	isLogedIn=false;
+    }
+}
+
+
+private Session.StatusCallback callback = 
+    new Session.StatusCallback() {
+    @Override
+    public void call(Session session, 
+            SessionState state, Exception exception) {
+        onSessionStateChange(session, state, exception);
+    }
+};
+
+@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+//    uiHelper.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == REAUTH_ACTIVITY_CODE) {
+        uiHelper.onActivityResult(requestCode, resultCode, data);
+    }
+}
+
+@Override
+public void onDestroy() {
+    super.onDestroy();
+    uiHelper.onDestroy();
+}
+
+
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    uiHelper.onSaveInstanceState(outState);
+}
+
+
+private void showFragment(int fragmentIndex, boolean addToBackStack) {
+    FragmentManager fm = getSupportFragmentManager();
+    FragmentTransaction transaction = fm.beginTransaction();
+    for (int i = 0; i < fragments.length; i++) {
+        if (i == fragmentIndex) {
+            transaction.show(fragments[i]);
+        } else {
+            transaction.hide(fragments[i]);
+        }
+    }
+    if (addToBackStack) {
+        transaction.addToBackStack(null);
+    }
+    transaction.commit();
+}
+
 }
