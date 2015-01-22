@@ -15,7 +15,7 @@
 	
     <string-array name="drawer_options">
         <item>Find a club</item>
-        <item>My home page</item>
+        <item>Home Page</item>
         <item>Borrow a book</item>
         <item>Log out</item>
     </string-array>
