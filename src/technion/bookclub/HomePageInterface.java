@@ -1,13 +1,17 @@
 package technion.bookclub;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import technion.bookclub.entities.Club;
+import technion.bookclub.entities.Meeting;
 
 public interface HomePageInterface {
 	public String getUserId();
     
 	public String getClubsString();
-    public HashMap<String,String> getClubsTitles();
-    public HashMap<String,String> getClubMeetings();
+	public LinkedHashMap<String,Club> getClubs();
+    public LinkedHashMap<String,String> getClubsTitles();
+    public LinkedHashMap<String,Meeting> getClubMeetings();
     
 	public void setClubsAdapter(HomePageClubsListAdapter adp);
 	public void setBooksAdapter(HomePageBooksListAdapter adp);

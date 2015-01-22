@@ -2,6 +2,7 @@ package technion.bookclub;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,48 +52,26 @@ public class HomePageMeetingsListAdapter extends BaseAdapter {
 	}
 	
 	private Context context;
-	
-  public void setMeetings(HashMap<String,String> club_meetings){
-	  Set<String> keys = club_meetings.keySet();
-      for(String k : keys){
-         meetings.put(k, Meeting.constructFromJson(club_meetings.get(k)));
-         club_ids_list.add(k);
-      }
-  }
-  
-  public void setClubNames(HashMap<String,String> club_titles){
-	  Set<String> keys = club_titles.keySet();
-      for(String k : keys){
-    	club_names.put(k,club_titles.get(k));
-      }
-  }
-    public HomePageMeetingsListAdapter(Context con,HashMap<String,String> club_meetings,HashMap<String,String> titles){
+
+    public HomePageMeetingsListAdapter(Context con,LinkedHashMap<String,Meeting> club_meetings,LinkedHashMap<String,String> titles){
     	super();
     	context = con;
     	((HomePageInterface)context).setMeetingsAdapter(this);
-    	meetings = new LinkedHashMap<String,Meeting>();
-    	club_names = new LinkedHashMap<String,String>(); 
+    	meetings = club_meetings;
+    	club_names =  titles; 
     	club_ids_list = new ArrayList<String>();
-    	ArrayList<String> ids = new ArrayList<String>();
-    	for(Map.Entry<String, String> entry  : club_meetings.entrySet()){
-    		if(entry.getValue().equals(" ")){
-    			ids.add(entry.getKey());
-    			//titles.remove(entry.getKey());
-    			//club_meetings.remove(entry.getKey());
-    		}
+    	for(Map.Entry<String, Meeting> entry  : club_meetings.entrySet()){	
+    		club_ids_list.add(entry.getKey());
     	}
-    	for(String id : ids){
-			titles.remove(id);
-			club_meetings.remove(id);
-    	}
-    	setMeetings(club_meetings);
-    	setClubNames(titles);
-    	//buildMeetings();
     }
     
 	public void removeClubMeetings(String club_id){
-		meetings.remove(club_id);
-		club_names.remove(club_id);
+		if(meetings.containsKey(club_id)){
+			meetings.remove(club_id);
+		}
+		if(club_names.containsKey(club_id)){
+			club_names.remove(club_id);
+		}
 		for(int i=0;i<club_ids_list.size();i++){
 			if(club_ids_list.get(i).equals(club_id)){
 				club_ids_list.remove(i);

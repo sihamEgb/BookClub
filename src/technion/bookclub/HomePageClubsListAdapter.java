@@ -3,6 +3,7 @@ package technion.bookclub;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -106,8 +107,8 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		((HomePageInterface)context).setClubsAdapter(this);
 		clubs = new ArrayList<Club>();
 		BuildClubsListFromJson(clubsDataString);
-		// buildClubs();
 	}
+
 
 	@Override
 	public int getCount() {

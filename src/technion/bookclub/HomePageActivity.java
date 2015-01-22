@@ -1,6 +1,7 @@
 package technion.bookclub;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -37,11 +38,11 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
 	
 	private int curr_fragment;
 	private String clubs_string;
-   // private HashMap<String,String> clubs_ids;
-    private HashMap<String,String> clubs_titles;
-    private HashMap<String,String> club_meetings; 
+    private LinkedHashMap<String,Club> clubs;
+    private LinkedHashMap<String,String> clubs_titles;
+    private LinkedHashMap<String,Meeting> clubs_meetings; 
     
-	public static String userId;//="5278093363118080";
+	public static String userId;
     private TabHost mTabHost;
     private ViewPager mViewPager;
 
@@ -94,9 +95,11 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
 			Bundle b = getIntent().getExtras();
 			userId= b.getString("userId");
 		}
-		clubs_titles = new HashMap<String,String>();
-		club_meetings = new HashMap<String,String>();
+		clubs_titles = new LinkedHashMap<String,String>();
+		clubs_meetings = new LinkedHashMap<String,Meeting>();
+		clubs = new LinkedHashMap<String,Club>();
 		getUserClubsInfoListFromServer();
+		getUserMeetingsListFromServer();
         // Initialize the TabHost
         this.initialiseTabHost(savedInstanceState);
         if (savedInstanceState != null) {
@@ -197,14 +200,14 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
     
 
 	 private void getUserClubsInfoListFromServer(){
-		  AsyncHttpClient client = new AsyncHttpClient();
+		 AsyncHttpClient client = new AsyncHttpClient();
          RequestParams params = new RequestParams();
          params.put("userId", userId);
          client.get("http://jalees-bookclub.appspot.com/getmyclubs",params, new AsyncHttpResponseHandler() {
                      @Override
                      public void onSuccess(int statusCode,Header[] headers, byte[] response) {
                    	  clubs_string = new String(response);
-                   	  getClubsIdsFromJson(clubs_string);
+                   	  getClubsInfoFromJson(clubs_string);
                      }
                      
                      @Override
@@ -214,9 +217,43 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
                  });
 	 }
     
-    
-		private void getClubsIdsFromJson(String result) {
-			
+	 private void getUserMeetingsListFromServer(){
+		 AsyncHttpClient client = new AsyncHttpClient();
+         RequestParams params = new RequestParams();
+         params.put("userId", userId);
+         client.get("http://jalees-bookclub.appspot.com/getmyclubsmeetings",params, new AsyncHttpResponseHandler() {
+                     @Override
+                     public void onSuccess(int statusCode,Header[] headers, byte[] response) {
+                   	  String s = new String(response);
+                   	  getMeetingsFromJson(s);
+                     }
+                     
+                     @Override
+                     public void onFailure(int arg0, Header[] arg1,
+                             byte[] arg2, Throwable arg3) {
+                     }
+                 });
+	 }
+	 
+		private void getMeetingsFromJson(String result) {
+			try {
+				JSONObject obj = new JSONObject(result);
+				JSONArray jsonArr = new JSONArray(obj.getString("results"));
+				int numOfItems = jsonArr.length();
+				JSONObject json;
+				for (int i = 0; i < numOfItems; i++) {
+					Meeting meeting = new Meeting();
+					json = jsonArr.getJSONObject(i);
+					meeting = Meeting.constructFromJson(json.toString());
+					clubs_meetings.put(meeting.getClubId(), meeting);
+				}
+				// return results;
+			} catch (Exception e) {
+
+			}
+		}
+
+		private void getClubsInfoFromJson(String result) {
 			try {
 				JSONObject obj = new JSONObject(result);
 				JSONArray jsonArr = new JSONArray(obj.getString("results"));
@@ -226,8 +263,9 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
 					Club club = new Club();
 					json = jsonArr.getJSONObject(i);
 					club = Club.constructFromJson(json.toString());
+					clubs.put(club.getClubId(), club);
 					clubs_titles.put(club.getClubId(),club.getName());
-					getClubMeetingFromServer(club.getClubId());
+					//getClubMeetingFromServer(club.getClubId());
 				}
 				// return results;
 			} catch (Exception e) {
@@ -235,7 +273,7 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
 			}
 		}
     
-		private void getClubMeetingFromServer(final String club_id){
+/*		private void getClubMeetingFromServer(final String club_id){
 			  AsyncHttpClient client = new AsyncHttpClient();
 		         RequestParams params = new RequestParams();
 		         params.put("clubId", club_id);
@@ -254,11 +292,11 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
 		                    	 club_meetings.put(club_id, " ");
 		                     }
 		                 });
-		}
+		}*/
     
     public void removeClubFromLists(String club_id){
-    	if(club_meetings.containsKey(club_id)){
-    		club_meetings.remove(club_id);
+    	if(clubs_meetings.containsKey(club_id)){
+    		clubs_meetings.remove(club_id);
     	}
     	if(clubs_titles.containsKey(club_id)){
     		clubs_titles.remove(club_id);
@@ -268,12 +306,17 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
     public String getClubsString(){
     	return clubs_string;
     }
-    public HashMap<String,String> getClubsTitles(){
+    
+    public LinkedHashMap<String,Club> getClubs(){
+    	return clubs;
+    }
+    
+    public LinkedHashMap<String,String> getClubsTitles(){
     	return clubs_titles;
     }
 
-    public HashMap<String,String> getClubMeetings(){
-    	return club_meetings;
+    public LinkedHashMap<String,Meeting> getClubMeetings(){
+    	return clubs_meetings;
     }
     
     public HomePageMeetingsListAdapter getMeetingsAdapter(){
