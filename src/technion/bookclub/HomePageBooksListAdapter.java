@@ -39,17 +39,9 @@ public class HomePageBooksListAdapter extends BaseAdapter{
     private ArrayList<Book> books ;//= new ArrayList<Book>();
     
     private void refreshBooksList(){
-    	//adapter.notifyDataSetChanged();
     	this.notifyDataSetChanged();
-    	//TODO: ADD IMPLEMENTATION
-    	//Toast.makeText(context, "books list should be updated/ a book was deleted" , Toast.LENGTH_SHORT).show();
     }
 	private void BuildBooksListFromJson(String result) {
-		Book first_item = new Book();
-		first_item.setAuthor("");
-		first_item.setTitle("Add Book");
-		first_item.setBookId("-100");
-		books.add(first_item);
 		try {
 			JSONObject obj = new JSONObject(result);
 			JSONArray jsonArr = new JSONArray(obj.getString("results"));
@@ -61,99 +53,14 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 				newBook = Book.constructFromJson(json.toString());
 				books.add(newBook);
 			}
-			// return results;
 		} catch (Exception e) {
 			System.out.println("homepage books adapter error : getting books from string FAILED");
-			//e.printStackTrace();
 		}
 	}
 	
 	private Book getBook(int position){
-		//TODO: HANDLE POSITION==0 - IT IS THE ELEMENT TO REDIRECT TO ADDING NEW BOOK PAGE
 		return books.get(position);
 	}
-	
-	
-
-/*****************************************************************************************************/	
-/***************************************SHOULD BE DELTED************************************************/	
-/*****************************************************************************************************/	
-	
-	//private String firstListItemTitle = "Add A New Book";
-/*	
-	String[] titles={"GOLDFINCH","POLICE","ONE SUMMER",
-			          "WELL TEMPERED HEART","CUCKOO'S CALLING","TWELVE YEARS A SLAVE (TIE-IN)","HEIST",
-			          "GOLDFINCH","POLICE","ONE SUMMER",
-			          "GOLDFINCH","POLICE","ONE SUMMER",};
-	String[] authors={"TARTT, DONNA","NESBO, JO","BRYSON, BILL",
-			          "SENDKER, JAN PHILIPP","GALBRAITH, ROBERT","NORTHUP, SOLOMON",
-			          "SILVA, DANIEL","NESBO, JO","BRYSON, BILL",
-			          "TARTT, DONNA","NESBO, JO","BRYSON, BILL",};
-	
-	String[] pics={"b1","b2","b3","b4",
-			       "b5","b6","b7","b1",
-			       "b1","b2","b3","b4"};	
-	private class Book{
-		public String book_title;
-		public String book_author;
-	    public final Drawable book_pic;
-		
-		public Book(Drawable p,String name,String auth){
-			book_pic=p;
-			book_title=name;
-			book_author=auth;
-		}
-	}
-	
-	int maxClubsNumber = 12;
-
-    private void buildBooks(){
-        Resources resources = context.getResources();
-        for(int i=0;i<maxClubsNumber;i++){
-        	if(i==1)
-        		books.add(new Book(resources.getDrawable(R.drawable.plus),"Add A New Book"," "));
-        	else switch(i){
-        	case 2:
-        		books.add(new Book(resources.getDrawable(R.drawable.b2),titles[i],authors[i]));
-        		break;
-        	case 3: 
-        		books.add(new Book(resources.getDrawable(R.drawable.b3),titles[i],authors[i]));
-        		break;
-        	case 4:
-        		books.add(new Book(resources.getDrawable(R.drawable.b4),titles[i],authors[i]));
-        		break;
-        	case 5: 
-        		books.add(new Book(resources.getDrawable(R.drawable.b5),titles[i],authors[i]));
-        		break;
-        	case 6:
-        		books.add(new Book(resources.getDrawable(R.drawable.b6),titles[i],authors[i]));
-        		break;
-        	case 7: 
-        		books.add(new Book(resources.getDrawable(R.drawable.b7),titles[i],authors[i]));
-        		break;
-        	case 8:
-        		books.add(new Book(resources.getDrawable(R.drawable.b1),titles[1],authors[1]));
-        		break;
-        	case 9:
-        		books.add(new Book(resources.getDrawable(R.drawable.b2),titles[2],authors[2]));
-        		break;
-        	case 10:
-        		books.add(new Book(resources.getDrawable(R.drawable.b3),titles[3],authors[3]));
-        		break;
-        	case 11:
-        		books.add(new Book(resources.getDrawable(R.drawable.b4),titles[4],authors[4]));
-        		break;
-        	case 12:
-        		books.add(new Book(resources.getDrawable(R.drawable.b5),titles[5],authors[5]));
-        		break;
-        	}
-	        
-        }
-    }
- */   
-
-/*****************************************************************************************************/	
-/*****************************************************************************************************/	
 	
 	private class ViewHolder{
 		public String book_id;
@@ -206,21 +113,15 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 			book_av = "Not Available";
 		}
 		holder.book_availability.setText(book_av); 
-
-		//TODO: CHANGE THIS LINE AND TAKE IMAGE FROM BOOK.URL
-		holder.book_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.gray_book_group));
-		if(position==0){
-			
-			((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.GONE);
-			holder.book_availability.setVisibility(View.GONE);
-		    firstListItemListener first_item_l = new firstListItemListener();
-		    view.setOnClickListener(first_item_l);
-		}else {
-			Picasso.with(view.getContext()).load(book.getImageUrl()).into(holder.book_pic);
-			((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.VISIBLE);
-			holder.book_availability.setVisibility(View.VISIBLE);
-			view.setOnClickListener(null);
-		}
+        if(book.getImageUrl()==null || book.getImageUrl().isEmpty()){
+        	holder.book_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.gray_book_group));
+        }else{
+    		Picasso.with(view.getContext()).load(book.getImageUrl()).into(holder.book_pic);
+        }
+		((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.VISIBLE);
+		holder.book_availability.setVisibility(View.VISIBLE);
+		view.setOnClickListener(null);
+		
 		return view;
 	}
 
@@ -267,19 +168,14 @@ public class HomePageBooksListAdapter extends BaseAdapter{
 			holder.book_availability.setTextColor(context.getResources().getColorStateList(R.color.red_900));
 		}
 		holder.book_availability.setText(book_av);
-		//TODO: CHANGE THIS LINE AND TAKE IMAGE FROM BOOK.URL
-		holder.book_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.gray_book_group));
-		if(position==0){
-			((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.GONE);
-			holder.book_availability.setVisibility(View.GONE);
-			firstListItemListener first_item_l = new firstListItemListener();
-			view.setOnClickListener(first_item_l);
-		}else {
-			Picasso.with(view.getContext()).load(book.getImageUrl()).into(holder.book_pic);
-			((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.VISIBLE);
-			holder.book_availability.setVisibility(View.VISIBLE);
-		    view.setOnClickListener(null);
-		}
+        if(book.getImageUrl()==null || book.getImageUrl().isEmpty()){
+        	holder.book_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.gray_book_group));
+        }else{
+    		Picasso.with(view.getContext()).load(book.getImageUrl()).into(holder.book_pic);
+        }
+		((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.VISIBLE);
+		holder.book_availability.setVisibility(View.VISIBLE);
+		view.setOnClickListener(null);
 	    
 		return view;
 		
@@ -323,19 +219,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
             popup.show();
 		}
 	}
-	
-	private class firstListItemListener implements OnClickListener{
 
-		@Override
-		public void onClick(View v) {
-            //Toast.makeText(context, "CLICK SHOULD REDIRECT TO ADD NEW BOOK SCREEN", Toast.LENGTH_SHORT).show();
-			Intent i = new Intent(context, HomePage_AddNewBook.class);
-			i.putExtra("userId", ((HomePageInterface)context).getUserId());
-			context.startActivity(i);
-		}
-		
-	}
-	
 	 private void changeBookStateInServer(String book_id,final ViewHolder holder){
 		  AsyncHttpClient client = new AsyncHttpClient();
          RequestParams params = new RequestParams();

@@ -42,10 +42,6 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		this.notifyDataSetChanged();
 	}
 	private void BuildClubsListFromJson(String result) {
-		Club first_item = new Club();
-		first_item.setMemeberNum("");
-		first_item.setName("Create Club");
-		clubs.add(first_item);
 		try {
 			JSONObject obj = new JSONObject(result);
 			JSONArray jsonArr = new JSONArray(obj.getString("results"));
@@ -57,11 +53,9 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 				newBook = Club.constructFromJson(json.toString());
 				clubs.add(newBook);
 			}
-			// return results;
 		} catch (Exception e) {
 			System.out
 					.println("homepageclubs adapter error :getting Clubs from string FAILED");
-			// e.printStackTrace();
 		}
 	}
 
@@ -149,20 +143,9 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		holder.name.setText(club.getName());
 		holder.members_num.setText(club.getMemeberNum()+" members");
 		holder.club_id=club.getClubId();
-		// holder.meeting_date.setText(club.next_meeting_date);
-		
-		if (position == 0) {
-			// TODO: SET APPROPRIATE IMAGE 
-			holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.blank_create_club));
-			 edit_img.setVisibility(View.GONE);
-			holder.members_num.setText("");
-			firstListItemListener first_item_l = new firstListItemListener();
-			view.setOnClickListener(first_item_l);
-		} else {
-			Picasso.with(view.getContext()).load(club.getImageUrl()).fit().into(holder.pic);
-			 edit_img.setVisibility(View.VISIBLE);
-			view.setOnClickListener(new ClubItemListener(club));
-		}
+		Picasso.with(view.getContext()).load(club.getImageUrl()).fit().into(holder.pic);
+	    edit_img.setVisibility(View.VISIBLE);
+	    view.setOnClickListener(new ClubItemListener(club));
 		return view;
 	}
 
@@ -206,17 +189,10 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		holder.club_id=club.getClubId();
 		// holder.meeting_date.setText(club.next_meeting_date);
 		//holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.club_3));
-		if (position == 0) {
-			holder.pic.setImageDrawable(context.getResources().getDrawable(R.drawable.blank_create_club));
-			edit_img.setVisibility(View.GONE);
-			holder.members_num.setText("");
-			firstListItemListener first_item_l = new firstListItemListener();
-			view.setOnClickListener(first_item_l);
-		} else {
-			Picasso.with(view.getContext()).load(club.getImageUrl()).fit().into(holder.pic);
-			edit_img.setVisibility(View.VISIBLE);
-			view.setOnClickListener(new ClubItemListener(club));
-		}
+		Picasso.with(view.getContext()).load(club.getImageUrl()).fit().into(holder.pic);
+		edit_img.setVisibility(View.VISIBLE);
+		view.setOnClickListener(new ClubItemListener(club));
+		
 		return view;
 	}
 
@@ -248,19 +224,6 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 			});
 			popup.show();
 		}
-	}
-
-	private class firstListItemListener implements OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-			// Toast.makeText(context,
-			// "CLICK SHOULD REDIRECT TO ADD NEW CLUB SCREEN",
-			// Toast.LENGTH_SHORT).show();
-			Intent i = new Intent(context, HomePage_AddNewClub.class);
-			context.startActivity(i);
-		}
-
 	}
 	
 	private class ClubItemListener implements OnClickListener {
