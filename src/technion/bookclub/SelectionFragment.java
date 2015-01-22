@@ -90,7 +90,7 @@ public class SelectionFragment extends Fragment{
 	       		  params.put("name", userName);
 	       		     params.put("email", userId);
 	       		     
-	       		     client.get("http://jalees-bookclub.appspot.com/adduser",params, new AsyncHttpResponseHandler() {
+	       		     client.get("http://bookclub-server.appspot.com/adduser",params, new AsyncHttpResponseHandler() {
 	       					@Override
 	       					public void onSuccess(int statusCode,
 	       							Header[] headers, byte[] response) {

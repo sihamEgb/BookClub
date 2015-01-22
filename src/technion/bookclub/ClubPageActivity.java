@@ -110,9 +110,9 @@ public class ClubPageActivity extends FragmentActivity {
 	public  boolean result;
 	public  boolean result2;
 	
-	public String fbUserId;
+	public String fbUserId="";
 	public String serverUserId;
-	public String fbUserName;
+	public String fbUserName="";
 	
 	public SelectionFragment selectionF;
 	
@@ -139,18 +139,23 @@ public class ClubPageActivity extends FragmentActivity {
 		date=new String("");
 		meeting=new Meeting();
 //		user= UserInfo.getId();
-		selectionF=new SelectionFragment();
+//		selectionF=new SelectionFragment();
 	    Session session = Session.getActiveSession();
 	    if (session != null && session.isOpened()) {
 	        // Get the user's data
+	    	isLogedIn=true;
+	    	UserInfo.logIn(true);
 	        makeMeRequest(session);
 	        
+	    } else{
+	    	isLogedIn=false;
+	    	UserInfo.logIn(false);
 	    }
 	     
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
 	     params.put("clubId", clubId);
-	     client.get("http://jalees-bookclub.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
+	     client.get("http://bookclub-server.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
@@ -228,11 +233,12 @@ public class ClubPageActivity extends FragmentActivity {
 		     System.out.println(fbUserName);
 		     
 		     params.put("email", fbUserId);
-		     client.get("http://jalees-bookclub.appspot.com/getuser",params, new AsyncHttpResponseHandler() {
+		     client.get("http://bookclub-server.appspot.com/getuser",params, new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {
 						String res=new String(response);
+						System.out.println("server id is:");
 						System.out.println(res);
 						serverUserId=res;
 					}
@@ -240,7 +246,8 @@ public class ClubPageActivity extends FragmentActivity {
 					@Override
 					public void onFailure(int arg0, Header[] arg1,
 							byte[] arg2, Throwable arg3) {
-						System.out.println(clubId.toCharArray());
+						System.out.println("failed server id");
+						System.out.println(arg2);
 					}
 
 				});
@@ -250,7 +257,9 @@ public class ClubPageActivity extends FragmentActivity {
 		     params2.put("clubId", clubId);
 		     params2.put("userId", serverUserId);
 		     params2.put("op", "join");
-		     client2.get("http://jalees-bookclub.appspot.com/joinclub",params2, new AsyncHttpResponseHandler() {
+		     System.out.println(clubId);
+		     System.out.println(serverUserId);
+		     client2.get("http://bookclub-server.appspot.com/joinclub",params2, new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {
@@ -275,7 +284,8 @@ public class ClubPageActivity extends FragmentActivity {
 					@Override
 					public void onFailure(int arg0, Header[] arg1,
 							byte[] arg2, Throwable arg3) {
-						System.out.println(clubId.toCharArray());
+						System.out.println("join club failed");
+						System.out.println(arg2);
 					}
 
 				});
@@ -304,7 +314,7 @@ public class ClubPageActivity extends FragmentActivity {
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
 	     params.put("clubId", clubId);
-	     client.get("http://jalees-bookclub.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
+	     client.get("http://bookclub-server.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
@@ -341,7 +351,7 @@ public class ClubPageActivity extends FragmentActivity {
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
 	     params.put("clubId", clubId);
-	     client.get("http://jalees-bookclub.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
+	     client.get("http://bookclub-server.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
@@ -422,7 +432,7 @@ public class ClubPageActivity extends FragmentActivity {
 			RequestParams params = new RequestParams();
 			params.put("clubId", clubId);
 			params.put("title",bookName);
-			client.get("http://jalees-bookclub.appspot.com/deletesuggestedbook",params, new AsyncHttpResponseHandler() {
+			client.get("http://bookclub-server.appspot.com/deletesuggestedbook",params, new AsyncHttpResponseHandler() {
 				@Override
 				public void onSuccess(int statusCode,
 						Header[] headers, byte[] response) {System.out.println("success");}
@@ -453,7 +463,7 @@ public class ClubPageActivity extends FragmentActivity {
 	     }
 	     params2.put("location", this.location);
 	     params2.put("date",this.date);
-	     client2.get("http://jalees-bookclub.appspot.com/addmeeting",params2, new AsyncHttpResponseHandler() {
+	     client2.get("http://bookclub-server.appspot.com/addmeeting",params2, new AsyncHttpResponseHandler() {
 				@Override
 				public void onSuccess(int statusCode,
 						Header[] headers, byte[] response) {}
@@ -500,8 +510,8 @@ public class ClubPageActivity extends FragmentActivity {
 			}
 			AsyncHttpClient client = new AsyncHttpClient();
 			RequestParams params = new RequestParams();
-			params.put("email", selectionF.userId);
-			client.get("http://jalees-bookclub.appspot.com/getuser",params, new AsyncHttpResponseHandler() {
+			params.put("email", fbUserId);
+			client.get("http://bookclub-server.appspot.com/getuser",params, new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {
@@ -523,7 +533,7 @@ public class ClubPageActivity extends FragmentActivity {
 			params2.put("userId",user);
 			params2.put("meetingId", meeting.getMeetingId());
 			params2.put("op","join");
-			client2.get("http://jalees-bookclub.appspot.com/joinmeeting",params2, new AsyncHttpResponseHandler() {
+			client2.get("http://bookclub-server.appspot.com/joinmeeting",params2, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
@@ -564,7 +574,7 @@ public class ClubPageActivity extends FragmentActivity {
 		AsyncHttpClient client = new AsyncHttpClient();
 	     RequestParams params = new RequestParams();
 	     params.put("clubId", clubId);
-	     client.get("http://jalees-bookclub.appspot.com/getsuggestedbooks",params, new AsyncHttpResponseHandler() {
+	     client.get("http://bookclub-server.appspot.com/getsuggestedbooks",params, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
@@ -639,7 +649,7 @@ public class ClubPageActivity extends FragmentActivity {
 				AsyncHttpClient client = new AsyncHttpClient();
 			     RequestParams params = new RequestParams();
 			     params.put("clubId", clubId);
-			     client.get("http://jalees-bookclub.appspot.com/getsuggestedbooks",params, new AsyncHttpResponseHandler() {
+			     client.get("http://bookclub-server.appspot.com/getsuggestedbooks",params, new AsyncHttpResponseHandler() {
 
 						@Override
 						public void onSuccess(int statusCode,
@@ -709,7 +719,7 @@ public class ClubPageActivity extends FragmentActivity {
 	     params.put("title", books[selectedBook-1].getTitle());
 	     params.put("clubId", clubId);
 //	     params.put("op", "like");
-	     client.get("http://jalees-bookclub.appspot.com/votetosuggestedbook",params, new AsyncHttpResponseHandler() {
+	     client.get("http://bookclub-server.appspot.com/votetosuggestedbook",params, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
@@ -794,7 +804,7 @@ public class ClubPageActivity extends FragmentActivity {
 	    RequestParams params = new RequestParams();
 	    params.put("title", bookName);
 	    params.put("clubId", clubId);
-	    client.get("http://jalees-bookclub.appspot.com/addsuggestedbook",params, new AsyncHttpResponseHandler() {
+	    client.get("http://bookclub-server.appspot.com/addsuggestedbook",params, new AsyncHttpResponseHandler() {
 
 				@Override
 				public void onSuccess(int statusCode,
@@ -990,14 +1000,14 @@ private void makeMeRequest(final Session session) {
                     // Set the Textview's text to the user's name.
                 	fbUserName=user.getName();
                 	fbUserId=user.getId();
-                    
+                	UserInfo.setId(fbUserId);
                     
         			AsyncHttpClient client = new AsyncHttpClient();
        		     RequestParams params = new RequestParams();
        		  params.put("name", fbUserName);
        		     params.put("email", fbUserId);
        		     
-       		     client.get("http://jalees-bookclub.appspot.com/adduser",params, new AsyncHttpResponseHandler() {
+       		     client.get("http://bookclub-server.appspot.com/adduser",params, new AsyncHttpResponseHandler() {
        					@Override
        					public void onSuccess(int statusCode,
        							Header[] headers, byte[] response) {
@@ -1037,21 +1047,11 @@ private void onSessionStateChange(Session session, SessionState state, Exception
 
         if (state.isOpened()) {
         	isLogedIn=true;
-	        FragmentManager fragmentManager = getSupportFragmentManager();
-	        // Get the number of entries in the back stack
-	        int backStackSize = fragmentManager.getBackStackEntryCount();
-//		    Session session = Session.getActiveSession();
-
-//	        selectionF=new SelectionFragment();
-//	        fragmentManager.beginTransaction().remove(splashFragment).commit();
-	        // Clear the back stack
-
-//   		 FragmentManager fragmentManager = getSupportFragmentManager();
-//   		 fragmentManager.popBackStack();
-//   		fragmentManager.beginTransaction().commit();
+        	UserInfo.logIn(true);
 	        System.out.println("here!!");
         } else if (state.isClosed()) {
         	isLogedIn=false;
+        	UserInfo.logIn(false);
         }
     }
 }
@@ -1065,6 +1065,7 @@ protected void onResumeFragments() {
 
     if (session != null && session.isOpened()) {
     	isLogedIn=true;
+    	UserInfo.logIn(true);
 //    	selectionF=new SelectionFragment();
             // Get the user's data.
     	System.out.println("here On resume1.22!!");
@@ -1077,6 +1078,7 @@ protected void onResumeFragments() {
 //		 fragmentManager.popBackStack();
     } else {
     	isLogedIn=false;
+    	UserInfo.logIn(false);
     }
 }
 
@@ -1093,10 +1095,10 @@ private Session.StatusCallback callback =
 @Override
 public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-//    uiHelper.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == REAUTH_ACTIVITY_CODE) {
-        uiHelper.onActivityResult(requestCode, resultCode, data);
-    }
+    uiHelper.onActivityResult(requestCode, resultCode, data);
+//    if (requestCode == REAUTH_ACTIVITY_CODE) {
+//        uiHelper.onActivityResult(requestCode, resultCode, data);
+//    }
 }
 
 @Override

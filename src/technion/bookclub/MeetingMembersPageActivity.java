@@ -72,7 +72,7 @@ public class MeetingMembersPageActivity extends ListFragment {
 		RequestParams params = new RequestParams();
 		params.put("meetingId", meetingId);
 
-		client.get("http://jalees-bookclub.appspot.com/getmeetingmembers", params,
+		client.get("http://bookclub-server.appspot.com/getmeetingmembers", params,
 				new AsyncHttpResponseHandler() {
 
 					@Override

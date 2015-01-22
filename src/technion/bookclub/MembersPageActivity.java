@@ -71,8 +71,8 @@ public class MembersPageActivity extends ListFragment {
 		AsyncHttpClient client = new AsyncHttpClient();
 		RequestParams params = new RequestParams();
 		params.put("clubId", clubId);
-
-		client.get("http://jalees-bookclub.appspot.com/getmembers", params,
+		System.out.println("get members");
+		client.get("http://bookclub-server.appspot.com/getmembers", params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
@@ -91,6 +91,7 @@ public class MembersPageActivity extends ListFragment {
 					@Override
 					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
 							Throwable arg3) {
+						System.out.println("get members failed");
 					}
 
 				});
