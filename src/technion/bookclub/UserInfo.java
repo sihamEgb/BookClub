@@ -7,7 +7,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class UserInfo {
-	private static String id = "5278093363118080";//"5278093363118080";
+	private static String id ;//"5278093363118080";
 	private static boolean loggedIn=false;
 	//String id = "4859722209427456";
 	// Fatima 5222194095325184
