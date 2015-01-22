@@ -202,11 +202,7 @@ public class ClubPageActivity extends FragmentActivity {
 		fragmentTransaction.commit();
 	}
 
-	public boolean isLoggedIn() {
-	 //   Session session = Session.getActiveSession();
-	   // return (session != null && session.isOpened());
-		return true;
-	}
+
 	
 	public void joinClub(View view) {
 		
@@ -266,7 +262,7 @@ public class ClubPageActivity extends FragmentActivity {
 						String res=new String(response);
 						System.out.println(res);
 						if(res.trim().equals("member already joined this club".trim())){
-							result2=false;
+							print("Already joined this club");
 							return;
 						} else{
 							Integer num=Integer.parseInt(memeberNum);
@@ -275,7 +271,7 @@ public class ClubPageActivity extends FragmentActivity {
 							clubFragment.setMembers(memeberNum);
 							TextView memebers=(TextView)currentView.findViewById(R.id.participants_num);
 							memebers.setText(memeberNum);
-							result2=true;
+							print("Joined Successfully");
 						}
 //						Button button=(Button)currentView.findViewById(R.id.Join_Club);
 //						((Button)currentView).setVisibility(1);
@@ -289,13 +285,6 @@ public class ClubPageActivity extends FragmentActivity {
 					}
 
 				});
-		     if(!result2){
-				Toast.makeText(this, "Already joined this club",
-						Toast.LENGTH_LONG).show();
-		     } else {
-				Toast.makeText(this, "Joined Successfully",
-						Toast.LENGTH_LONG).show();
-		     }
 		}
 	}
 	
@@ -541,10 +530,10 @@ public class ClubPageActivity extends FragmentActivity {
 					String res=new String (response);
 					System.out.println(res);
 					if(res.trim().equals("already joined this meeting")){
-						result=false;
+						print("Already joined this meeting");
 					} 
 					if(res.trim().equals("member joined meeting")){
-						result=true;
+						print("Joined Successfully");
 					}
 				}
 				@Override
@@ -552,12 +541,7 @@ public class ClubPageActivity extends FragmentActivity {
 						byte[] arg2, Throwable arg3) {
 				}
 			});
-			//TODO 
-			if(result){
-				Toast.makeText(this, "Joined Successfully",Toast.LENGTH_LONG).show();
-			} else{
-				Toast.makeText(this, "You already joined this meeting",Toast.LENGTH_LONG).show();
-			}
+
 		}
 	}
 	
