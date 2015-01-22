@@ -60,7 +60,7 @@ public class HomePageBooksListFragment extends ListFragment{
 				params, new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode,
-							Header[] headers, byte[] response) {
+						 Header[] headers, byte[] response) {
 						userBooksString=new String(response);
 						System.out.println("SUCCESS - GETTING USER BOOKS FROM SERVER" + userBooksString);
 						setListAdapter(new HomePageBooksListAdapter(getActivity(),userBooksString));

@@ -246,6 +246,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
                  });
 	 }
 	 
+	 
 	 private void removeBookFromServer(String book_id){
 		  AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
