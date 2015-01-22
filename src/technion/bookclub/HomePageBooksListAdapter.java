@@ -225,7 +225,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
          RequestParams params = new RequestParams();
          params.put("bookId", book_id);
          //params.put("state", book_new_state);
-         client.get("http://jalees-bookclub.appspot.com/changebookstatus",params, new AsyncHttpResponseHandler() {
+         client.get("http://bookclub-server.appspot.com/changebookstatus",params, new AsyncHttpResponseHandler() {
                      @Override
                      public void onSuccess(int statusCode,Header[] headers, byte[] response) {
                          String s = new String(response);
@@ -251,7 +251,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
         RequestParams params = new RequestParams();
         params.put("bookId", book_id);
         //params.put("state", book_new_state);
-        client.get("http://jalees-bookclub.appspot.com/deletebook",params, new AsyncHttpResponseHandler() {
+        client.get("http://bookclub-server.appspot.com/deletebook",params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode,Header[] headers, byte[] response) {
                         String s = new String(response);
