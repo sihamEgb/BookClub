@@ -168,7 +168,7 @@ public class HomePage_AddNewClub extends Activity {
 						in.putExtra("description", clubDesc);
 
 						in.putExtra("imageUrl", urlStam);
-						in.putExtra("memeberNum", 1);
+						in.putExtra("memeberNum", "1");
 						startActivity(in);
 
 					}
