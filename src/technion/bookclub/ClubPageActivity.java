@@ -213,7 +213,7 @@ public class ClubPageActivity extends FragmentActivity {
 		currentView=view.getRootView();
 //		fragments[SELECTION]=null;
 //		isLogedIn=true;
-		if (!isLogedIn ){
+		if (!UserInfo.isLoggedIn() ){
 			 FragmentManager fragmentManager = getSupportFragmentManager();
 			 splashFragment =new SplashFragment();
 			 
@@ -229,9 +229,9 @@ public class ClubPageActivity extends FragmentActivity {
 		     RequestParams params = new RequestParams();
 		     
 		     System.out.println("facebook user details:");
-		     System.out.println(fbUserId);
+//		     System.out.println(fbUserId);
 		     System.out.println(fbUserName);
-		     
+	/*	     
 		     params.put("email", fbUserId);
 		     client.get("http://bookclub-server.appspot.com/getuser",params, new AsyncHttpResponseHandler() {
 					@Override
@@ -250,15 +250,15 @@ public class ClubPageActivity extends FragmentActivity {
 						System.out.println(arg2);
 					}
 
-				});
+				});*/
 			//
 			AsyncHttpClient client2 = new AsyncHttpClient();
 		     RequestParams params2 = new RequestParams();
 		     params2.put("clubId", clubId);
-		     params2.put("userId", serverUserId);
+		     params2.put("userId", UserInfo.getId());
 		     params2.put("op", "join");
 		     System.out.println(clubId);
-		     System.out.println(serverUserId);
+		     System.out.println(UserInfo.getId());
 		     client2.get("http://bookclub-server.appspot.com/joinclub",params2, new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode,
@@ -494,7 +494,7 @@ public class ClubPageActivity extends FragmentActivity {
 	}
 
 	public void joinMeeting(View view){
-		if (!isLogedIn ){
+		if (!UserInfo.isLoggedIn() ){
 			 FragmentManager fragmentManager = getSupportFragmentManager();
 			 splashFragment =new SplashFragment();
 			 
@@ -508,9 +508,9 @@ public class ClubPageActivity extends FragmentActivity {
 						Toast.LENGTH_LONG).show();
 				return;
 			}
-			AsyncHttpClient client = new AsyncHttpClient();
+/*			AsyncHttpClient client = new AsyncHttpClient();
 			RequestParams params = new RequestParams();
-			params.put("email", fbUserId);
+		params.put("email", fbUserId);
 			client.get("http://bookclub-server.appspot.com/getuser",params, new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode,
@@ -526,11 +526,11 @@ public class ClubPageActivity extends FragmentActivity {
 						System.out.println(clubId.toCharArray());
 					}
 
-				});
+				});*/
 	     
 			AsyncHttpClient client2 = new AsyncHttpClient();
 			RequestParams params2 = new RequestParams();
-			params2.put("userId",user);
+			params2.put("userId",UserInfo.getId());
 			params2.put("meetingId", meeting.getMeetingId());
 			params2.put("op","join");
 			client2.get("http://bookclub-server.appspot.com/joinmeeting",params2, new AsyncHttpResponseHandler() {
@@ -1040,7 +1040,7 @@ private void onSessionStateChange(Session session, SessionState state, Exception
         System.out.println("facebook user details:");
         System.out.println(fbUserId);
         System.out.println(fbUserName);
-        return;
+//        return;
     }
     System.out.println("here on session changed2");
     if (isResumed) {

@@ -1,7 +1,19 @@
 package technion.bookclub;
 
+import org.apache.http.Header;
+
 import technion.bookclub.entities.Book;
+
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
 import technion.bookclub.entities.Club;
 import android.app.SearchManager;
 import android.content.Intent;
@@ -11,6 +23,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -35,10 +48,39 @@ public class MainActivity extends FragmentActivity {
 	private String[] mDrawerOptionsTitles;
 
 	static Fragment currFragment;
+	
+	//Facebook:
+	public String fbUserId="";
+	public String serverUserId;
+	public String fbUserName="";
+	private static final int SPLASH = 0;
+	private static final int SELECTION = 1;
+	private static final int FRAGMENT_COUNT = SELECTION +1;
+	private static final int REAUTH_ACTIVITY_CODE = 100;
+	private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
+	private boolean isResumed = false;
+	private UiLifecycleHelper uiHelper;
+	private boolean isLogedIn;
+	public SelectionFragment selectionF;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//Facebook
+        uiHelper = new UiLifecycleHelper(this, callback);
+        uiHelper.onCreate(savedInstanceState);
+	    Session session = Session.getActiveSession();
+	    if (session != null && session.isOpened()) {
+	        // Get the user's data
+	    	isLogedIn=true;
+	    	UserInfo.logIn(true);
+	        makeMeRequest(session);
+	        
+	    } else{
+	    	isLogedIn=false;
+	    	UserInfo.logIn(false);
+	    }
+        
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();
@@ -236,5 +278,172 @@ public class MainActivity extends FragmentActivity {
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+	
+	/////**********************************************************************************/////
+	///*******************************   Facebook  *****************************************////
+	
+  
+
+
+@Override
+public void onResume() {
+    super.onResume();
+    uiHelper.onResume();
+    isResumed = true;
+}
+
+@Override
+public void onPause() {
+    super.onPause();
+    uiHelper.onPause();
+    isResumed = false;
+}
+
+private void makeMeRequest(final Session session) {
+    // Make an API call to get user data and define a 
+    // new callback to handle the response.
+    Request request = Request.newMeRequest(session, 
+            new Request.GraphUserCallback() {
+
+		@Override
+		public void onCompleted(GraphUser user, Response response) {
+            // If the response is successful
+            if (session == Session.getActiveSession()) {
+                if (user != null) {
+                    // Set the id for the ProfilePictureView
+                    // view that in turn displays the profile picture.
+                    // Set the Textview's text to the user's name.
+                	fbUserName=user.getName();
+                	fbUserId=user.getId();
+                	UserInfo.setId(fbUserId);
+                    
+        			AsyncHttpClient client = new AsyncHttpClient();
+       		     RequestParams params = new RequestParams();
+       		  params.put("name", fbUserName);
+       		     params.put("email", fbUserId);
+       		     
+       		     client.get("http://bookclub-server.appspot.com/adduser",params, new AsyncHttpResponseHandler() {
+       					@Override
+       					public void onSuccess(int statusCode,
+       							Header[] headers, byte[] response) {
+       						String res=new String(response);
+       						System.out.println(res);
+       					}
+
+       					@Override
+       					public void onFailure(int arg0, Header[] arg1,
+       							byte[] arg2, Throwable arg3) {
+       					}
+
+       				});
+                }
+            }
+            if (response.getError() != null) {
+                // Handle errors, will do so later.
+            }				
+		}
+    });
+    request.executeAsync();
+} 
+
+private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+	System.out.println("here on session changed");
+    // Only make changes if the activity is visible
+    if (session != null && session.isOpened()) {
+        // Get the user's data
+        makeMeRequest(session);
+        System.out.println("facebook user details:");
+        System.out.println(fbUserId);
+        System.out.println(fbUserName);
+//        return;
+    }
+    System.out.println("here on session changed2");
+    if (isResumed) {
+
+        if (state.isOpened()) {
+        	isLogedIn=true;
+        	UserInfo.logIn(true);
+	        System.out.println("here!!");
+        } else if (state.isClosed()) {
+        	isLogedIn=false;
+        	UserInfo.logIn(false);
+        }
+    }
+}
+
+
+@Override
+protected void onResumeFragments() {
+	System.out.println("here On resume!!");
+    super.onResumeFragments();
+    Session session = Session.getActiveSession();
+
+    if (session != null && session.isOpened()) {
+    	isLogedIn=true;
+    	UserInfo.logIn(true);
+//    	selectionF=new SelectionFragment();
+            // Get the user's data.
+    	System.out.println("here On resume1.22!!");
+            makeMeRequest(session);
+            System.out.println("here On resume2!!");
+            System.out.println("facebook user details after resume:");
+            System.out.println(fbUserId);
+            System.out.println(fbUserName);
+//		 FragmentManager fragmentManager = getSupportFragmentManager();
+//		 fragmentManager.popBackStack();
+    } else {
+    	isLogedIn=false;
+    	UserInfo.logIn(false);
+    }
+}
+
+
+private Session.StatusCallback callback = 
+    new Session.StatusCallback() {
+    @Override
+    public void call(Session session, 
+            SessionState state, Exception exception) {
+        onSessionStateChange(session, state, exception);
+    }
+};
+
+@Override
+public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    uiHelper.onActivityResult(requestCode, resultCode, data);
+//    if (requestCode == REAUTH_ACTIVITY_CODE) {
+//        uiHelper.onActivityResult(requestCode, resultCode, data);
+//    }
+}
+
+@Override
+public void onDestroy() {
+    super.onDestroy();
+    uiHelper.onDestroy();
+}
+
+
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    uiHelper.onSaveInstanceState(outState);
+}
+
+
+private void showFragment(int fragmentIndex, boolean addToBackStack) {
+    FragmentManager fm = getSupportFragmentManager();
+    FragmentTransaction transaction = fm.beginTransaction();
+    for (int i = 0; i < fragments.length; i++) {
+        if (i == fragmentIndex) {
+            transaction.show(fragments[i]);
+        } else {
+            transaction.hide(fragments[i]);
+        }
+    }
+    if (addToBackStack) {
+        transaction.addToBackStack(null);
+    }
+    transaction.commit();
+}
 
 }
