@@ -110,18 +110,18 @@ public class HomePage_AddNewClub extends Activity {
 		Context context = getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
 
-		String imageUrl = "http://www.viduman.com/dosya/default.jpg";
+		// String imageUrl = "http://www.viduman.com/dosya/default.jpg";
 
 		final String clubName = nameEditText.getText().toString().trim();
 		final String clubDesc = descEditText.getText().toString().trim();
 		final String clubLocation = autoCompleteLocation.getText().toString();
-		imageUrl = imageUrlEditText.getText().toString();
+		String imageUrl = imageUrlEditText.getText().toString();
 
 		if (imageUrl.equals(""))
-			imageUrl = "http://www.viduman.com/dosya/default.jpg";
+			imageUrl = "http://winsletpress.com/wp-content/uploads/2013/06/Tree-of-Books-books-to-read-683854_1600_1200-1024x768.jpg";
 
-		if (imageUrl == null)
-			imageUrl = "http://www.viduman.com/dosya/default.jpg";
+		//if (imageUrl == null)
+		//	imageUrl = "http://winsletpress.com/wp-content/uploads/2013/06/Tree-of-Books-books-to-read-683854_1600_1200-1024x768.jpg";
 
 		if (clubName == null || clubDesc == null || clubLocation == null) {
 			Toast toast = Toast.makeText(context, "Error Cannot Create Club",

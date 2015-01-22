@@ -17,7 +17,7 @@
         <item>Find a club</item>
         <item>Home Page</item>
         <item>Borrow a book</item>
-        <item>Log out</item>
+        <item>Log in/out</item>
     </string-array>
 
     <string name="drawer_open">Open navigation drawer</string>

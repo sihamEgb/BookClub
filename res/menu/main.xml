@@ -18,41 +18,5 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Get Members"/>
-    <item
-        android:id="@+id/join_club"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Join"/>
-    <item
-        android:id="@+id/leave_club"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Leave"/>
-    <item
-        android:id="@+id/add_club"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="New Club"/>
-    <item
-        android:id="@+id/add_book"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="New Book"/>
-    <item
-        android:id="@+id/join_meeting"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Join Meeting"/>
-    <item
-        android:id="@+id/leave_meeting"
-        android:enabled="true"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Leave Meeting"/>
-
+   
 </menu>
