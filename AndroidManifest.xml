@@ -55,7 +55,8 @@
             android:parentActivityName="technion.bookclub.ClubListAdapter" />
         <activity
             android:name="ClubPageActivity"
-            android:label="Club Page" />
+            android:label="Club Page" 
+            android:parentActivityName="technion.bookclub.MainActivity"/>
        
         <activity
             android:name="SplashFragment"
