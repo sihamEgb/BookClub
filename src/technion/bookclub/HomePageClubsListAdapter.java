@@ -241,11 +241,8 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 			in.putExtra("description", my_club.getDescription());
 			in.putExtra("imageUrl", my_club.getImageUrl());
 			in.putExtra("memeberNum", my_club.getMemeberNum());
-			//TODO: PUT EXTRA DATA - USER ID
 			context.startActivity(in);
-
 		}
-
 	}
 	
 	 private void leaveClub(String club_id){

@@ -31,76 +31,8 @@ import android.widget.Toast;
 
 
 public class HomePageMeetingsListAdapter extends BaseAdapter {
-	
-/**********************************************************************************/	
-/******************************SHOULD BE DELETED***********************************/	
-/**********************************************************************************/
-	
-/*	private void AddMeetingFromServer(String club_id){
-		  AsyncHttpClient client = new AsyncHttpClient();
-	         RequestParams params = new RequestParams();
-	         params.put("clubId", club_id);
-	         client.get("http://jalees-bookclub.appspot.com/getclubmeeting",params, new AsyncHttpResponseHandler() {
-	        	 String res;
-	                     @Override
-	                     public void onSuccess(int statusCode,Header[] headers, byte[] response) {
-	                         res = new String(response);
-	                         addToMeetings(res);
-	                     }
-	                     
-	                     @Override
-	                     public void onFailure(int arg0, Header[] arg1,
-	                             byte[] arg2, Throwable arg3) {
-	                     }
-	                 });
-	}
-*/
-/*	
-	String[] dates = {"Sunday, Dec 21","Monday, Dec 29","Friday, Jan 10","Wednesday, Jan 23",
-			          "Sunday, Feb 11","Monday, Dec 19","Friday, Feb 20","Wednesday, Feb 23",
-			          "Friday, March 1","Monday, March 19","Sunday, March 20","Sunday, March 26"};
-	String[] hours={"19:00","18:30","12:45","13:30",
-			      "18:00","09:30","11:15","17:30",
-			      "19:00","18:30","12:45","13:30"};
-	String[] names = {"Science Readers Club","Fiction Readers Club","GDG Readers Club","DRedaers Book Club",
-			          "HReaders Club","AReaders Club","GDG Readers Club","DRedaers Book Club",
-			          "HReaders Club","AReaders Club","GDG Readers Club","DRedaers Book Club"};
-	String[] desc = {"discussing MANHATTAN IN REVERSE book","discussing INHERITANCE book",
-			"discussing PALE DEMON book","discussing TALES OF BAUCHELAIN & KORBAL BROACH. VOL.1 book",
-			"discussing SHADOWRISE/SHADOWMARCH III book","discussing PLENTY book",
-			"discussing ONE SUMMER book","discussing INHERITANCE book",
-			"discussing MANHATTAN IN REVERSE book","discussing INHERITANCE book",
-			"discussing MANHATTAN IN REVERSE book","discussing INHERITANCE book"};
-	String[] locations={"Technion(Haifa)","  ","Technion(Haifa)"," ",
-			            "Technion(Haifa)","  ","Technion(Haifa)"," ",
-			            "Technion(Haifa)","  "," ","Technion(Haifa)"};
-	private class Meeting{
-		public String meeting_date;
-		public String meeting_hour;
-        public String meeting_club_name;
-        public String meeting_desc;
-        public String meeting_location;
-		
-		public Meeting(String mDate,String mHour,String cName,String mDes,String mLoc){
-			meeting_date=mDate;
-			meeting_hour=mHour;
-	        meeting_club_name=cName;
-	        meeting_desc=mDes;
-	        meeting_location=mLoc;
-		}
-	}
-	
-    
-    
-    private void buildMeetings(){
-        for(int i=0;i<12;i++){
-        		meetings.add(new Meeting(dates[i],hours[i],names[i],desc[i],locations[i]));
-        }
-    }*/
-	
-/**********************************************************************************/
-/**********************************************************************************/
-    private LinkedHashMap<String,Meeting> meetings ;//= new ArrayList<Meeting>();
+
+    private LinkedHashMap<String,Meeting> meetings ;
     private LinkedHashMap<String,String> club_names;
     private ArrayList<String> club_ids_list;
     
