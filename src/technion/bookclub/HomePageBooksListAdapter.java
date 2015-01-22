@@ -116,7 +116,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
         if(book.getImageUrl()==null || book.getImageUrl().isEmpty()){
         	holder.book_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.gray_book_group));
         }else{
-    		Picasso.with(view.getContext()).load(book.getImageUrl()).into(holder.book_pic);
+    		Picasso.with(view.getContext()).load(book.getImageUrl()).fit().into(holder.book_pic);
         }
 		((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.VISIBLE);
 		holder.book_availability.setVisibility(View.VISIBLE);
@@ -171,7 +171,7 @@ public class HomePageBooksListAdapter extends BaseAdapter{
         if(book.getImageUrl()==null || book.getImageUrl().isEmpty()){
         	holder.book_pic.setImageDrawable(context.getResources().getDrawable(R.drawable.gray_book_group));
         }else{
-    		Picasso.with(view.getContext()).load(book.getImageUrl()).into(holder.book_pic);
+    		Picasso.with(view.getContext()).load(book.getImageUrl()).fit().into(holder.book_pic);
         }
 		((ImageView)view.findViewById(R.id.homepage_edit_img)).setVisibility(View.VISIBLE);
 		holder.book_availability.setVisibility(View.VISIBLE);
