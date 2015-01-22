@@ -42,7 +42,7 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();
-
+		
 		// getActionBar().setLogo(R.drawable.bookshelf_icon);
 
 		mDrawerOptionsTitles = getResources().getStringArray(

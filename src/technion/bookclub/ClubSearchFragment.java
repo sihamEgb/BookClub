@@ -40,7 +40,7 @@ public class ClubSearchFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.clubs_search, container,
 				false);
 
-		String index = getResources().getStringArray(R.array.drawer_options)[1];
+		String index = getResources().getStringArray(R.array.drawer_options)[0];
 
 		// location auto complete
 		String[] location = getResources().getStringArray(

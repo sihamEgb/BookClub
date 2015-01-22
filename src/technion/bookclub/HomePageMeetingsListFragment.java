@@ -1,6 +1,15 @@
 package technion.bookclub;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import org.apache.http.Header;
+
+import technion.bookclub.entities.Meeting;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,8 +22,8 @@ public class HomePageMeetingsListFragment extends ListFragment{
 	private HomePageMeetingsListAdapter listAdapter;
 	Context context;
     private String user_id;
-    private HashMap<String,String> club_meetings ;//= new ArrayList<Meeting>();
-    private HashMap<String,String> club_titles;// = new ArrayList<String>();
+    private LinkedHashMap<String,Meeting> club_meetings ;//= new ArrayList<Meeting>();
+    private LinkedHashMap<String,String> club_titles;// = new ArrayList<String>();
 
     @Override
 	  public void onCreate(Bundle savedInstanceState) {
@@ -34,5 +43,4 @@ public class HomePageMeetingsListFragment extends ListFragment{
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
-	
 }
