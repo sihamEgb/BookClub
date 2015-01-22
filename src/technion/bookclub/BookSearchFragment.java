@@ -120,7 +120,7 @@ public class BookSearchFragment extends Fragment {
 				params.put("language", bookLanguage);
 				params.put("title", bookTitle);
 
-				client.get("http://jalees-bookclub.appspot.com/searchbook",
+				client.get("http://bookclub-server.appspot.com/searchbook",
 						params, new AsyncHttpResponseHandler() {
 
 							@Override
