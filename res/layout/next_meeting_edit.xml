@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dt_codecomponents="http://schemas.android.com/apk/res/technion.bookclub"
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:dt_codecomponents="http://schemas.android.com/apk/res/technion.bookclub"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+<LinearLayout 
+    
     android:id="@+id/next_meeting_edit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -122,3 +127,4 @@
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

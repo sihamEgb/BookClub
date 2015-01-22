@@ -26,6 +26,8 @@ public class NextMeetingFragment extends Fragment {
 	public String location;
 	public String date;
 	
+	public NextMeetingFragment(){}
+	
 	public NextMeetingFragment(String bookName, String date, String location) {
 		this.bookName=bookName;
 		this.date=date;

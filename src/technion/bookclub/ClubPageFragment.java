@@ -25,6 +25,8 @@ public class ClubPageFragment extends Fragment {
 	public String memeberNum;
 	public String imageURL;
 	public String date;
+	
+	public ClubPageFragment(){}
 
 	public ClubPageFragment(String description, String memeberNum,
 			String imageURL, String date) {

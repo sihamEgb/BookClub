@@ -167,14 +167,7 @@ public class MainActivity extends FragmentActivity {
 						Toast.LENGTH_LONG).show();
 			}
 			return true;
-		case R.id.get_users:
-	
-			Intent in = new Intent(this, MembersPageActivity.class);
-			//in.putExtra("data", );
-			in.putExtra("name", "bla bla club");
-			
-			startActivity(in);
-			return true;
+
 
 		default:
 			return super.onOptionsItemSelected(item);

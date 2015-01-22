@@ -46,6 +46,7 @@ public class MeetingMembersPageActivity extends ListFragment {
 		return adapter;
 	}
 	
+	public MeetingMembersPageActivity(){}
 	
 	public MeetingMembersPageActivity(String meetingId) {
 		this.meetingId=meetingId;

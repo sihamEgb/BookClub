@@ -116,6 +116,9 @@ public class ClubPageActivity extends FragmentActivity {
 	
 	public SelectionFragment selectionF;
 	
+	public ClubPageActivity(){
+		
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -215,7 +218,7 @@ public class ClubPageActivity extends FragmentActivity {
 			 
 			 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 			 fragmentTransaction.replace(R.id.Club_Act, splashFragment);
-//			fragmentTransaction.addToBackStack(null);
+			fragmentTransaction.addToBackStack(null);
 			fragmentTransaction.commit();
 			return;
 		} else{

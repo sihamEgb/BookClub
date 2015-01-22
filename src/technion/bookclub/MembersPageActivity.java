@@ -46,6 +46,8 @@ public class MembersPageActivity extends ListFragment {
 		return adapter;
 	}
 	
+	public MembersPageActivity(){}
+	
 	
 	public MembersPageActivity(String clubId) {
 		this.clubId=clubId;

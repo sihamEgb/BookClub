@@ -26,6 +26,7 @@ public class SuggestedBooksFragment extends Fragment {
 	public int suggestedBooks;
 	public SuggestedBook[] books;
 
+	public SuggestedBooksFragment(){}
 	public SuggestedBooksFragment(SuggestedBook[] books,int suggestedBooks) {
 		this.books=new SuggestedBook[suggestedBooks];
 		this.suggestedBooks=suggestedBooks;
