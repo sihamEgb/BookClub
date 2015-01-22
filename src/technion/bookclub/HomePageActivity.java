@@ -394,6 +394,7 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
 		}*/
 		if(curr_fragment==0){
 	         Intent intent = new Intent(this, HomePage_AddNewBook.class);
+	         intent.putExtra("userId", UserInfo.getId());
 	         this.startActivity(intent);
 		}else if(curr_fragment==1){
 	         Intent intent = new Intent(this, HomePage_AddNewClub.class);

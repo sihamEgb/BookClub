@@ -22,7 +22,7 @@ import com.loopj.android.http.RequestParams;
 
 public class HomePage_AddNewBook extends Activity {
 
-   // private String user_id;
+    private String user_id;
 	EditText titleEditText;
 	EditText authorEditText;
 	// Spinner locationSpinner;
@@ -37,11 +37,11 @@ public class HomePage_AddNewBook extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.homepage_add_newbook);
-/*
+
 		if(this.getIntent().hasExtra("userId")){
 			Bundle b = getIntent().getExtras();
 			user_id= b.getString("userId");
-		}*/
+		}
 		// location auto complete
 		String[] location = getResources().getStringArray(
 				R.array.location_array);

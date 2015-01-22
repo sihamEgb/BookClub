@@ -228,25 +228,17 @@ public class MainActivity extends FragmentActivity {
 			// fragment = new ClubSearchFragment();
 			System.out.println(position);
 			System.out.println(currFragment);
-
-
-			// break;
-
-			// case 2:
-			// fragment = new HomePage_ClubCreationFragment();
-			// System.out.println(position);
-			// System.out.println(currFragment);
-			// break;
-		//default:
-		//	currFragment = PlanetFragment.newInstance(0);
 		}
-		//Bundle args = new Bundle();
-		//args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-		//currFragment.setArguments(args);
-
+		
+	    FragmentManager fragmentManager = getSupportFragmentManager();	    
+	    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+	    fragmentTransaction.replace(R.id.content_frame, currFragment);
+	    fragmentTransaction.addToBackStack(null);
+	    fragmentTransaction.commit();
+/*
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, currFragment).commit();
+				.replace(R.id.content_frame, currFragment).commit();*/
 
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
