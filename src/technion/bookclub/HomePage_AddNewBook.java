@@ -84,11 +84,11 @@ public class HomePage_AddNewBook extends Activity {
 	 * ).setTitle("Create >>").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 	 * } }
 	 */
-/*	private void returnToHomePageActivity(){
+	private void returnToHomePageActivity(){
 		Intent home_page_intent = new Intent(this, HomePageActivity.class);
 		home_page_intent.putExtra("userId", user_id);
 		this.startActivity(home_page_intent);
-	}*/
+	}
 	public void addNewBook(View view) {
 
 		// Context context = getApplicationContext();
@@ -122,7 +122,7 @@ public class HomePage_AddNewBook extends Activity {
 					public void onSuccess(int arg0,
 							org.apache.http.Header[] arg1, byte[] arg2) {
 						// TODO Auto-generated method stub
-                        
+						returnToHomePageActivity();
 					}
 				});
 
