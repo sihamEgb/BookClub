@@ -154,9 +154,7 @@ public class MainActivity extends FragmentActivity {
 		// update the main content by replacing fragments
 		// Fragment fragment = null;
 		switch (position) {
-
 		case 0:
-
 			currFragment = ClubSearchFragment.newInstance(0);
 			// fragment = new ClubSearchFragment();
 			System.out.println(position);
@@ -164,14 +162,18 @@ public class MainActivity extends FragmentActivity {
 			break;
 
 		case 1:
-			// currFragment = new HomePageFragment();
-			//TODO: GET THE CORRECT USER ID (WHEN LOGED IN)
-			String user_id = UserInfo.getId();//"5278093363118080";//"4824175986343936";// UserInfo.getId();//"4859722209427456";//"5278093363118080";
-			Intent home_page_intent = new Intent(this, HomePageActivity.class);
-			home_page_intent.putExtra("userId", user_id);
-			this.startActivity(home_page_intent);
-			//startActivityForResult(home_page_intent, 0);
-			return;
+            if(UserInfo.isLoggedIn()){
+    			String user_id = UserInfo.getId();
+    			Intent home_page_intent = new Intent(this, HomePageActivity.class);
+    			home_page_intent.putExtra("userId", user_id);
+    			this.startActivity(home_page_intent);
+    			return;
+            }else{
+                currFragment = SplashFragment.newInstance();
+                position =3;
+                break;
+            }
+            
 		case 2:
 			currFragment = BookSearchFragment.newInstance(0);
 			// fragment = new ClubSearchFragment();
