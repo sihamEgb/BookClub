@@ -83,7 +83,7 @@ public class ClubSearchFragment extends Fragment {
 					params.put("location", clubLocation);
 
 					
-					client.get("http://jalees-bookclub.appspot.com/searchclub",
+					client.get("http://bookclub-server.appspot.com/searchclub",
 							params, new AsyncHttpResponseHandler() {
 
 								@Override
