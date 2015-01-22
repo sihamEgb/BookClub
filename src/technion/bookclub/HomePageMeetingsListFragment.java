@@ -1,15 +1,8 @@
 package technion.bookclub;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import org.apache.http.Header;
-
 import technion.bookclub.entities.Meeting;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import android.content.Context;
 import android.os.Bundle;

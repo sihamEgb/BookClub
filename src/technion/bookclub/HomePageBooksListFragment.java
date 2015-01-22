@@ -56,7 +56,7 @@ public class HomePageBooksListFragment extends ListFragment{
 		RequestParams params = new RequestParams();
 		params.put("userId", user_id);
 
-		client.get("http://jalees-bookclub.appspot.com/getmybooks",
+		client.get("http://bookclub-server.appspot.com/getmybooks",
 				params, new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode,

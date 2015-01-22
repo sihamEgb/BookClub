@@ -254,7 +254,7 @@ public class HomePageClubsListAdapter extends BaseAdapter {
 		     params.put("clubId", club_id);
 		     params.put("userId", user_id);
 		     params.put("op", "leave");
-		     client.get("http://jalees-bookclub.appspot.com/joinclub",params, new AsyncHttpResponseHandler() {
+		     client.get("http://bookclub-server.appspot.com/joinclub",params, new AsyncHttpResponseHandler() {
 					@Override
 					public void onSuccess(int statusCode,
 							Header[] headers, byte[] response) {

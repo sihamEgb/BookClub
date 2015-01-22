@@ -203,7 +203,7 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
 		 AsyncHttpClient client = new AsyncHttpClient();
          RequestParams params = new RequestParams();
          params.put("userId", userId);
-         client.get("http://jalees-bookclub.appspot.com/getmyclubs",params, new AsyncHttpResponseHandler() {
+         client.get("http://bookclub-server.appspot.com/getmyclubs",params, new AsyncHttpResponseHandler() {
                      @Override
                      public void onSuccess(int statusCode,Header[] headers, byte[] response) {
                    	  clubs_string = new String(response);
@@ -221,7 +221,7 @@ public class HomePageActivity extends FragmentActivity implements TabHost.OnTabC
 		 AsyncHttpClient client = new AsyncHttpClient();
          RequestParams params = new RequestParams();
          params.put("userId", userId);
-         client.get("http://jalees-bookclub.appspot.com/getmyclubsmeetings",params, new AsyncHttpResponseHandler() {
+         client.get("http://bookclub-server.appspot.com/getmyclubsmeetings",params, new AsyncHttpResponseHandler() {
                      @Override
                      public void onSuccess(int statusCode,Header[] headers, byte[] response) {
                    	  String s = new String(response);

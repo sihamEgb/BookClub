@@ -49,7 +49,7 @@ public class HomePageClubsGridFragment extends Fragment{
 		  AsyncHttpClient client = new AsyncHttpClient();
           RequestParams params = new RequestParams();
           params.put("userId", user_id);
-          client.get("http://jalees-bookclub.appspot.com/getmyclubs",params, new AsyncHttpResponseHandler() {
+          client.get("http://bookclub-server.appspot.com/getmyclubs",params, new AsyncHttpResponseHandler() {
                       @Override
                       public void onSuccess(int statusCode,Header[] headers, byte[] response) {
                     	  userClubsString = new String(response);
