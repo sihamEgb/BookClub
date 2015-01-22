@@ -22,7 +22,7 @@ import com.loopj.android.http.RequestParams;
 
 public class HomePage_AddNewBook extends Activity {
 
-    private String user_id;
+   // private String user_id;
 	EditText titleEditText;
 	EditText authorEditText;
 	// Spinner locationSpinner;
@@ -37,11 +37,11 @@ public class HomePage_AddNewBook extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.homepage_add_newbook);
-
+/*
 		if(this.getIntent().hasExtra("userId")){
 			Bundle b = getIntent().getExtras();
 			user_id= b.getString("userId");
-		}
+		}*/
 		// location auto complete
 		String[] location = getResources().getStringArray(
 				R.array.location_array);
@@ -84,12 +84,11 @@ public class HomePage_AddNewBook extends Activity {
 	 * ).setTitle("Create >>").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 	 * } }
 	 */
-	private void returnToHomePageActivity(){
+/*	private void returnToHomePageActivity(){
 		Intent home_page_intent = new Intent(this, HomePageActivity.class);
 		home_page_intent.putExtra("userId", user_id);
 		this.startActivity(home_page_intent);
-	}
-	// TODO
+	}*/
 	public void addNewBook(View view) {
 
 		// Context context = getApplicationContext();
@@ -106,10 +105,10 @@ public class HomePage_AddNewBook extends Activity {
 		params.put("author", author);
 		params.put("location", location);
 		params.put("language", language);
-		params.put("ownerId", user_id);
+		params.put("ownerId", UserInfo.getId());
 		//params.put("imageUrl", imageUrl);
 
-		client.get("http://jalees-bookclub.appspot.com/addbook", params,
+		client.get("http://bookclub-server.appspot.com/addbook", params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
@@ -123,7 +122,7 @@ public class HomePage_AddNewBook extends Activity {
 					public void onSuccess(int arg0,
 							org.apache.http.Header[] arg1, byte[] arg2) {
 						// TODO Auto-generated method stub
-                         returnToHomePageActivity();
+                        
 					}
 				});
 

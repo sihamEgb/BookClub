@@ -147,7 +147,7 @@ public class HomePage_AddNewClub extends Activity {
 		params.put("imageUrl", imageUrl);
 
 		final String urlStam = imageUrl;
-		client.get("http://jalees-bookclub.appspot.com/addclub", params,
+		client.get("http://bookclub-server.appspot.com/addclub", params,
 				new AsyncHttpResponseHandler() {
 
 					@Override
